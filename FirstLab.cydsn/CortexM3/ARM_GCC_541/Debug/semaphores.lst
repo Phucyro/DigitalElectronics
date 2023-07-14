@@ -1,0 +1,1744 @@
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"semaphores.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.updateSemaphorePosition,"ax",%progbits
+  20              		.align	2
+  21              		.global	updateSemaphorePosition
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	updateSemaphorePosition, %function
+  25              	updateSemaphorePosition:
+  26              	.LFB63:
+  27              		.file 1 "semaphores.c"
+   1:semaphores.c  **** /* ========================================
+   2:semaphores.c  ****  *
+   3:semaphores.c  ****  * Copyright YOUR COMPANY, THE YEAR
+   4:semaphores.c  ****  * All Rights Reserved
+   5:semaphores.c  ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:semaphores.c  ****  *
+   7:semaphores.c  ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:semaphores.c  ****  * WHICH IS THE PROPERTY OF your company.
+   9:semaphores.c  ****  *
+  10:semaphores.c  ****  * ========================================
+  11:semaphores.c  **** */
+  12:semaphores.c  **** 
+  13:semaphores.c  **** #include "project.h"
+  14:semaphores.c  **** #include "semaphores.h"
+  15:semaphores.c  **** 
+  16:semaphores.c  **** #define RIGHT 500
+  17:semaphores.c  **** #define LEFT 2500
+  18:semaphores.c  **** #define MIDDLE 1500
+  19:semaphores.c  **** 
+  20:semaphores.c  **** #define LONGPAUSE 1500
+  21:semaphores.c  **** #define SHORTPAUSE 500
+  22:semaphores.c  **** 
+  23:semaphores.c  **** /* update the selected servo position passed in
+  24:semaphores.c  ****    parameter according to the potentiometer value*/
+  25:semaphores.c  **** void updateSemaphorePosition (int selectedServo) {
+  28              		.loc 1 25 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 2
+
+
+  33 0000 10B5     		push	{r4, lr}
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 4, -8
+  36              		.cfi_offset 14, -4
+  37 0002 0446     		mov	r4, r0
+  26:semaphores.c  ****     
+  27:semaphores.c  ****     AMux_FastSelect(0); // Potentiometer selected
+  38              		.loc 1 27 0
+  39 0004 0020     		movs	r0, #0
+  40              	.LVL1:
+  41 0006 FFF7FEFF 		bl	AMux_FastSelect
+  42              	.LVL2:
+  28:semaphores.c  ****     
+  29:semaphores.c  ****     ADC_DelSig_StartConvert();
+  43              		.loc 1 29 0
+  44 000a FFF7FEFF 		bl	ADC_DelSig_StartConvert
+  45              	.LVL3:
+  30:semaphores.c  ****     
+  31:semaphores.c  ****     int result;    
+  32:semaphores.c  ****     if ( ADC_DelSig_IsEndConversion( ADC_DelSig_WAIT_FOR_RESULT ) )
+  46              		.loc 1 32 0
+  47 000e 0020     		movs	r0, #0
+  48 0010 FFF7FEFF 		bl	ADC_DelSig_IsEndConversion
+  49              	.LVL4:
+  50 0014 90B1     		cbz	r0, .L1
+  33:semaphores.c  ****     {
+  34:semaphores.c  ****         result = ADC_DelSig_GetResult32(); // result in more or less [0, 0xFFFF]
+  51              		.loc 1 34 0
+  52 0016 FFF7FEFF 		bl	ADC_DelSig_GetResult32
+  53              	.LVL5:
+  35:semaphores.c  ****         result = (result / 32) + RIGHT - 39; // result in [500; 2500]
+  54              		.loc 1 35 0
+  55 001a 0028     		cmp	r0, #0
+  56 001c 00DA     		bge	.L3
+  57 001e 1F30     		adds	r0, r0, #31
+  58              	.L3:
+  59 0020 4011     		asrs	r0, r0, #5
+  60 0022 00F2CD10 		addw	r0, r0, #461
+  61              	.LVL6:
+  36:semaphores.c  ****         
+  37:semaphores.c  ****         if (selectedServo == 1)
+  62              		.loc 1 37 0
+  63 0026 012C     		cmp	r4, #1
+  64 0028 03D1     		bne	.L4
+  38:semaphores.c  ****             PWM_1_WriteCompare(result);
+  65              		.loc 1 38 0
+  66 002a 80B2     		uxth	r0, r0
+  67              	.LVL7:
+  68 002c FFF7FEFF 		bl	PWM_1_WriteCompare
+  69              	.LVL8:
+  70 0030 10BD     		pop	{r4, pc}
+  71              	.LVL9:
+  72              	.L4:
+  39:semaphores.c  ****         else if (selectedServo == 2)
+  73              		.loc 1 39 0
+  74 0032 022C     		cmp	r4, #2
+  75 0034 02D1     		bne	.L1
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 3
+
+
+  40:semaphores.c  ****             PWM_2_WriteCompare(result);
+  76              		.loc 1 40 0
+  77 0036 80B2     		uxth	r0, r0
+  78              	.LVL10:
+  79 0038 FFF7FEFF 		bl	PWM_2_WriteCompare
+  80              	.LVL11:
+  81              	.L1:
+  82 003c 10BD     		pop	{r4, pc}
+  83              		.cfi_endproc
+  84              	.LFE63:
+  85              		.size	updateSemaphorePosition, .-updateSemaphorePosition
+  86 003e 00BF     		.section	.text.verticalFlags,"ax",%progbits
+  87              		.align	2
+  88              		.global	verticalFlags
+  89              		.thumb
+  90              		.thumb_func
+  91              		.type	verticalFlags, %function
+  92              	verticalFlags:
+  93              	.LFB64:
+  41:semaphores.c  ****     }
+  42:semaphores.c  **** }
+  43:semaphores.c  **** 
+  44:semaphores.c  **** /* put the flags up */
+  45:semaphores.c  **** void verticalFlags (void) {
+  94              		.loc 1 45 0
+  95              		.cfi_startproc
+  96              		@ args = 0, pretend = 0, frame = 0
+  97              		@ frame_needed = 0, uses_anonymous_args = 0
+  98 0000 08B5     		push	{r3, lr}
+  99              		.cfi_def_cfa_offset 8
+ 100              		.cfi_offset 3, -8
+ 101              		.cfi_offset 14, -4
+  46:semaphores.c  ****     PWM_1_WriteCompare(RIGHT);
+ 102              		.loc 1 46 0
+ 103 0002 4FF4FA70 		mov	r0, #500
+ 104 0006 FFF7FEFF 		bl	PWM_1_WriteCompare
+ 105              	.LVL12:
+  47:semaphores.c  ****     PWM_2_WriteCompare(LEFT);
+ 106              		.loc 1 47 0
+ 107 000a 40F6C410 		movw	r0, #2500
+ 108 000e FFF7FEFF 		bl	PWM_2_WriteCompare
+ 109              	.LVL13:
+ 110 0012 08BD     		pop	{r3, pc}
+ 111              		.cfi_endproc
+ 112              	.LFE64:
+ 113              		.size	verticalFlags, .-verticalFlags
+ 114              		.section	.text.horizontalFlags,"ax",%progbits
+ 115              		.align	2
+ 116              		.global	horizontalFlags
+ 117              		.thumb
+ 118              		.thumb_func
+ 119              		.type	horizontalFlags, %function
+ 120              	horizontalFlags:
+ 121              	.LFB65:
+  48:semaphores.c  **** }
+  49:semaphores.c  **** 
+  50:semaphores.c  **** /* put the flags horizontally */
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 4
+
+
+  51:semaphores.c  **** void horizontalFlags (void) {
+ 122              		.loc 1 51 0
+ 123              		.cfi_startproc
+ 124              		@ args = 0, pretend = 0, frame = 0
+ 125              		@ frame_needed = 0, uses_anonymous_args = 0
+ 126 0000 08B5     		push	{r3, lr}
+ 127              		.cfi_def_cfa_offset 8
+ 128              		.cfi_offset 3, -8
+ 129              		.cfi_offset 14, -4
+  52:semaphores.c  ****     PWM_1_WriteCompare(MIDDLE);
+ 130              		.loc 1 52 0
+ 131 0002 40F2DC50 		movw	r0, #1500
+ 132 0006 FFF7FEFF 		bl	PWM_1_WriteCompare
+ 133              	.LVL14:
+  53:semaphores.c  ****     PWM_2_WriteCompare(MIDDLE);
+ 134              		.loc 1 53 0
+ 135 000a 40F2DC50 		movw	r0, #1500
+ 136 000e FFF7FEFF 		bl	PWM_2_WriteCompare
+ 137              	.LVL15:
+ 138 0012 08BD     		pop	{r3, pc}
+ 139              		.cfi_endproc
+ 140              	.LFE65:
+ 141              		.size	horizontalFlags, .-horizontalFlags
+ 142              		.section	.text.flagsDown,"ax",%progbits
+ 143              		.align	2
+ 144              		.global	flagsDown
+ 145              		.thumb
+ 146              		.thumb_func
+ 147              		.type	flagsDown, %function
+ 148              	flagsDown:
+ 149              	.LFB66:
+  54:semaphores.c  **** }
+  55:semaphores.c  **** 
+  56:semaphores.c  **** /* put the flags down */
+  57:semaphores.c  **** void flagsDown (void) {
+ 150              		.loc 1 57 0
+ 151              		.cfi_startproc
+ 152              		@ args = 0, pretend = 0, frame = 0
+ 153              		@ frame_needed = 0, uses_anonymous_args = 0
+ 154 0000 08B5     		push	{r3, lr}
+ 155              		.cfi_def_cfa_offset 8
+ 156              		.cfi_offset 3, -8
+ 157              		.cfi_offset 14, -4
+  58:semaphores.c  ****     PWM_1_WriteCompare(LEFT);
+ 158              		.loc 1 58 0
+ 159 0002 40F6C410 		movw	r0, #2500
+ 160 0006 FFF7FEFF 		bl	PWM_1_WriteCompare
+ 161              	.LVL16:
+  59:semaphores.c  ****     PWM_2_WriteCompare(RIGHT);
+ 162              		.loc 1 59 0
+ 163 000a 4FF4FA70 		mov	r0, #500
+ 164 000e FFF7FEFF 		bl	PWM_2_WriteCompare
+ 165              	.LVL17:
+ 166 0012 08BD     		pop	{r3, pc}
+ 167              		.cfi_endproc
+ 168              	.LFE66:
+ 169              		.size	flagsDown, .-flagsDown
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 5
+
+
+ 170              		.section	.text.displayAttentionSemaphoreMessage,"ax",%progbits
+ 171              		.align	2
+ 172              		.global	displayAttentionSemaphoreMessage
+ 173              		.thumb
+ 174              		.thumb_func
+ 175              		.type	displayAttentionSemaphoreMessage, %function
+ 176              	displayAttentionSemaphoreMessage:
+ 177              	.LFB67:
+  60:semaphores.c  **** }
+  61:semaphores.c  **** 
+  62:semaphores.c  **** /* wave flags to get attention according to the signaling code */
+  63:semaphores.c  **** void displayAttentionSemaphoreMessage (void) {
+ 178              		.loc 1 63 0
+ 179              		.cfi_startproc
+ 180              		@ args = 0, pretend = 0, frame = 0
+ 181              		@ frame_needed = 0, uses_anonymous_args = 0
+ 182 0000 10B5     		push	{r4, lr}
+ 183              		.cfi_def_cfa_offset 8
+ 184              		.cfi_offset 4, -8
+ 185              		.cfi_offset 14, -4
+  64:semaphores.c  ****     
+  65:semaphores.c  ****     PWM_1_WriteCompare( (LEFT + MIDDLE) / 2 );
+ 186              		.loc 1 65 0
+ 187 0002 4FF4FA60 		mov	r0, #2000
+ 188 0006 FFF7FEFF 		bl	PWM_1_WriteCompare
+ 189              	.LVL18:
+  66:semaphores.c  ****     PWM_2_WriteCompare( (RIGHT + MIDDLE) / 2 );
+ 190              		.loc 1 66 0
+ 191 000a 4FF47A70 		mov	r0, #1000
+ 192 000e FFF7FEFF 		bl	PWM_2_WriteCompare
+ 193              	.LVL19:
+  67:semaphores.c  ****     CyDelay(SHORTPAUSE);
+ 194              		.loc 1 67 0
+ 195 0012 4FF4FA70 		mov	r0, #500
+ 196 0016 FFF7FEFF 		bl	CyDelay
+ 197              	.LVL20:
+ 198              	.LBB2:
+  68:semaphores.c  ****     
+  69:semaphores.c  ****     for (int i = 0; i < 3; i++){
+ 199              		.loc 1 69 0
+ 200 001a 0024     		movs	r4, #0
+ 201 001c 18E0     		b	.L13
+ 202              	.LVL21:
+ 203              	.L14:
+  70:semaphores.c  ****         PWM_1_WriteCompare( (RIGHT + MIDDLE) / 2 );
+ 204              		.loc 1 70 0 discriminator 3
+ 205 001e 4FF47A70 		mov	r0, #1000
+ 206 0022 FFF7FEFF 		bl	PWM_1_WriteCompare
+ 207              	.LVL22:
+  71:semaphores.c  ****         PWM_2_WriteCompare( (LEFT + MIDDLE) / 2 );
+ 208              		.loc 1 71 0 discriminator 3
+ 209 0026 4FF4FA60 		mov	r0, #2000
+ 210 002a FFF7FEFF 		bl	PWM_2_WriteCompare
+ 211              	.LVL23:
+  72:semaphores.c  ****         CyDelay(SHORTPAUSE);
+ 212              		.loc 1 72 0 discriminator 3
+ 213 002e 4FF4FA70 		mov	r0, #500
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 6
+
+
+ 214 0032 FFF7FEFF 		bl	CyDelay
+ 215              	.LVL24:
+  73:semaphores.c  ****         
+  74:semaphores.c  ****         PWM_1_WriteCompare( (LEFT + MIDDLE) / 2 );
+ 216              		.loc 1 74 0 discriminator 3
+ 217 0036 4FF4FA60 		mov	r0, #2000
+ 218 003a FFF7FEFF 		bl	PWM_1_WriteCompare
+ 219              	.LVL25:
+  75:semaphores.c  ****         PWM_2_WriteCompare( (RIGHT + MIDDLE) / 2 );
+ 220              		.loc 1 75 0 discriminator 3
+ 221 003e 4FF47A70 		mov	r0, #1000
+ 222 0042 FFF7FEFF 		bl	PWM_2_WriteCompare
+ 223              	.LVL26:
+  76:semaphores.c  ****         CyDelay(SHORTPAUSE);
+ 224              		.loc 1 76 0 discriminator 3
+ 225 0046 4FF4FA70 		mov	r0, #500
+ 226 004a FFF7FEFF 		bl	CyDelay
+ 227              	.LVL27:
+  69:semaphores.c  ****         PWM_1_WriteCompare( (RIGHT + MIDDLE) / 2 );
+ 228              		.loc 1 69 0 discriminator 3
+ 229 004e 0134     		adds	r4, r4, #1
+ 230              	.LVL28:
+ 231              	.L13:
+  69:semaphores.c  ****         PWM_1_WriteCompare( (RIGHT + MIDDLE) / 2 );
+ 232              		.loc 1 69 0 is_stmt 0 discriminator 1
+ 233 0050 022C     		cmp	r4, #2
+ 234 0052 E4DD     		ble	.L14
+ 235              	.LBE2:
+  77:semaphores.c  ****     }
+  78:semaphores.c  ****     
+  79:semaphores.c  ****     PWM_1_WriteCompare( (RIGHT + MIDDLE) / 2 );
+ 236              		.loc 1 79 0 is_stmt 1
+ 237 0054 4FF47A70 		mov	r0, #1000
+ 238 0058 FFF7FEFF 		bl	PWM_1_WriteCompare
+ 239              	.LVL29:
+  80:semaphores.c  ****     PWM_2_WriteCompare( (LEFT + MIDDLE) / 2 );
+ 240              		.loc 1 80 0
+ 241 005c 4FF4FA60 		mov	r0, #2000
+ 242 0060 FFF7FEFF 		bl	PWM_2_WriteCompare
+ 243              	.LVL30:
+  81:semaphores.c  ****     CyDelay(SHORTPAUSE*2);
+ 244              		.loc 1 81 0
+ 245 0064 4FF47A70 		mov	r0, #1000
+ 246 0068 FFF7FEFF 		bl	CyDelay
+ 247              	.LVL31:
+ 248 006c 10BD     		pop	{r4, pc}
+ 249              		.cfi_endproc
+ 250              	.LFE67:
+ 251              		.size	displayAttentionSemaphoreMessage, .-displayAttentionSemaphoreMessage
+ 252 006e 00BF     		.section	.text.displayMessageAsSemaphoreMorseCode,"ax",%progbits
+ 253              		.align	2
+ 254              		.global	displayMessageAsSemaphoreMorseCode
+ 255              		.thumb
+ 256              		.thumb_func
+ 257              		.type	displayMessageAsSemaphoreMorseCode, %function
+ 258              	displayMessageAsSemaphoreMorseCode:
+ 259              	.LFB68:
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 7
+
+
+  82:semaphores.c  ****     
+  83:semaphores.c  **** }
+  84:semaphores.c  **** 
+  85:semaphores.c  **** /* display the morse message passed in parameter using
+  86:semaphores.c  ****    the semaphore morse code 
+  87:semaphores.c  ****    - putting the flags up means '.'
+  88:semaphores.c  ****    - putting the flags horizontally means '-'
+  89:semaphores.c  ****    - putting the flags down can either mean a separation
+  90:semaphores.c  ****      between two identical letters or mean a space character,
+  91:semaphores.c  ****      depending on how much time the flags stay down */
+  92:semaphores.c  **** void displayMessageAsSemaphoreMorseCode (char msg[]) {
+ 260              		.loc 1 92 0
+ 261              		.cfi_startproc
+ 262              		@ args = 0, pretend = 0, frame = 0
+ 263              		@ frame_needed = 0, uses_anonymous_args = 0
+ 264              	.LVL32:
+ 265 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 266              		.cfi_def_cfa_offset 24
+ 267              		.cfi_offset 3, -24
+ 268              		.cfi_offset 4, -20
+ 269              		.cfi_offset 5, -16
+ 270              		.cfi_offset 6, -12
+ 271              		.cfi_offset 7, -8
+ 272              		.cfi_offset 14, -4
+ 273 0002 0646     		mov	r6, r0
+  93:semaphores.c  ****     const int LENGTH = strlen(msg);
+ 274              		.loc 1 93 0
+ 275 0004 FFF7FEFF 		bl	strlen
+ 276              	.LVL33:
+ 277 0008 0746     		mov	r7, r0
+ 278              	.LVL34:
+  94:semaphores.c  ****     
+  95:semaphores.c  ****     displayAttentionSemaphoreMessage();
+ 279              		.loc 1 95 0
+ 280 000a FFF7FEFF 		bl	displayAttentionSemaphoreMessage
+ 281              	.LVL35:
+ 282              	.LBB3:
+  96:semaphores.c  ****     
+  97:semaphores.c  ****     char lastChar = 'e'; // empty
+  98:semaphores.c  ****     for (int j = 0; j < LENGTH; j++)
+ 283              		.loc 1 98 0
+ 284 000e 0024     		movs	r4, #0
+ 285              	.LBE3:
+  97:semaphores.c  ****     for (int j = 0; j < LENGTH; j++)
+ 286              		.loc 1 97 0
+ 287 0010 6523     		movs	r3, #101
+ 288              	.LBB4:
+ 289              		.loc 1 98 0
+ 290 0012 2AE0     		b	.L17
+ 291              	.LVL36:
+ 292              	.L22:
+  99:semaphores.c  ****     {
+ 100:semaphores.c  ****         if (msg[j] == lastChar && lastChar != ' ' && lastChar != '/') {
+ 293              		.loc 1 100 0
+ 294 0014 3519     		adds	r5, r6, r4
+ 295 0016 325D     		ldrb	r2, [r6, r4]	@ zero_extendqisi2
+ 296 0018 9342     		cmp	r3, r2
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 8
+
+
+ 297 001a 09D1     		bne	.L18
+ 298              		.loc 1 100 0 is_stmt 0 discriminator 1
+ 299 001c 202B     		cmp	r3, #32
+ 300 001e 07D0     		beq	.L18
+ 301              		.loc 1 100 0 discriminator 2
+ 302 0020 2F2B     		cmp	r3, #47
+ 303 0022 05D0     		beq	.L18
+ 101:semaphores.c  ****             flagsDown();
+ 304              		.loc 1 101 0 is_stmt 1
+ 305 0024 FFF7FEFF 		bl	flagsDown
+ 306              	.LVL37:
+ 102:semaphores.c  ****             CyDelay(SHORTPAUSE);
+ 307              		.loc 1 102 0
+ 308 0028 4FF4FA70 		mov	r0, #500
+ 309 002c FFF7FEFF 		bl	CyDelay
+ 310              	.LVL38:
+ 311              	.L18:
+ 103:semaphores.c  ****         }
+ 104:semaphores.c  ****         
+ 105:semaphores.c  ****         if (msg[j] == '.') {
+ 312              		.loc 1 105 0
+ 313 0030 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 314 0032 2E2B     		cmp	r3, #46
+ 315 0034 06D1     		bne	.L19
+ 106:semaphores.c  ****             verticalFlags();
+ 316              		.loc 1 106 0
+ 317 0036 FFF7FEFF 		bl	verticalFlags
+ 318              	.LVL39:
+ 107:semaphores.c  ****             CyDelay(SHORTPAUSE);
+ 319              		.loc 1 107 0
+ 320 003a 4FF4FA70 		mov	r0, #500
+ 321 003e FFF7FEFF 		bl	CyDelay
+ 322              	.LVL40:
+ 323 0042 10E0     		b	.L20
+ 324              	.L19:
+ 108:semaphores.c  ****         }
+ 109:semaphores.c  ****         
+ 110:semaphores.c  ****         else if (msg[j] == '-') {
+ 325              		.loc 1 110 0
+ 326 0044 2D2B     		cmp	r3, #45
+ 327 0046 06D1     		bne	.L21
+ 111:semaphores.c  ****             horizontalFlags();
+ 328              		.loc 1 111 0
+ 329 0048 FFF7FEFF 		bl	horizontalFlags
+ 330              	.LVL41:
+ 112:semaphores.c  ****             CyDelay(SHORTPAUSE);
+ 331              		.loc 1 112 0
+ 332 004c 4FF4FA70 		mov	r0, #500
+ 333 0050 FFF7FEFF 		bl	CyDelay
+ 334              	.LVL42:
+ 335 0054 07E0     		b	.L20
+ 336              	.L21:
+ 113:semaphores.c  ****         }
+ 114:semaphores.c  ****         
+ 115:semaphores.c  ****         else if (msg[j] == ' ') {
+ 337              		.loc 1 115 0
+ 338 0056 202B     		cmp	r3, #32
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 9
+
+
+ 339 0058 05D1     		bne	.L20
+ 116:semaphores.c  ****             flagsDown();
+ 340              		.loc 1 116 0
+ 341 005a FFF7FEFF 		bl	flagsDown
+ 342              	.LVL43:
+ 117:semaphores.c  ****             CyDelay(LONGPAUSE);
+ 343              		.loc 1 117 0
+ 344 005e 40F2DC50 		movw	r0, #1500
+ 345 0062 FFF7FEFF 		bl	CyDelay
+ 346              	.LVL44:
+ 347              	.L20:
+ 118:semaphores.c  ****         }
+ 119:semaphores.c  ****         
+ 120:semaphores.c  ****         lastChar = msg[j];
+ 348              		.loc 1 120 0 discriminator 2
+ 349 0066 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 350              	.LVL45:
+  98:semaphores.c  ****     {
+ 351              		.loc 1 98 0 discriminator 2
+ 352 0068 0134     		adds	r4, r4, #1
+ 353              	.LVL46:
+ 354              	.L17:
+  98:semaphores.c  ****     {
+ 355              		.loc 1 98 0 is_stmt 0 discriminator 1
+ 356 006a BC42     		cmp	r4, r7
+ 357 006c D2DB     		blt	.L22
+ 358              	.LBE4:
+ 121:semaphores.c  ****     }
+ 122:semaphores.c  ****     
+ 123:semaphores.c  ****     flagsDown();
+ 359              		.loc 1 123 0 is_stmt 1
+ 360 006e FFF7FEFF 		bl	flagsDown
+ 361              	.LVL47:
+ 124:semaphores.c  ****     CyDelay(LONGPAUSE);
+ 362              		.loc 1 124 0
+ 363 0072 40F2DC50 		movw	r0, #1500
+ 364 0076 FFF7FEFF 		bl	CyDelay
+ 365              	.LVL48:
+ 366 007a F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 367              		.cfi_endproc
+ 368              	.LFE68:
+ 369              		.size	displayMessageAsSemaphoreMorseCode, .-displayMessageAsSemaphoreMorseCode
+ 370              		.text
+ 371              	.Letext0:
+ 372              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 373              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 374              		.file 4 "Generated_Source\\PSoC5/AMux.h"
+ 375              		.file 5 "Generated_Source\\PSoC5/ADC_DelSig.h"
+ 376              		.file 6 "Generated_Source\\PSoC5/PWM_1.h"
+ 377              		.file 7 "Generated_Source\\PSoC5/PWM_2.h"
+ 378              		.file 8 "Generated_Source\\PSoC5/CyLib.h"
+ 379              		.file 9 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 380              		.file 10 "Generated_Source\\PSoC5/core_cm3.h"
+ 381              		.section	.debug_info,"",%progbits
+ 382              	.Ldebug_info0:
+ 383 0000 71040000 		.4byte	0x471
+ 384 0004 0400     		.2byte	0x4
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 10
+
+
+ 385 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 386 000a 04       		.byte	0x4
+ 387 000b 01       		.uleb128 0x1
+ 388 000c F4000000 		.4byte	.LASF34
+ 389 0010 0C       		.byte	0xc
+ 390 0011 A4020000 		.4byte	.LASF35
+ 391 0015 21000000 		.4byte	.LASF36
+ 392 0019 18000000 		.4byte	.Ldebug_ranges0+0x18
+ 393 001d 00000000 		.4byte	0
+ 394 0021 00000000 		.4byte	.Ldebug_line0
+ 395 0025 02       		.uleb128 0x2
+ 396 0026 01       		.byte	0x1
+ 397 0027 06       		.byte	0x6
+ 398 0028 D0020000 		.4byte	.LASF0
+ 399 002c 02       		.uleb128 0x2
+ 400 002d 01       		.byte	0x1
+ 401 002e 08       		.byte	0x8
+ 402 002f E6000000 		.4byte	.LASF1
+ 403 0033 02       		.uleb128 0x2
+ 404 0034 02       		.byte	0x2
+ 405 0035 05       		.byte	0x5
+ 406 0036 B1020000 		.4byte	.LASF2
+ 407 003a 02       		.uleb128 0x2
+ 408 003b 02       		.byte	0x2
+ 409 003c 07       		.byte	0x7
+ 410 003d 94010000 		.4byte	.LASF3
+ 411 0041 03       		.uleb128 0x3
+ 412 0042 75000000 		.4byte	.LASF9
+ 413 0046 02       		.byte	0x2
+ 414 0047 3F       		.byte	0x3f
+ 415 0048 4C000000 		.4byte	0x4c
+ 416 004c 02       		.uleb128 0x2
+ 417 004d 04       		.byte	0x4
+ 418 004e 05       		.byte	0x5
+ 419 004f BB020000 		.4byte	.LASF4
+ 420 0053 02       		.uleb128 0x2
+ 421 0054 04       		.byte	0x4
+ 422 0055 07       		.byte	0x7
+ 423 0056 82010000 		.4byte	.LASF5
+ 424 005a 02       		.uleb128 0x2
+ 425 005b 08       		.byte	0x8
+ 426 005c 05       		.byte	0x5
+ 427 005d 91020000 		.4byte	.LASF6
+ 428 0061 02       		.uleb128 0x2
+ 429 0062 08       		.byte	0x8
+ 430 0063 07       		.byte	0x7
+ 431 0064 27020000 		.4byte	.LASF7
+ 432 0068 04       		.uleb128 0x4
+ 433 0069 04       		.byte	0x4
+ 434 006a 05       		.byte	0x5
+ 435 006b 696E7400 		.ascii	"int\000"
+ 436 006f 02       		.uleb128 0x2
+ 437 0070 04       		.byte	0x4
+ 438 0071 07       		.byte	0x7
+ 439 0072 9A000000 		.4byte	.LASF8
+ 440 0076 03       		.uleb128 0x3
+ 441 0077 6D020000 		.4byte	.LASF10
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 11
+
+
+ 442 007b 03       		.byte	0x3
+ 443 007c 2C       		.byte	0x2c
+ 444 007d 41000000 		.4byte	0x41
+ 445 0081 02       		.uleb128 0x2
+ 446 0082 04       		.byte	0x4
+ 447 0083 04       		.byte	0x4
+ 448 0084 6F000000 		.4byte	.LASF11
+ 449 0088 02       		.uleb128 0x2
+ 450 0089 08       		.byte	0x8
+ 451 008a 04       		.byte	0x4
+ 452 008b B4010000 		.4byte	.LASF12
+ 453 008f 02       		.uleb128 0x2
+ 454 0090 01       		.byte	0x1
+ 455 0091 08       		.byte	0x8
+ 456 0092 9F020000 		.4byte	.LASF13
+ 457 0096 02       		.uleb128 0x2
+ 458 0097 08       		.byte	0x8
+ 459 0098 04       		.byte	0x4
+ 460 0099 C4020000 		.4byte	.LASF14
+ 461 009d 02       		.uleb128 0x2
+ 462 009e 04       		.byte	0x4
+ 463 009f 07       		.byte	0x7
+ 464 00a0 75020000 		.4byte	.LASF15
+ 465 00a4 05       		.uleb128 0x5
+ 466 00a5 04       		.byte	0x4
+ 467 00a6 8F000000 		.4byte	0x8f
+ 468 00aa 06       		.uleb128 0x6
+ 469 00ab C9010000 		.4byte	.LASF16
+ 470 00af 01       		.byte	0x1
+ 471 00b0 19       		.byte	0x19
+ 472 00b1 00000000 		.4byte	.LFB63
+ 473 00b5 3E000000 		.4byte	.LFE63-.LFB63
+ 474 00b9 01       		.uleb128 0x1
+ 475 00ba 9C       		.byte	0x9c
+ 476 00bb 28010000 		.4byte	0x128
+ 477 00bf 07       		.uleb128 0x7
+ 478 00c0 BA000000 		.4byte	.LASF23
+ 479 00c4 01       		.byte	0x1
+ 480 00c5 19       		.byte	0x19
+ 481 00c6 68000000 		.4byte	0x68
+ 482 00ca 00000000 		.4byte	.LLST0
+ 483 00ce 08       		.uleb128 0x8
+ 484 00cf 3E020000 		.4byte	.LASF21
+ 485 00d3 01       		.byte	0x1
+ 486 00d4 1F       		.byte	0x1f
+ 487 00d5 68000000 		.4byte	0x68
+ 488 00d9 1E000000 		.4byte	.LLST1
+ 489 00dd 09       		.uleb128 0x9
+ 490 00de 0A000000 		.4byte	.LVL2
+ 491 00e2 1C040000 		.4byte	0x41c
+ 492 00e6 F0000000 		.4byte	0xf0
+ 493 00ea 0A       		.uleb128 0xa
+ 494 00eb 01       		.uleb128 0x1
+ 495 00ec 50       		.byte	0x50
+ 496 00ed 01       		.uleb128 0x1
+ 497 00ee 30       		.byte	0x30
+ 498 00ef 00       		.byte	0
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 12
+
+
+ 499 00f0 0B       		.uleb128 0xb
+ 500 00f1 0E000000 		.4byte	.LVL3
+ 501 00f5 27040000 		.4byte	0x427
+ 502 00f9 09       		.uleb128 0x9
+ 503 00fa 14000000 		.4byte	.LVL4
+ 504 00fe 32040000 		.4byte	0x432
+ 505 0102 0C010000 		.4byte	0x10c
+ 506 0106 0A       		.uleb128 0xa
+ 507 0107 01       		.uleb128 0x1
+ 508 0108 50       		.byte	0x50
+ 509 0109 01       		.uleb128 0x1
+ 510 010a 30       		.byte	0x30
+ 511 010b 00       		.byte	0
+ 512 010c 0B       		.uleb128 0xb
+ 513 010d 1A000000 		.4byte	.LVL5
+ 514 0111 3D040000 		.4byte	0x43d
+ 515 0115 0B       		.uleb128 0xb
+ 516 0116 30000000 		.4byte	.LVL8
+ 517 011a 48040000 		.4byte	0x448
+ 518 011e 0B       		.uleb128 0xb
+ 519 011f 3C000000 		.4byte	.LVL11
+ 520 0123 53040000 		.4byte	0x453
+ 521 0127 00       		.byte	0
+ 522 0128 06       		.uleb128 0x6
+ 523 0129 BB010000 		.4byte	.LASF17
+ 524 012d 01       		.byte	0x1
+ 525 012e 2D       		.byte	0x2d
+ 526 012f 00000000 		.4byte	.LFB64
+ 527 0133 14000000 		.4byte	.LFE64-.LFB64
+ 528 0137 01       		.uleb128 0x1
+ 529 0138 9C       		.byte	0x9c
+ 530 0139 64010000 		.4byte	0x164
+ 531 013d 09       		.uleb128 0x9
+ 532 013e 0A000000 		.4byte	.LVL12
+ 533 0142 48040000 		.4byte	0x448
+ 534 0146 52010000 		.4byte	0x152
+ 535 014a 0A       		.uleb128 0xa
+ 536 014b 01       		.uleb128 0x1
+ 537 014c 50       		.byte	0x50
+ 538 014d 03       		.uleb128 0x3
+ 539 014e 0A       		.byte	0xa
+ 540 014f F401     		.2byte	0x1f4
+ 541 0151 00       		.byte	0
+ 542 0152 0C       		.uleb128 0xc
+ 543 0153 12000000 		.4byte	.LVL13
+ 544 0157 53040000 		.4byte	0x453
+ 545 015b 0A       		.uleb128 0xa
+ 546 015c 01       		.uleb128 0x1
+ 547 015d 50       		.byte	0x50
+ 548 015e 03       		.uleb128 0x3
+ 549 015f 0A       		.byte	0xa
+ 550 0160 C409     		.2byte	0x9c4
+ 551 0162 00       		.byte	0
+ 552 0163 00       		.byte	0
+ 553 0164 06       		.uleb128 0x6
+ 554 0165 04020000 		.4byte	.LASF18
+ 555 0169 01       		.byte	0x1
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 13
+
+
+ 556 016a 33       		.byte	0x33
+ 557 016b 00000000 		.4byte	.LFB65
+ 558 016f 14000000 		.4byte	.LFE65-.LFB65
+ 559 0173 01       		.uleb128 0x1
+ 560 0174 9C       		.byte	0x9c
+ 561 0175 A0010000 		.4byte	0x1a0
+ 562 0179 09       		.uleb128 0x9
+ 563 017a 0A000000 		.4byte	.LVL14
+ 564 017e 48040000 		.4byte	0x448
+ 565 0182 8E010000 		.4byte	0x18e
+ 566 0186 0A       		.uleb128 0xa
+ 567 0187 01       		.uleb128 0x1
+ 568 0188 50       		.byte	0x50
+ 569 0189 03       		.uleb128 0x3
+ 570 018a 0A       		.byte	0xa
+ 571 018b DC05     		.2byte	0x5dc
+ 572 018d 00       		.byte	0
+ 573 018e 0C       		.uleb128 0xc
+ 574 018f 12000000 		.4byte	.LVL15
+ 575 0193 53040000 		.4byte	0x453
+ 576 0197 0A       		.uleb128 0xa
+ 577 0198 01       		.uleb128 0x1
+ 578 0199 50       		.byte	0x50
+ 579 019a 03       		.uleb128 0x3
+ 580 019b 0A       		.byte	0xa
+ 581 019c DC05     		.2byte	0x5dc
+ 582 019e 00       		.byte	0
+ 583 019f 00       		.byte	0
+ 584 01a0 06       		.uleb128 0x6
+ 585 01a1 14020000 		.4byte	.LASF19
+ 586 01a5 01       		.byte	0x1
+ 587 01a6 39       		.byte	0x39
+ 588 01a7 00000000 		.4byte	.LFB66
+ 589 01ab 14000000 		.4byte	.LFE66-.LFB66
+ 590 01af 01       		.uleb128 0x1
+ 591 01b0 9C       		.byte	0x9c
+ 592 01b1 DC010000 		.4byte	0x1dc
+ 593 01b5 09       		.uleb128 0x9
+ 594 01b6 0A000000 		.4byte	.LVL16
+ 595 01ba 48040000 		.4byte	0x448
+ 596 01be CA010000 		.4byte	0x1ca
+ 597 01c2 0A       		.uleb128 0xa
+ 598 01c3 01       		.uleb128 0x1
+ 599 01c4 50       		.byte	0x50
+ 600 01c5 03       		.uleb128 0x3
+ 601 01c6 0A       		.byte	0xa
+ 602 01c7 C409     		.2byte	0x9c4
+ 603 01c9 00       		.byte	0
+ 604 01ca 0C       		.uleb128 0xc
+ 605 01cb 12000000 		.4byte	.LVL17
+ 606 01cf 53040000 		.4byte	0x453
+ 607 01d3 0A       		.uleb128 0xa
+ 608 01d4 01       		.uleb128 0x1
+ 609 01d5 50       		.byte	0x50
+ 610 01d6 03       		.uleb128 0x3
+ 611 01d7 0A       		.byte	0xa
+ 612 01d8 F401     		.2byte	0x1f4
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 14
+
+
+ 613 01da 00       		.byte	0
+ 614 01db 00       		.byte	0
+ 615 01dc 06       		.uleb128 0x6
+ 616 01dd 00000000 		.4byte	.LASF20
+ 617 01e1 01       		.byte	0x1
+ 618 01e2 3F       		.byte	0x3f
+ 619 01e3 00000000 		.4byte	.LFB67
+ 620 01e7 6E000000 		.4byte	.LFE67-.LFB67
+ 621 01eb 01       		.uleb128 0x1
+ 622 01ec 9C       		.byte	0x9c
+ 623 01ed 01030000 		.4byte	0x301
+ 624 01f1 0D       		.uleb128 0xd
+ 625 01f2 1A000000 		.4byte	.LBB2
+ 626 01f6 3A000000 		.4byte	.LBE2-.LBB2
+ 627 01fa 86020000 		.4byte	0x286
+ 628 01fe 0E       		.uleb128 0xe
+ 629 01ff 6900     		.ascii	"i\000"
+ 630 0201 01       		.byte	0x1
+ 631 0202 45       		.byte	0x45
+ 632 0203 68000000 		.4byte	0x68
+ 633 0207 3C000000 		.4byte	.LLST2
+ 634 020b 09       		.uleb128 0x9
+ 635 020c 26000000 		.4byte	.LVL22
+ 636 0210 48040000 		.4byte	0x448
+ 637 0214 20020000 		.4byte	0x220
+ 638 0218 0A       		.uleb128 0xa
+ 639 0219 01       		.uleb128 0x1
+ 640 021a 50       		.byte	0x50
+ 641 021b 03       		.uleb128 0x3
+ 642 021c 0A       		.byte	0xa
+ 643 021d E803     		.2byte	0x3e8
+ 644 021f 00       		.byte	0
+ 645 0220 09       		.uleb128 0x9
+ 646 0221 2E000000 		.4byte	.LVL23
+ 647 0225 53040000 		.4byte	0x453
+ 648 0229 35020000 		.4byte	0x235
+ 649 022d 0A       		.uleb128 0xa
+ 650 022e 01       		.uleb128 0x1
+ 651 022f 50       		.byte	0x50
+ 652 0230 03       		.uleb128 0x3
+ 653 0231 0A       		.byte	0xa
+ 654 0232 D007     		.2byte	0x7d0
+ 655 0234 00       		.byte	0
+ 656 0235 09       		.uleb128 0x9
+ 657 0236 36000000 		.4byte	.LVL24
+ 658 023a 5E040000 		.4byte	0x45e
+ 659 023e 4A020000 		.4byte	0x24a
+ 660 0242 0A       		.uleb128 0xa
+ 661 0243 01       		.uleb128 0x1
+ 662 0244 50       		.byte	0x50
+ 663 0245 03       		.uleb128 0x3
+ 664 0246 0A       		.byte	0xa
+ 665 0247 F401     		.2byte	0x1f4
+ 666 0249 00       		.byte	0
+ 667 024a 09       		.uleb128 0x9
+ 668 024b 3E000000 		.4byte	.LVL25
+ 669 024f 48040000 		.4byte	0x448
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 15
+
+
+ 670 0253 5F020000 		.4byte	0x25f
+ 671 0257 0A       		.uleb128 0xa
+ 672 0258 01       		.uleb128 0x1
+ 673 0259 50       		.byte	0x50
+ 674 025a 03       		.uleb128 0x3
+ 675 025b 0A       		.byte	0xa
+ 676 025c D007     		.2byte	0x7d0
+ 677 025e 00       		.byte	0
+ 678 025f 09       		.uleb128 0x9
+ 679 0260 46000000 		.4byte	.LVL26
+ 680 0264 53040000 		.4byte	0x453
+ 681 0268 74020000 		.4byte	0x274
+ 682 026c 0A       		.uleb128 0xa
+ 683 026d 01       		.uleb128 0x1
+ 684 026e 50       		.byte	0x50
+ 685 026f 03       		.uleb128 0x3
+ 686 0270 0A       		.byte	0xa
+ 687 0271 E803     		.2byte	0x3e8
+ 688 0273 00       		.byte	0
+ 689 0274 0C       		.uleb128 0xc
+ 690 0275 4E000000 		.4byte	.LVL27
+ 691 0279 5E040000 		.4byte	0x45e
+ 692 027d 0A       		.uleb128 0xa
+ 693 027e 01       		.uleb128 0x1
+ 694 027f 50       		.byte	0x50
+ 695 0280 03       		.uleb128 0x3
+ 696 0281 0A       		.byte	0xa
+ 697 0282 F401     		.2byte	0x1f4
+ 698 0284 00       		.byte	0
+ 699 0285 00       		.byte	0
+ 700 0286 09       		.uleb128 0x9
+ 701 0287 0A000000 		.4byte	.LVL18
+ 702 028b 48040000 		.4byte	0x448
+ 703 028f 9B020000 		.4byte	0x29b
+ 704 0293 0A       		.uleb128 0xa
+ 705 0294 01       		.uleb128 0x1
+ 706 0295 50       		.byte	0x50
+ 707 0296 03       		.uleb128 0x3
+ 708 0297 0A       		.byte	0xa
+ 709 0298 D007     		.2byte	0x7d0
+ 710 029a 00       		.byte	0
+ 711 029b 09       		.uleb128 0x9
+ 712 029c 12000000 		.4byte	.LVL19
+ 713 02a0 53040000 		.4byte	0x453
+ 714 02a4 B0020000 		.4byte	0x2b0
+ 715 02a8 0A       		.uleb128 0xa
+ 716 02a9 01       		.uleb128 0x1
+ 717 02aa 50       		.byte	0x50
+ 718 02ab 03       		.uleb128 0x3
+ 719 02ac 0A       		.byte	0xa
+ 720 02ad E803     		.2byte	0x3e8
+ 721 02af 00       		.byte	0
+ 722 02b0 09       		.uleb128 0x9
+ 723 02b1 1A000000 		.4byte	.LVL20
+ 724 02b5 5E040000 		.4byte	0x45e
+ 725 02b9 C5020000 		.4byte	0x2c5
+ 726 02bd 0A       		.uleb128 0xa
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 16
+
+
+ 727 02be 01       		.uleb128 0x1
+ 728 02bf 50       		.byte	0x50
+ 729 02c0 03       		.uleb128 0x3
+ 730 02c1 0A       		.byte	0xa
+ 731 02c2 F401     		.2byte	0x1f4
+ 732 02c4 00       		.byte	0
+ 733 02c5 09       		.uleb128 0x9
+ 734 02c6 5C000000 		.4byte	.LVL29
+ 735 02ca 48040000 		.4byte	0x448
+ 736 02ce DA020000 		.4byte	0x2da
+ 737 02d2 0A       		.uleb128 0xa
+ 738 02d3 01       		.uleb128 0x1
+ 739 02d4 50       		.byte	0x50
+ 740 02d5 03       		.uleb128 0x3
+ 741 02d6 0A       		.byte	0xa
+ 742 02d7 E803     		.2byte	0x3e8
+ 743 02d9 00       		.byte	0
+ 744 02da 09       		.uleb128 0x9
+ 745 02db 64000000 		.4byte	.LVL30
+ 746 02df 53040000 		.4byte	0x453
+ 747 02e3 EF020000 		.4byte	0x2ef
+ 748 02e7 0A       		.uleb128 0xa
+ 749 02e8 01       		.uleb128 0x1
+ 750 02e9 50       		.byte	0x50
+ 751 02ea 03       		.uleb128 0x3
+ 752 02eb 0A       		.byte	0xa
+ 753 02ec D007     		.2byte	0x7d0
+ 754 02ee 00       		.byte	0
+ 755 02ef 0C       		.uleb128 0xc
+ 756 02f0 6C000000 		.4byte	.LVL31
+ 757 02f4 5E040000 		.4byte	0x45e
+ 758 02f8 0A       		.uleb128 0xa
+ 759 02f9 01       		.uleb128 0x1
+ 760 02fa 50       		.byte	0x50
+ 761 02fb 03       		.uleb128 0x3
+ 762 02fc 0A       		.byte	0xa
+ 763 02fd E803     		.2byte	0x3e8
+ 764 02ff 00       		.byte	0
+ 765 0300 00       		.byte	0
+ 766 0301 06       		.uleb128 0x6
+ 767 0302 E1010000 		.4byte	.LASF22
+ 768 0306 01       		.byte	0x1
+ 769 0307 5C       		.byte	0x5c
+ 770 0308 00000000 		.4byte	.LFB68
+ 771 030c 7C000000 		.4byte	.LFE68-.LFB68
+ 772 0310 01       		.uleb128 0x1
+ 773 0311 9C       		.byte	0x9c
+ 774 0312 06040000 		.4byte	0x406
+ 775 0316 0F       		.uleb128 0xf
+ 776 0317 6D736700 		.ascii	"msg\000"
+ 777 031b 01       		.byte	0x1
+ 778 031c 5C       		.byte	0x5c
+ 779 031d A4000000 		.4byte	0xa4
+ 780 0321 5B000000 		.4byte	.LLST3
+ 781 0325 08       		.uleb128 0x8
+ 782 0326 68000000 		.4byte	.LASF24
+ 783 032a 01       		.byte	0x1
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 17
+
+
+ 784 032b 5D       		.byte	0x5d
+ 785 032c 06040000 		.4byte	0x406
+ 786 0330 79000000 		.4byte	.LLST4
+ 787 0334 08       		.uleb128 0x8
+ 788 0335 1E020000 		.4byte	.LASF25
+ 789 0339 01       		.byte	0x1
+ 790 033a 61       		.byte	0x61
+ 791 033b 8F000000 		.4byte	0x8f
+ 792 033f 97000000 		.4byte	.LLST5
+ 793 0343 10       		.uleb128 0x10
+ 794 0344 00000000 		.4byte	.Ldebug_ranges0+0
+ 795 0348 CE030000 		.4byte	0x3ce
+ 796 034c 0E       		.uleb128 0xe
+ 797 034d 6A00     		.ascii	"j\000"
+ 798 034f 01       		.byte	0x1
+ 799 0350 62       		.byte	0x62
+ 800 0351 68000000 		.4byte	0x68
+ 801 0355 C2000000 		.4byte	.LLST6
+ 802 0359 0B       		.uleb128 0xb
+ 803 035a 28000000 		.4byte	.LVL37
+ 804 035e A0010000 		.4byte	0x1a0
+ 805 0362 09       		.uleb128 0x9
+ 806 0363 30000000 		.4byte	.LVL38
+ 807 0367 5E040000 		.4byte	0x45e
+ 808 036b 77030000 		.4byte	0x377
+ 809 036f 0A       		.uleb128 0xa
+ 810 0370 01       		.uleb128 0x1
+ 811 0371 50       		.byte	0x50
+ 812 0372 03       		.uleb128 0x3
+ 813 0373 0A       		.byte	0xa
+ 814 0374 F401     		.2byte	0x1f4
+ 815 0376 00       		.byte	0
+ 816 0377 0B       		.uleb128 0xb
+ 817 0378 3A000000 		.4byte	.LVL39
+ 818 037c 28010000 		.4byte	0x128
+ 819 0380 09       		.uleb128 0x9
+ 820 0381 42000000 		.4byte	.LVL40
+ 821 0385 5E040000 		.4byte	0x45e
+ 822 0389 95030000 		.4byte	0x395
+ 823 038d 0A       		.uleb128 0xa
+ 824 038e 01       		.uleb128 0x1
+ 825 038f 50       		.byte	0x50
+ 826 0390 03       		.uleb128 0x3
+ 827 0391 0A       		.byte	0xa
+ 828 0392 F401     		.2byte	0x1f4
+ 829 0394 00       		.byte	0
+ 830 0395 0B       		.uleb128 0xb
+ 831 0396 4C000000 		.4byte	.LVL41
+ 832 039a 64010000 		.4byte	0x164
+ 833 039e 09       		.uleb128 0x9
+ 834 039f 54000000 		.4byte	.LVL42
+ 835 03a3 5E040000 		.4byte	0x45e
+ 836 03a7 B3030000 		.4byte	0x3b3
+ 837 03ab 0A       		.uleb128 0xa
+ 838 03ac 01       		.uleb128 0x1
+ 839 03ad 50       		.byte	0x50
+ 840 03ae 03       		.uleb128 0x3
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 18
+
+
+ 841 03af 0A       		.byte	0xa
+ 842 03b0 F401     		.2byte	0x1f4
+ 843 03b2 00       		.byte	0
+ 844 03b3 0B       		.uleb128 0xb
+ 845 03b4 5E000000 		.4byte	.LVL43
+ 846 03b8 A0010000 		.4byte	0x1a0
+ 847 03bc 0C       		.uleb128 0xc
+ 848 03bd 66000000 		.4byte	.LVL44
+ 849 03c1 5E040000 		.4byte	0x45e
+ 850 03c5 0A       		.uleb128 0xa
+ 851 03c6 01       		.uleb128 0x1
+ 852 03c7 50       		.byte	0x50
+ 853 03c8 03       		.uleb128 0x3
+ 854 03c9 0A       		.byte	0xa
+ 855 03ca DC05     		.2byte	0x5dc
+ 856 03cc 00       		.byte	0
+ 857 03cd 00       		.byte	0
+ 858 03ce 09       		.uleb128 0x9
+ 859 03cf 08000000 		.4byte	.LVL33
+ 860 03d3 69040000 		.4byte	0x469
+ 861 03d7 E2030000 		.4byte	0x3e2
+ 862 03db 0A       		.uleb128 0xa
+ 863 03dc 01       		.uleb128 0x1
+ 864 03dd 50       		.byte	0x50
+ 865 03de 02       		.uleb128 0x2
+ 866 03df 76       		.byte	0x76
+ 867 03e0 00       		.sleb128 0
+ 868 03e1 00       		.byte	0
+ 869 03e2 0B       		.uleb128 0xb
+ 870 03e3 0E000000 		.4byte	.LVL35
+ 871 03e7 DC010000 		.4byte	0x1dc
+ 872 03eb 0B       		.uleb128 0xb
+ 873 03ec 72000000 		.4byte	.LVL47
+ 874 03f0 A0010000 		.4byte	0x1a0
+ 875 03f4 0C       		.uleb128 0xc
+ 876 03f5 7A000000 		.4byte	.LVL48
+ 877 03f9 5E040000 		.4byte	0x45e
+ 878 03fd 0A       		.uleb128 0xa
+ 879 03fe 01       		.uleb128 0x1
+ 880 03ff 50       		.byte	0x50
+ 881 0400 03       		.uleb128 0x3
+ 882 0401 0A       		.byte	0xa
+ 883 0402 DC05     		.2byte	0x5dc
+ 884 0404 00       		.byte	0
+ 885 0405 00       		.byte	0
+ 886 0406 11       		.uleb128 0x11
+ 887 0407 68000000 		.4byte	0x68
+ 888 040b 12       		.uleb128 0x12
+ 889 040c A7010000 		.4byte	.LASF37
+ 890 0410 0A       		.byte	0xa
+ 891 0411 1207     		.2byte	0x712
+ 892 0413 17040000 		.4byte	0x417
+ 893 0417 13       		.uleb128 0x13
+ 894 0418 76000000 		.4byte	0x76
+ 895 041c 14       		.uleb128 0x14
+ 896 041d 45020000 		.4byte	.LASF26
+ 897 0421 45020000 		.4byte	.LASF26
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 19
+
+
+ 898 0425 04       		.byte	0x4
+ 899 0426 27       		.byte	0x27
+ 900 0427 14       		.uleb128 0x14
+ 901 0428 55020000 		.4byte	.LASF27
+ 902 042c 55020000 		.4byte	.LASF27
+ 903 0430 05       		.byte	0x5
+ 904 0431 3D       		.byte	0x3d
+ 905 0432 14       		.uleb128 0x14
+ 906 0433 7F000000 		.4byte	.LASF28
+ 907 0437 7F000000 		.4byte	.LASF28
+ 908 043b 05       		.byte	0x5
+ 909 043c 3F       		.byte	0x3f
+ 910 043d 14       		.uleb128 0x14
+ 911 043e CF000000 		.4byte	.LASF29
+ 912 0442 CF000000 		.4byte	.LASF29
+ 913 0446 05       		.byte	0x5
+ 914 0447 42       		.byte	0x42
+ 915 0448 14       		.uleb128 0x14
+ 916 0449 7E020000 		.4byte	.LASF30
+ 917 044d 7E020000 		.4byte	.LASF30
+ 918 0451 06       		.byte	0x6
+ 919 0452 C3       		.byte	0xc3
+ 920 0453 14       		.uleb128 0x14
+ 921 0454 A7000000 		.4byte	.LASF31
+ 922 0458 A7000000 		.4byte	.LASF31
+ 923 045c 07       		.byte	0x7
+ 924 045d C3       		.byte	0xc3
+ 925 045e 14       		.uleb128 0x14
+ 926 045f DC020000 		.4byte	.LASF32
+ 927 0463 DC020000 		.4byte	.LASF32
+ 928 0467 08       		.byte	0x8
+ 929 0468 76       		.byte	0x76
+ 930 0469 14       		.uleb128 0x14
+ 931 046a C8000000 		.4byte	.LASF33
+ 932 046e C8000000 		.4byte	.LASF33
+ 933 0472 09       		.byte	0x9
+ 934 0473 21       		.byte	0x21
+ 935 0474 00       		.byte	0
+ 936              		.section	.debug_abbrev,"",%progbits
+ 937              	.Ldebug_abbrev0:
+ 938 0000 01       		.uleb128 0x1
+ 939 0001 11       		.uleb128 0x11
+ 940 0002 01       		.byte	0x1
+ 941 0003 25       		.uleb128 0x25
+ 942 0004 0E       		.uleb128 0xe
+ 943 0005 13       		.uleb128 0x13
+ 944 0006 0B       		.uleb128 0xb
+ 945 0007 03       		.uleb128 0x3
+ 946 0008 0E       		.uleb128 0xe
+ 947 0009 1B       		.uleb128 0x1b
+ 948 000a 0E       		.uleb128 0xe
+ 949 000b 55       		.uleb128 0x55
+ 950 000c 17       		.uleb128 0x17
+ 951 000d 11       		.uleb128 0x11
+ 952 000e 01       		.uleb128 0x1
+ 953 000f 10       		.uleb128 0x10
+ 954 0010 17       		.uleb128 0x17
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 20
+
+
+ 955 0011 00       		.byte	0
+ 956 0012 00       		.byte	0
+ 957 0013 02       		.uleb128 0x2
+ 958 0014 24       		.uleb128 0x24
+ 959 0015 00       		.byte	0
+ 960 0016 0B       		.uleb128 0xb
+ 961 0017 0B       		.uleb128 0xb
+ 962 0018 3E       		.uleb128 0x3e
+ 963 0019 0B       		.uleb128 0xb
+ 964 001a 03       		.uleb128 0x3
+ 965 001b 0E       		.uleb128 0xe
+ 966 001c 00       		.byte	0
+ 967 001d 00       		.byte	0
+ 968 001e 03       		.uleb128 0x3
+ 969 001f 16       		.uleb128 0x16
+ 970 0020 00       		.byte	0
+ 971 0021 03       		.uleb128 0x3
+ 972 0022 0E       		.uleb128 0xe
+ 973 0023 3A       		.uleb128 0x3a
+ 974 0024 0B       		.uleb128 0xb
+ 975 0025 3B       		.uleb128 0x3b
+ 976 0026 0B       		.uleb128 0xb
+ 977 0027 49       		.uleb128 0x49
+ 978 0028 13       		.uleb128 0x13
+ 979 0029 00       		.byte	0
+ 980 002a 00       		.byte	0
+ 981 002b 04       		.uleb128 0x4
+ 982 002c 24       		.uleb128 0x24
+ 983 002d 00       		.byte	0
+ 984 002e 0B       		.uleb128 0xb
+ 985 002f 0B       		.uleb128 0xb
+ 986 0030 3E       		.uleb128 0x3e
+ 987 0031 0B       		.uleb128 0xb
+ 988 0032 03       		.uleb128 0x3
+ 989 0033 08       		.uleb128 0x8
+ 990 0034 00       		.byte	0
+ 991 0035 00       		.byte	0
+ 992 0036 05       		.uleb128 0x5
+ 993 0037 0F       		.uleb128 0xf
+ 994 0038 00       		.byte	0
+ 995 0039 0B       		.uleb128 0xb
+ 996 003a 0B       		.uleb128 0xb
+ 997 003b 49       		.uleb128 0x49
+ 998 003c 13       		.uleb128 0x13
+ 999 003d 00       		.byte	0
+ 1000 003e 00       		.byte	0
+ 1001 003f 06       		.uleb128 0x6
+ 1002 0040 2E       		.uleb128 0x2e
+ 1003 0041 01       		.byte	0x1
+ 1004 0042 3F       		.uleb128 0x3f
+ 1005 0043 19       		.uleb128 0x19
+ 1006 0044 03       		.uleb128 0x3
+ 1007 0045 0E       		.uleb128 0xe
+ 1008 0046 3A       		.uleb128 0x3a
+ 1009 0047 0B       		.uleb128 0xb
+ 1010 0048 3B       		.uleb128 0x3b
+ 1011 0049 0B       		.uleb128 0xb
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 21
+
+
+ 1012 004a 27       		.uleb128 0x27
+ 1013 004b 19       		.uleb128 0x19
+ 1014 004c 11       		.uleb128 0x11
+ 1015 004d 01       		.uleb128 0x1
+ 1016 004e 12       		.uleb128 0x12
+ 1017 004f 06       		.uleb128 0x6
+ 1018 0050 40       		.uleb128 0x40
+ 1019 0051 18       		.uleb128 0x18
+ 1020 0052 9742     		.uleb128 0x2117
+ 1021 0054 19       		.uleb128 0x19
+ 1022 0055 01       		.uleb128 0x1
+ 1023 0056 13       		.uleb128 0x13
+ 1024 0057 00       		.byte	0
+ 1025 0058 00       		.byte	0
+ 1026 0059 07       		.uleb128 0x7
+ 1027 005a 05       		.uleb128 0x5
+ 1028 005b 00       		.byte	0
+ 1029 005c 03       		.uleb128 0x3
+ 1030 005d 0E       		.uleb128 0xe
+ 1031 005e 3A       		.uleb128 0x3a
+ 1032 005f 0B       		.uleb128 0xb
+ 1033 0060 3B       		.uleb128 0x3b
+ 1034 0061 0B       		.uleb128 0xb
+ 1035 0062 49       		.uleb128 0x49
+ 1036 0063 13       		.uleb128 0x13
+ 1037 0064 02       		.uleb128 0x2
+ 1038 0065 17       		.uleb128 0x17
+ 1039 0066 00       		.byte	0
+ 1040 0067 00       		.byte	0
+ 1041 0068 08       		.uleb128 0x8
+ 1042 0069 34       		.uleb128 0x34
+ 1043 006a 00       		.byte	0
+ 1044 006b 03       		.uleb128 0x3
+ 1045 006c 0E       		.uleb128 0xe
+ 1046 006d 3A       		.uleb128 0x3a
+ 1047 006e 0B       		.uleb128 0xb
+ 1048 006f 3B       		.uleb128 0x3b
+ 1049 0070 0B       		.uleb128 0xb
+ 1050 0071 49       		.uleb128 0x49
+ 1051 0072 13       		.uleb128 0x13
+ 1052 0073 02       		.uleb128 0x2
+ 1053 0074 17       		.uleb128 0x17
+ 1054 0075 00       		.byte	0
+ 1055 0076 00       		.byte	0
+ 1056 0077 09       		.uleb128 0x9
+ 1057 0078 898201   		.uleb128 0x4109
+ 1058 007b 01       		.byte	0x1
+ 1059 007c 11       		.uleb128 0x11
+ 1060 007d 01       		.uleb128 0x1
+ 1061 007e 31       		.uleb128 0x31
+ 1062 007f 13       		.uleb128 0x13
+ 1063 0080 01       		.uleb128 0x1
+ 1064 0081 13       		.uleb128 0x13
+ 1065 0082 00       		.byte	0
+ 1066 0083 00       		.byte	0
+ 1067 0084 0A       		.uleb128 0xa
+ 1068 0085 8A8201   		.uleb128 0x410a
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 22
+
+
+ 1069 0088 00       		.byte	0
+ 1070 0089 02       		.uleb128 0x2
+ 1071 008a 18       		.uleb128 0x18
+ 1072 008b 9142     		.uleb128 0x2111
+ 1073 008d 18       		.uleb128 0x18
+ 1074 008e 00       		.byte	0
+ 1075 008f 00       		.byte	0
+ 1076 0090 0B       		.uleb128 0xb
+ 1077 0091 898201   		.uleb128 0x4109
+ 1078 0094 00       		.byte	0
+ 1079 0095 11       		.uleb128 0x11
+ 1080 0096 01       		.uleb128 0x1
+ 1081 0097 31       		.uleb128 0x31
+ 1082 0098 13       		.uleb128 0x13
+ 1083 0099 00       		.byte	0
+ 1084 009a 00       		.byte	0
+ 1085 009b 0C       		.uleb128 0xc
+ 1086 009c 898201   		.uleb128 0x4109
+ 1087 009f 01       		.byte	0x1
+ 1088 00a0 11       		.uleb128 0x11
+ 1089 00a1 01       		.uleb128 0x1
+ 1090 00a2 31       		.uleb128 0x31
+ 1091 00a3 13       		.uleb128 0x13
+ 1092 00a4 00       		.byte	0
+ 1093 00a5 00       		.byte	0
+ 1094 00a6 0D       		.uleb128 0xd
+ 1095 00a7 0B       		.uleb128 0xb
+ 1096 00a8 01       		.byte	0x1
+ 1097 00a9 11       		.uleb128 0x11
+ 1098 00aa 01       		.uleb128 0x1
+ 1099 00ab 12       		.uleb128 0x12
+ 1100 00ac 06       		.uleb128 0x6
+ 1101 00ad 01       		.uleb128 0x1
+ 1102 00ae 13       		.uleb128 0x13
+ 1103 00af 00       		.byte	0
+ 1104 00b0 00       		.byte	0
+ 1105 00b1 0E       		.uleb128 0xe
+ 1106 00b2 34       		.uleb128 0x34
+ 1107 00b3 00       		.byte	0
+ 1108 00b4 03       		.uleb128 0x3
+ 1109 00b5 08       		.uleb128 0x8
+ 1110 00b6 3A       		.uleb128 0x3a
+ 1111 00b7 0B       		.uleb128 0xb
+ 1112 00b8 3B       		.uleb128 0x3b
+ 1113 00b9 0B       		.uleb128 0xb
+ 1114 00ba 49       		.uleb128 0x49
+ 1115 00bb 13       		.uleb128 0x13
+ 1116 00bc 02       		.uleb128 0x2
+ 1117 00bd 17       		.uleb128 0x17
+ 1118 00be 00       		.byte	0
+ 1119 00bf 00       		.byte	0
+ 1120 00c0 0F       		.uleb128 0xf
+ 1121 00c1 05       		.uleb128 0x5
+ 1122 00c2 00       		.byte	0
+ 1123 00c3 03       		.uleb128 0x3
+ 1124 00c4 08       		.uleb128 0x8
+ 1125 00c5 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 23
+
+
+ 1126 00c6 0B       		.uleb128 0xb
+ 1127 00c7 3B       		.uleb128 0x3b
+ 1128 00c8 0B       		.uleb128 0xb
+ 1129 00c9 49       		.uleb128 0x49
+ 1130 00ca 13       		.uleb128 0x13
+ 1131 00cb 02       		.uleb128 0x2
+ 1132 00cc 17       		.uleb128 0x17
+ 1133 00cd 00       		.byte	0
+ 1134 00ce 00       		.byte	0
+ 1135 00cf 10       		.uleb128 0x10
+ 1136 00d0 0B       		.uleb128 0xb
+ 1137 00d1 01       		.byte	0x1
+ 1138 00d2 55       		.uleb128 0x55
+ 1139 00d3 17       		.uleb128 0x17
+ 1140 00d4 01       		.uleb128 0x1
+ 1141 00d5 13       		.uleb128 0x13
+ 1142 00d6 00       		.byte	0
+ 1143 00d7 00       		.byte	0
+ 1144 00d8 11       		.uleb128 0x11
+ 1145 00d9 26       		.uleb128 0x26
+ 1146 00da 00       		.byte	0
+ 1147 00db 49       		.uleb128 0x49
+ 1148 00dc 13       		.uleb128 0x13
+ 1149 00dd 00       		.byte	0
+ 1150 00de 00       		.byte	0
+ 1151 00df 12       		.uleb128 0x12
+ 1152 00e0 34       		.uleb128 0x34
+ 1153 00e1 00       		.byte	0
+ 1154 00e2 03       		.uleb128 0x3
+ 1155 00e3 0E       		.uleb128 0xe
+ 1156 00e4 3A       		.uleb128 0x3a
+ 1157 00e5 0B       		.uleb128 0xb
+ 1158 00e6 3B       		.uleb128 0x3b
+ 1159 00e7 05       		.uleb128 0x5
+ 1160 00e8 49       		.uleb128 0x49
+ 1161 00e9 13       		.uleb128 0x13
+ 1162 00ea 3F       		.uleb128 0x3f
+ 1163 00eb 19       		.uleb128 0x19
+ 1164 00ec 3C       		.uleb128 0x3c
+ 1165 00ed 19       		.uleb128 0x19
+ 1166 00ee 00       		.byte	0
+ 1167 00ef 00       		.byte	0
+ 1168 00f0 13       		.uleb128 0x13
+ 1169 00f1 35       		.uleb128 0x35
+ 1170 00f2 00       		.byte	0
+ 1171 00f3 49       		.uleb128 0x49
+ 1172 00f4 13       		.uleb128 0x13
+ 1173 00f5 00       		.byte	0
+ 1174 00f6 00       		.byte	0
+ 1175 00f7 14       		.uleb128 0x14
+ 1176 00f8 2E       		.uleb128 0x2e
+ 1177 00f9 00       		.byte	0
+ 1178 00fa 3F       		.uleb128 0x3f
+ 1179 00fb 19       		.uleb128 0x19
+ 1180 00fc 3C       		.uleb128 0x3c
+ 1181 00fd 19       		.uleb128 0x19
+ 1182 00fe 6E       		.uleb128 0x6e
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 24
+
+
+ 1183 00ff 0E       		.uleb128 0xe
+ 1184 0100 03       		.uleb128 0x3
+ 1185 0101 0E       		.uleb128 0xe
+ 1186 0102 3A       		.uleb128 0x3a
+ 1187 0103 0B       		.uleb128 0xb
+ 1188 0104 3B       		.uleb128 0x3b
+ 1189 0105 0B       		.uleb128 0xb
+ 1190 0106 00       		.byte	0
+ 1191 0107 00       		.byte	0
+ 1192 0108 00       		.byte	0
+ 1193              		.section	.debug_loc,"",%progbits
+ 1194              	.Ldebug_loc0:
+ 1195              	.LLST0:
+ 1196 0000 00000000 		.4byte	.LVL0
+ 1197 0004 06000000 		.4byte	.LVL1
+ 1198 0008 0100     		.2byte	0x1
+ 1199 000a 50       		.byte	0x50
+ 1200 000b 06000000 		.4byte	.LVL1
+ 1201 000f 3E000000 		.4byte	.LFE63
+ 1202 0013 0100     		.2byte	0x1
+ 1203 0015 54       		.byte	0x54
+ 1204 0016 00000000 		.4byte	0
+ 1205 001a 00000000 		.4byte	0
+ 1206              	.LLST1:
+ 1207 001e 26000000 		.4byte	.LVL6
+ 1208 0022 2C000000 		.4byte	.LVL7
+ 1209 0026 0100     		.2byte	0x1
+ 1210 0028 50       		.byte	0x50
+ 1211 0029 32000000 		.4byte	.LVL9
+ 1212 002d 38000000 		.4byte	.LVL10
+ 1213 0031 0100     		.2byte	0x1
+ 1214 0033 50       		.byte	0x50
+ 1215 0034 00000000 		.4byte	0
+ 1216 0038 00000000 		.4byte	0
+ 1217              	.LLST2:
+ 1218 003c 1A000000 		.4byte	.LVL20
+ 1219 0040 1E000000 		.4byte	.LVL21
+ 1220 0044 0200     		.2byte	0x2
+ 1221 0046 30       		.byte	0x30
+ 1222 0047 9F       		.byte	0x9f
+ 1223 0048 1E000000 		.4byte	.LVL21
+ 1224 004c 6E000000 		.4byte	.LFE67
+ 1225 0050 0100     		.2byte	0x1
+ 1226 0052 54       		.byte	0x54
+ 1227 0053 00000000 		.4byte	0
+ 1228 0057 00000000 		.4byte	0
+ 1229              	.LLST3:
+ 1230 005b 00000000 		.4byte	.LVL32
+ 1231 005f 07000000 		.4byte	.LVL33-1
+ 1232 0063 0100     		.2byte	0x1
+ 1233 0065 50       		.byte	0x50
+ 1234 0066 07000000 		.4byte	.LVL33-1
+ 1235 006a 7C000000 		.4byte	.LFE68
+ 1236 006e 0100     		.2byte	0x1
+ 1237 0070 56       		.byte	0x56
+ 1238 0071 00000000 		.4byte	0
+ 1239 0075 00000000 		.4byte	0
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 25
+
+
+ 1240              	.LLST4:
+ 1241 0079 0A000000 		.4byte	.LVL34
+ 1242 007d 0D000000 		.4byte	.LVL35-1
+ 1243 0081 0100     		.2byte	0x1
+ 1244 0083 50       		.byte	0x50
+ 1245 0084 0D000000 		.4byte	.LVL35-1
+ 1246 0088 7C000000 		.4byte	.LFE68
+ 1247 008c 0100     		.2byte	0x1
+ 1248 008e 57       		.byte	0x57
+ 1249 008f 00000000 		.4byte	0
+ 1250 0093 00000000 		.4byte	0
+ 1251              	.LLST5:
+ 1252 0097 0E000000 		.4byte	.LVL35
+ 1253 009b 14000000 		.4byte	.LVL36
+ 1254 009f 0300     		.2byte	0x3
+ 1255 00a1 08       		.byte	0x8
+ 1256 00a2 65       		.byte	0x65
+ 1257 00a3 9F       		.byte	0x9f
+ 1258 00a4 14000000 		.4byte	.LVL36
+ 1259 00a8 27000000 		.4byte	.LVL37-1
+ 1260 00ac 0100     		.2byte	0x1
+ 1261 00ae 53       		.byte	0x53
+ 1262 00af 68000000 		.4byte	.LVL45
+ 1263 00b3 71000000 		.4byte	.LVL47-1
+ 1264 00b7 0100     		.2byte	0x1
+ 1265 00b9 53       		.byte	0x53
+ 1266 00ba 00000000 		.4byte	0
+ 1267 00be 00000000 		.4byte	0
+ 1268              	.LLST6:
+ 1269 00c2 0E000000 		.4byte	.LVL35
+ 1270 00c6 14000000 		.4byte	.LVL36
+ 1271 00ca 0200     		.2byte	0x2
+ 1272 00cc 30       		.byte	0x30
+ 1273 00cd 9F       		.byte	0x9f
+ 1274 00ce 14000000 		.4byte	.LVL36
+ 1275 00d2 7C000000 		.4byte	.LFE68
+ 1276 00d6 0100     		.2byte	0x1
+ 1277 00d8 54       		.byte	0x54
+ 1278 00d9 00000000 		.4byte	0
+ 1279 00dd 00000000 		.4byte	0
+ 1280              		.section	.debug_aranges,"",%progbits
+ 1281 0000 44000000 		.4byte	0x44
+ 1282 0004 0200     		.2byte	0x2
+ 1283 0006 00000000 		.4byte	.Ldebug_info0
+ 1284 000a 04       		.byte	0x4
+ 1285 000b 00       		.byte	0
+ 1286 000c 0000     		.2byte	0
+ 1287 000e 0000     		.2byte	0
+ 1288 0010 00000000 		.4byte	.LFB63
+ 1289 0014 3E000000 		.4byte	.LFE63-.LFB63
+ 1290 0018 00000000 		.4byte	.LFB64
+ 1291 001c 14000000 		.4byte	.LFE64-.LFB64
+ 1292 0020 00000000 		.4byte	.LFB65
+ 1293 0024 14000000 		.4byte	.LFE65-.LFB65
+ 1294 0028 00000000 		.4byte	.LFB66
+ 1295 002c 14000000 		.4byte	.LFE66-.LFB66
+ 1296 0030 00000000 		.4byte	.LFB67
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 26
+
+
+ 1297 0034 6E000000 		.4byte	.LFE67-.LFB67
+ 1298 0038 00000000 		.4byte	.LFB68
+ 1299 003c 7C000000 		.4byte	.LFE68-.LFB68
+ 1300 0040 00000000 		.4byte	0
+ 1301 0044 00000000 		.4byte	0
+ 1302              		.section	.debug_ranges,"",%progbits
+ 1303              	.Ldebug_ranges0:
+ 1304 0000 0E000000 		.4byte	.LBB3
+ 1305 0004 10000000 		.4byte	.LBE3
+ 1306 0008 12000000 		.4byte	.LBB4
+ 1307 000c 6E000000 		.4byte	.LBE4
+ 1308 0010 00000000 		.4byte	0
+ 1309 0014 00000000 		.4byte	0
+ 1310 0018 00000000 		.4byte	.LFB63
+ 1311 001c 3E000000 		.4byte	.LFE63
+ 1312 0020 00000000 		.4byte	.LFB64
+ 1313 0024 14000000 		.4byte	.LFE64
+ 1314 0028 00000000 		.4byte	.LFB65
+ 1315 002c 14000000 		.4byte	.LFE65
+ 1316 0030 00000000 		.4byte	.LFB66
+ 1317 0034 14000000 		.4byte	.LFE66
+ 1318 0038 00000000 		.4byte	.LFB67
+ 1319 003c 6E000000 		.4byte	.LFE67
+ 1320 0040 00000000 		.4byte	.LFB68
+ 1321 0044 7C000000 		.4byte	.LFE68
+ 1322 0048 00000000 		.4byte	0
+ 1323 004c 00000000 		.4byte	0
+ 1324              		.section	.debug_line,"",%progbits
+ 1325              	.Ldebug_line0:
+ 1326 0000 CD020000 		.section	.debug_str,"MS",%progbits,1
+ 1326      0200F401 
+ 1326      00000201 
+ 1326      FB0E0D00 
+ 1326      01010101 
+ 1327              	.LASF20:
+ 1328 0000 64697370 		.ascii	"displayAttentionSemaphoreMessage\000"
+ 1328      6C617941 
+ 1328      7474656E 
+ 1328      74696F6E 
+ 1328      53656D61 
+ 1329              	.LASF36:
+ 1330 0021 433A5C55 		.ascii	"C:\\Users\\laure\\OneDrive\\Documents\\PSoC Creator"
+ 1330      73657273 
+ 1330      5C6C6175 
+ 1330      72655C4F 
+ 1330      6E654472 
+ 1331 004f 5C50536F 		.ascii	"\\PSoC 5LP\\FirstLab.cydsn\000"
+ 1331      4320354C 
+ 1331      505C4669 
+ 1331      7273744C 
+ 1331      61622E63 
+ 1332              	.LASF24:
+ 1333 0068 4C454E47 		.ascii	"LENGTH\000"
+ 1333      544800
+ 1334              	.LASF11:
+ 1335 006f 666C6F61 		.ascii	"float\000"
+ 1335      7400
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 27
+
+
+ 1336              	.LASF9:
+ 1337 0075 5F5F696E 		.ascii	"__int32_t\000"
+ 1337      7433325F 
+ 1337      7400
+ 1338              	.LASF28:
+ 1339 007f 4144435F 		.ascii	"ADC_DelSig_IsEndConversion\000"
+ 1339      44656C53 
+ 1339      69675F49 
+ 1339      73456E64 
+ 1339      436F6E76 
+ 1340              	.LASF8:
+ 1341 009a 756E7369 		.ascii	"unsigned int\000"
+ 1341      676E6564 
+ 1341      20696E74 
+ 1341      00
+ 1342              	.LASF31:
+ 1343 00a7 50574D5F 		.ascii	"PWM_2_WriteCompare\000"
+ 1343      325F5772 
+ 1343      69746543 
+ 1343      6F6D7061 
+ 1343      726500
+ 1344              	.LASF23:
+ 1345 00ba 73656C65 		.ascii	"selectedServo\000"
+ 1345      63746564 
+ 1345      53657276 
+ 1345      6F00
+ 1346              	.LASF33:
+ 1347 00c8 7374726C 		.ascii	"strlen\000"
+ 1347      656E00
+ 1348              	.LASF29:
+ 1349 00cf 4144435F 		.ascii	"ADC_DelSig_GetResult32\000"
+ 1349      44656C53 
+ 1349      69675F47 
+ 1349      65745265 
+ 1349      73756C74 
+ 1350              	.LASF1:
+ 1351 00e6 756E7369 		.ascii	"unsigned char\000"
+ 1351      676E6564 
+ 1351      20636861 
+ 1351      7200
+ 1352              	.LASF34:
+ 1353 00f4 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1353      43313120 
+ 1353      352E342E 
+ 1353      31203230 
+ 1353      31363036 
+ 1354 0127 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1354      20726576 
+ 1354      6973696F 
+ 1354      6E203233 
+ 1354      37373135 
+ 1355 015a 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1355      66756E63 
+ 1355      74696F6E 
+ 1355      2D736563 
+ 1355      74696F6E 
+ 1356              	.LASF5:
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 28
+
+
+ 1357 0182 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1357      20756E73 
+ 1357      69676E65 
+ 1357      6420696E 
+ 1357      7400
+ 1358              	.LASF3:
+ 1359 0194 73686F72 		.ascii	"short unsigned int\000"
+ 1359      7420756E 
+ 1359      7369676E 
+ 1359      65642069 
+ 1359      6E7400
+ 1360              	.LASF37:
+ 1361 01a7 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1361      52784275 
+ 1361      66666572 
+ 1361      00
+ 1362              	.LASF12:
+ 1363 01b4 646F7562 		.ascii	"double\000"
+ 1363      6C6500
+ 1364              	.LASF17:
+ 1365 01bb 76657274 		.ascii	"verticalFlags\000"
+ 1365      6963616C 
+ 1365      466C6167 
+ 1365      7300
+ 1366              	.LASF16:
+ 1367 01c9 75706461 		.ascii	"updateSemaphorePosition\000"
+ 1367      74655365 
+ 1367      6D617068 
+ 1367      6F726550 
+ 1367      6F736974 
+ 1368              	.LASF22:
+ 1369 01e1 64697370 		.ascii	"displayMessageAsSemaphoreMorseCode\000"
+ 1369      6C61794D 
+ 1369      65737361 
+ 1369      67654173 
+ 1369      53656D61 
+ 1370              	.LASF18:
+ 1371 0204 686F7269 		.ascii	"horizontalFlags\000"
+ 1371      7A6F6E74 
+ 1371      616C466C 
+ 1371      61677300 
+ 1372              	.LASF19:
+ 1373 0214 666C6167 		.ascii	"flagsDown\000"
+ 1373      73446F77 
+ 1373      6E00
+ 1374              	.LASF25:
+ 1375 021e 6C617374 		.ascii	"lastChar\000"
+ 1375      43686172 
+ 1375      00
+ 1376              	.LASF7:
+ 1377 0227 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1377      206C6F6E 
+ 1377      6720756E 
+ 1377      7369676E 
+ 1377      65642069 
+ 1378              	.LASF21:
+ 1379 023e 72657375 		.ascii	"result\000"
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 29
+
+
+ 1379      6C7400
+ 1380              	.LASF26:
+ 1381 0245 414D7578 		.ascii	"AMux_FastSelect\000"
+ 1381      5F466173 
+ 1381      7453656C 
+ 1381      65637400 
+ 1382              	.LASF27:
+ 1383 0255 4144435F 		.ascii	"ADC_DelSig_StartConvert\000"
+ 1383      44656C53 
+ 1383      69675F53 
+ 1383      74617274 
+ 1383      436F6E76 
+ 1384              	.LASF10:
+ 1385 026d 696E7433 		.ascii	"int32_t\000"
+ 1385      325F7400 
+ 1386              	.LASF15:
+ 1387 0275 73697A65 		.ascii	"sizetype\000"
+ 1387      74797065 
+ 1387      00
+ 1388              	.LASF30:
+ 1389 027e 50574D5F 		.ascii	"PWM_1_WriteCompare\000"
+ 1389      315F5772 
+ 1389      69746543 
+ 1389      6F6D7061 
+ 1389      726500
+ 1390              	.LASF6:
+ 1391 0291 6C6F6E67 		.ascii	"long long int\000"
+ 1391      206C6F6E 
+ 1391      6720696E 
+ 1391      7400
+ 1392              	.LASF13:
+ 1393 029f 63686172 		.ascii	"char\000"
+ 1393      00
+ 1394              	.LASF35:
+ 1395 02a4 73656D61 		.ascii	"semaphores.c\000"
+ 1395      70686F72 
+ 1395      65732E63 
+ 1395      00
+ 1396              	.LASF2:
+ 1397 02b1 73686F72 		.ascii	"short int\000"
+ 1397      7420696E 
+ 1397      7400
+ 1398              	.LASF4:
+ 1399 02bb 6C6F6E67 		.ascii	"long int\000"
+ 1399      20696E74 
+ 1399      00
+ 1400              	.LASF14:
+ 1401 02c4 6C6F6E67 		.ascii	"long double\000"
+ 1401      20646F75 
+ 1401      626C6500 
+ 1402              	.LASF0:
+ 1403 02d0 7369676E 		.ascii	"signed char\000"
+ 1403      65642063 
+ 1403      68617200 
+ 1404              	.LASF32:
+ 1405 02dc 43794465 		.ascii	"CyDelay\000"
+ 1405      6C617900 
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccDSBqcD.s 			page 30
+
+
+ 1406              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

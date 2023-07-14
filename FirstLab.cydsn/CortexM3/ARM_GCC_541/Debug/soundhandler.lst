@@ -1,0 +1,913 @@
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccPwPl2r.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"soundhandler.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	__aeabi_i2d
+  20              		.global	__aeabi_dmul
+  21              		.section	.text.initVector,"ax",%progbits
+  22              		.align	2
+  23              		.global	initVector
+  24              		.thumb
+  25              		.thumb_func
+  26              		.type	initVector, %function
+  27              	initVector:
+  28              	.LFB63:
+  29              		.file 1 "soundhandler.c"
+   1:soundhandler.c **** /* ========================================
+   2:soundhandler.c ****  *
+   3:soundhandler.c ****  * Copyright YOUR COMPANY, THE YEAR
+   4:soundhandler.c ****  * All Rights Reserved
+   5:soundhandler.c ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:soundhandler.c ****  *
+   7:soundhandler.c ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:soundhandler.c ****  * WHICH IS THE PROPERTY OF your company.
+   9:soundhandler.c ****  *
+  10:soundhandler.c ****  * ========================================
+  11:soundhandler.c **** */
+  12:soundhandler.c **** 
+  13:soundhandler.c **** #include "project.h"
+  14:soundhandler.c **** #include "soundhandler.h"
+  15:soundhandler.c **** 
+  16:soundhandler.c **** double vector[100];
+  17:soundhandler.c **** 
+  18:soundhandler.c **** /* fill the global variable "vector" with values of a sinus */
+  19:soundhandler.c **** void initVector (void) {
+  30              		.loc 1 19 0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34 0000 10B5     		push	{r4, lr}
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 4, -8
+  37              		.cfi_offset 14, -4
+  38              	.LVL0:
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccPwPl2r.s 			page 2
+
+
+  39              	.LBB2:
+  20:soundhandler.c ****     for (int i = 0; i < 100; i++){
+  40              		.loc 1 20 0
+  41 0002 0024     		movs	r4, #0
+  42 0004 14E0     		b	.L2
+  43              	.LVL1:
+  44              	.L3:
+  21:soundhandler.c ****         vector[i] = sin( ((i * 3.6) * (PI/180) ) );
+  45              		.loc 1 21 0 discriminator 3
+  46 0006 2046     		mov	r0, r4
+  47 0008 FFF7FEFF 		bl	__aeabi_i2d
+  48              	.LVL2:
+  49 000c 0AA3     		adr	r3, .L5
+  50 000e D3E90023 		ldrd	r2, [r3]
+  51 0012 FFF7FEFF 		bl	__aeabi_dmul
+  52              	.LVL3:
+  53 0016 0AA3     		adr	r3, .L5+8
+  54 0018 D3E90023 		ldrd	r2, [r3]
+  55 001c FFF7FEFF 		bl	__aeabi_dmul
+  56              	.LVL4:
+  57 0020 FFF7FEFF 		bl	sin
+  58              	.LVL5:
+  59 0024 084B     		ldr	r3, .L5+16
+  60 0026 03EBC403 		add	r3, r3, r4, lsl #3
+  61 002a C3E90001 		strd	r0, [r3]
+  20:soundhandler.c ****     for (int i = 0; i < 100; i++){
+  62              		.loc 1 20 0 discriminator 3
+  63 002e 0134     		adds	r4, r4, #1
+  64              	.LVL6:
+  65              	.L2:
+  20:soundhandler.c ****     for (int i = 0; i < 100; i++){
+  66              		.loc 1 20 0 is_stmt 0 discriminator 1
+  67 0030 632C     		cmp	r4, #99
+  68 0032 E8DD     		ble	.L3
+  69              	.LBE2:
+  22:soundhandler.c ****     }
+  23:soundhandler.c **** }
+  70              		.loc 1 23 0 is_stmt 1
+  71 0034 10BD     		pop	{r4, pc}
+  72              	.LVL7:
+  73              	.L6:
+  74 0036 00BF     		.align	3
+  75              	.L5:
+  76 0038 CDCCCCCC 		.word	-858993459
+  77 003c CCCC0C40 		.word	1074580684
+  78 0040 399D52A2 		.word	-1571644103
+  79 0044 46DF913F 		.word	1066524486
+  80 0048 00000000 		.word	vector
+  81              		.cfi_endproc
+  82              	.LFE63:
+  83              		.size	initVector, .-initVector
+  84              		.section	.text.getTC,"ax",%progbits
+  85              		.align	2
+  86              		.global	getTC
+  87              		.thumb
+  88              		.thumb_func
+  89              		.type	getTC, %function
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccPwPl2r.s 			page 3
+
+
+  90              	getTC:
+  91              	.LFB64:
+  24:soundhandler.c **** 
+  25:soundhandler.c **** /* return the value of the TC bit of the timer */
+  26:soundhandler.c **** int getTC (void) {
+  92              		.loc 1 26 0
+  93              		.cfi_startproc
+  94              		@ args = 0, pretend = 0, frame = 0
+  95              		@ frame_needed = 0, uses_anonymous_args = 0
+  96 0000 08B5     		push	{r3, lr}
+  97              		.cfi_def_cfa_offset 8
+  98              		.cfi_offset 3, -8
+  99              		.cfi_offset 14, -4
+  27:soundhandler.c ****     return 0x80 & Timer_ReadStatusRegister(); // mask
+ 100              		.loc 1 27 0
+ 101 0002 FFF7FEFF 		bl	Timer_ReadStatusRegister
+ 102              	.LVL8:
+  28:soundhandler.c **** }
+ 103              		.loc 1 28 0
+ 104 0006 00F08000 		and	r0, r0, #128
+ 105 000a 08BD     		pop	{r3, pc}
+ 106              		.cfi_endproc
+ 107              	.LFE64:
+ 108              		.size	getTC, .-getTC
+ 109              		.global	__aeabi_dadd
+ 110              		.global	__aeabi_d2iz
+ 111              		.section	.text.setVDACvalue,"ax",%progbits
+ 112              		.align	2
+ 113              		.global	setVDACvalue
+ 114              		.thumb
+ 115              		.thumb_func
+ 116              		.type	setVDACvalue, %function
+ 117              	setVDACvalue:
+ 118              	.LFB65:
+  29:soundhandler.c **** 
+  30:soundhandler.c **** /* set the value for the VDAC to the jth element of
+  31:soundhandler.c ****    the global variable vector adapted to be within
+  32:soundhandler.c ****    the range excepted by the VDAC_SetValue function */
+  33:soundhandler.c **** void setVDACvalue (int j) {
+ 119              		.loc 1 33 0
+ 120              		.cfi_startproc
+ 121              		@ args = 0, pretend = 0, frame = 0
+ 122              		@ frame_needed = 0, uses_anonymous_args = 0
+ 123              	.LVL9:
+ 124 0000 08B5     		push	{r3, lr}
+ 125              		.cfi_def_cfa_offset 8
+ 126              		.cfi_offset 3, -8
+ 127              		.cfi_offset 14, -4
+  34:soundhandler.c ****     int result = (vector[j] * 128) + 128;
+ 128              		.loc 1 34 0
+ 129 0002 0A4B     		ldr	r3, .L13
+ 130 0004 03EBC000 		add	r0, r3, r0, lsl #3
+ 131              	.LVL10:
+ 132 0008 0022     		movs	r2, #0
+ 133 000a 094B     		ldr	r3, .L13+4
+ 134 000c 03C8     		ldmia	r0, {r0-r1}
+ 135 000e FFF7FEFF 		bl	__aeabi_dmul
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccPwPl2r.s 			page 4
+
+
+ 136              	.LVL11:
+ 137 0012 0022     		movs	r2, #0
+ 138 0014 064B     		ldr	r3, .L13+4
+ 139 0016 FFF7FEFF 		bl	__aeabi_dadd
+ 140              	.LVL12:
+ 141 001a FFF7FEFF 		bl	__aeabi_d2iz
+ 142              	.LVL13:
+  35:soundhandler.c ****     if (result >= 256) {
+ 143              		.loc 1 35 0
+ 144 001e FF28     		cmp	r0, #255
+ 145 0020 00DD     		ble	.L10
+  36:soundhandler.c ****         result = 255; // result in [0,255]
+ 146              		.loc 1 36 0
+ 147 0022 FF20     		movs	r0, #255
+ 148              	.LVL14:
+ 149              	.L10:
+  37:soundhandler.c ****     }
+  38:soundhandler.c ****     VDAC_SetValue(result);
+ 150              		.loc 1 38 0
+ 151 0024 C0B2     		uxtb	r0, r0
+ 152              	.LVL15:
+ 153 0026 FFF7FEFF 		bl	VDAC_SetValue
+ 154              	.LVL16:
+ 155 002a 08BD     		pop	{r3, pc}
+ 156              	.L14:
+ 157              		.align	2
+ 158              	.L13:
+ 159 002c 00000000 		.word	vector
+ 160 0030 00006040 		.word	1080033280
+ 161              		.cfi_endproc
+ 162              	.LFE65:
+ 163              		.size	setVDACvalue, .-setVDACvalue
+ 164              		.comm	vector,800,8
+ 165              		.text
+ 166              	.Letext0:
+ 167              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 168              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 169              		.file 4 "Generated_Source\\PSoC5/core_cm3.h"
+ 170              		.file 5 "Generated_Source\\PSoC5/Timer.h"
+ 171              		.file 6 "Generated_Source\\PSoC5/VDAC.h"
+ 172              		.file 7 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 173              		.section	.debug_info,"",%progbits
+ 174              	.Ldebug_info0:
+ 175 0000 88010000 		.4byte	0x188
+ 176 0004 0400     		.2byte	0x4
+ 177 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 178 000a 04       		.byte	0x4
+ 179 000b 01       		.uleb128 0x1
+ 180 000c 7E000000 		.4byte	.LASF23
+ 181 0010 0C       		.byte	0xc
+ 182 0011 56010000 		.4byte	.LASF24
+ 183 0015 00000000 		.4byte	.LASF25
+ 184 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 185 001d 00000000 		.4byte	0
+ 186 0021 00000000 		.4byte	.Ldebug_line0
+ 187 0025 02       		.uleb128 0x2
+ 188 0026 01       		.byte	0x1
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccPwPl2r.s 			page 5
+
+
+ 189 0027 06       		.byte	0x6
+ 190 0028 F5010000 		.4byte	.LASF0
+ 191 002c 02       		.uleb128 0x2
+ 192 002d 01       		.byte	0x1
+ 193 002e 08       		.byte	0x8
+ 194 002f 70000000 		.4byte	.LASF1
+ 195 0033 02       		.uleb128 0x2
+ 196 0034 02       		.byte	0x2
+ 197 0035 05       		.byte	0x5
+ 198 0036 D6010000 		.4byte	.LASF2
+ 199 003a 02       		.uleb128 0x2
+ 200 003b 02       		.byte	0x2
+ 201 003c 07       		.byte	0x7
+ 202 003d 29010000 		.4byte	.LASF3
+ 203 0041 03       		.uleb128 0x3
+ 204 0042 47000000 		.4byte	.LASF9
+ 205 0046 02       		.byte	0x2
+ 206 0047 3F       		.byte	0x3f
+ 207 0048 4C000000 		.4byte	0x4c
+ 208 004c 02       		.uleb128 0x2
+ 209 004d 04       		.byte	0x4
+ 210 004e 05       		.byte	0x5
+ 211 004f E0010000 		.4byte	.LASF4
+ 212 0053 02       		.uleb128 0x2
+ 213 0054 04       		.byte	0x4
+ 214 0055 07       		.byte	0x7
+ 215 0056 0C010000 		.4byte	.LASF5
+ 216 005a 02       		.uleb128 0x2
+ 217 005b 08       		.byte	0x8
+ 218 005c 05       		.byte	0x5
+ 219 005d A1010000 		.4byte	.LASF6
+ 220 0061 02       		.uleb128 0x2
+ 221 0062 08       		.byte	0x8
+ 222 0063 07       		.byte	0x7
+ 223 0064 72010000 		.4byte	.LASF7
+ 224 0068 04       		.uleb128 0x4
+ 225 0069 04       		.byte	0x4
+ 226 006a 05       		.byte	0x5
+ 227 006b 696E7400 		.ascii	"int\000"
+ 228 006f 02       		.uleb128 0x2
+ 229 0070 04       		.byte	0x4
+ 230 0071 07       		.byte	0x7
+ 231 0072 65010000 		.4byte	.LASF8
+ 232 0076 03       		.uleb128 0x3
+ 233 0077 90010000 		.4byte	.LASF10
+ 234 007b 03       		.byte	0x3
+ 235 007c 2C       		.byte	0x2c
+ 236 007d 41000000 		.4byte	0x41
+ 237 0081 02       		.uleb128 0x2
+ 238 0082 04       		.byte	0x4
+ 239 0083 04       		.byte	0x4
+ 240 0084 6A000000 		.4byte	.LASF11
+ 241 0088 02       		.uleb128 0x2
+ 242 0089 08       		.byte	0x8
+ 243 008a 04       		.byte	0x4
+ 244 008b 49010000 		.4byte	.LASF12
+ 245 008f 02       		.uleb128 0x2
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccPwPl2r.s 			page 6
+
+
+ 246 0090 01       		.byte	0x1
+ 247 0091 08       		.byte	0x8
+ 248 0092 B6010000 		.4byte	.LASF13
+ 249 0096 02       		.uleb128 0x2
+ 250 0097 08       		.byte	0x8
+ 251 0098 04       		.byte	0x4
+ 252 0099 E9010000 		.4byte	.LASF14
+ 253 009d 02       		.uleb128 0x2
+ 254 009e 04       		.byte	0x4
+ 255 009f 07       		.byte	0x7
+ 256 00a0 98010000 		.4byte	.LASF15
+ 257 00a4 05       		.uleb128 0x5
+ 258 00a5 1E010000 		.4byte	.LASF16
+ 259 00a9 01       		.byte	0x1
+ 260 00aa 13       		.byte	0x13
+ 261 00ab 00000000 		.4byte	.LFB63
+ 262 00af 4C000000 		.4byte	.LFE63-.LFB63
+ 263 00b3 01       		.uleb128 0x1
+ 264 00b4 9C       		.byte	0x9c
+ 265 00b5 DA000000 		.4byte	0xda
+ 266 00b9 06       		.uleb128 0x6
+ 267 00ba 02000000 		.4byte	.LBB2
+ 268 00be 32000000 		.4byte	.LBE2-.LBB2
+ 269 00c2 07       		.uleb128 0x7
+ 270 00c3 6900     		.ascii	"i\000"
+ 271 00c5 01       		.byte	0x1
+ 272 00c6 14       		.byte	0x14
+ 273 00c7 68000000 		.4byte	0x68
+ 274 00cb 00000000 		.4byte	.LLST0
+ 275 00cf 08       		.uleb128 0x8
+ 276 00d0 24000000 		.4byte	.LVL5
+ 277 00d4 6A010000 		.4byte	0x16a
+ 278 00d8 00       		.byte	0
+ 279 00d9 00       		.byte	0
+ 280 00da 09       		.uleb128 0x9
+ 281 00db 50010000 		.4byte	.LASF26
+ 282 00df 01       		.byte	0x1
+ 283 00e0 1A       		.byte	0x1a
+ 284 00e1 68000000 		.4byte	0x68
+ 285 00e5 00000000 		.4byte	.LFB64
+ 286 00e9 0C000000 		.4byte	.LFE64-.LFB64
+ 287 00ed 01       		.uleb128 0x1
+ 288 00ee 9C       		.byte	0x9c
+ 289 00ef FD000000 		.4byte	0xfd
+ 290 00f3 08       		.uleb128 0x8
+ 291 00f4 06000000 		.4byte	.LVL8
+ 292 00f8 75010000 		.4byte	0x175
+ 293 00fc 00       		.byte	0
+ 294 00fd 05       		.uleb128 0x5
+ 295 00fe C9010000 		.4byte	.LASF17
+ 296 0102 01       		.byte	0x1
+ 297 0103 21       		.byte	0x21
+ 298 0104 00000000 		.4byte	.LFB65
+ 299 0108 34000000 		.4byte	.LFE65-.LFB65
+ 300 010c 01       		.uleb128 0x1
+ 301 010d 9C       		.byte	0x9c
+ 302 010e 38010000 		.4byte	0x138
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccPwPl2r.s 			page 7
+
+
+ 303 0112 0A       		.uleb128 0xa
+ 304 0113 6A00     		.ascii	"j\000"
+ 305 0115 01       		.byte	0x1
+ 306 0116 21       		.byte	0x21
+ 307 0117 68000000 		.4byte	0x68
+ 308 011b 1F000000 		.4byte	.LLST1
+ 309 011f 0B       		.uleb128 0xb
+ 310 0120 89010000 		.4byte	.LASF18
+ 311 0124 01       		.byte	0x1
+ 312 0125 22       		.byte	0x22
+ 313 0126 68000000 		.4byte	0x68
+ 314 012a 40000000 		.4byte	.LLST2
+ 315 012e 08       		.uleb128 0x8
+ 316 012f 2A000000 		.4byte	.LVL16
+ 317 0133 80010000 		.4byte	0x180
+ 318 0137 00       		.byte	0
+ 319 0138 0C       		.uleb128 0xc
+ 320 0139 3C010000 		.4byte	.LASF19
+ 321 013d 04       		.byte	0x4
+ 322 013e 1207     		.2byte	0x712
+ 323 0140 44010000 		.4byte	0x144
+ 324 0144 0D       		.uleb128 0xd
+ 325 0145 76000000 		.4byte	0x76
+ 326 0149 0E       		.uleb128 0xe
+ 327 014a 88000000 		.4byte	0x88
+ 328 014e 59010000 		.4byte	0x159
+ 329 0152 0F       		.uleb128 0xf
+ 330 0153 9D000000 		.4byte	0x9d
+ 331 0157 63       		.byte	0x63
+ 332 0158 00       		.byte	0
+ 333 0159 10       		.uleb128 0x10
+ 334 015a AF010000 		.4byte	.LASF20
+ 335 015e 01       		.byte	0x1
+ 336 015f 10       		.byte	0x10
+ 337 0160 49010000 		.4byte	0x149
+ 338 0164 05       		.uleb128 0x5
+ 339 0165 03       		.byte	0x3
+ 340 0166 00000000 		.4byte	vector
+ 341 016a 11       		.uleb128 0x11
+ 342 016b 73696E00 		.ascii	"sin\000"
+ 343 016f 73696E00 		.ascii	"sin\000"
+ 344 0173 07       		.byte	0x7
+ 345 0174 6F       		.byte	0x6f
+ 346 0175 12       		.uleb128 0x12
+ 347 0176 51000000 		.4byte	.LASF21
+ 348 017a 51000000 		.4byte	.LASF21
+ 349 017e 05       		.byte	0x5
+ 350 017f 5E       		.byte	0x5e
+ 351 0180 12       		.uleb128 0x12
+ 352 0181 BB010000 		.4byte	.LASF22
+ 353 0185 BB010000 		.4byte	.LASF22
+ 354 0189 06       		.byte	0x6
+ 355 018a 37       		.byte	0x37
+ 356 018b 00       		.byte	0
+ 357              		.section	.debug_abbrev,"",%progbits
+ 358              	.Ldebug_abbrev0:
+ 359 0000 01       		.uleb128 0x1
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccPwPl2r.s 			page 8
+
+
+ 360 0001 11       		.uleb128 0x11
+ 361 0002 01       		.byte	0x1
+ 362 0003 25       		.uleb128 0x25
+ 363 0004 0E       		.uleb128 0xe
+ 364 0005 13       		.uleb128 0x13
+ 365 0006 0B       		.uleb128 0xb
+ 366 0007 03       		.uleb128 0x3
+ 367 0008 0E       		.uleb128 0xe
+ 368 0009 1B       		.uleb128 0x1b
+ 369 000a 0E       		.uleb128 0xe
+ 370 000b 55       		.uleb128 0x55
+ 371 000c 17       		.uleb128 0x17
+ 372 000d 11       		.uleb128 0x11
+ 373 000e 01       		.uleb128 0x1
+ 374 000f 10       		.uleb128 0x10
+ 375 0010 17       		.uleb128 0x17
+ 376 0011 00       		.byte	0
+ 377 0012 00       		.byte	0
+ 378 0013 02       		.uleb128 0x2
+ 379 0014 24       		.uleb128 0x24
+ 380 0015 00       		.byte	0
+ 381 0016 0B       		.uleb128 0xb
+ 382 0017 0B       		.uleb128 0xb
+ 383 0018 3E       		.uleb128 0x3e
+ 384 0019 0B       		.uleb128 0xb
+ 385 001a 03       		.uleb128 0x3
+ 386 001b 0E       		.uleb128 0xe
+ 387 001c 00       		.byte	0
+ 388 001d 00       		.byte	0
+ 389 001e 03       		.uleb128 0x3
+ 390 001f 16       		.uleb128 0x16
+ 391 0020 00       		.byte	0
+ 392 0021 03       		.uleb128 0x3
+ 393 0022 0E       		.uleb128 0xe
+ 394 0023 3A       		.uleb128 0x3a
+ 395 0024 0B       		.uleb128 0xb
+ 396 0025 3B       		.uleb128 0x3b
+ 397 0026 0B       		.uleb128 0xb
+ 398 0027 49       		.uleb128 0x49
+ 399 0028 13       		.uleb128 0x13
+ 400 0029 00       		.byte	0
+ 401 002a 00       		.byte	0
+ 402 002b 04       		.uleb128 0x4
+ 403 002c 24       		.uleb128 0x24
+ 404 002d 00       		.byte	0
+ 405 002e 0B       		.uleb128 0xb
+ 406 002f 0B       		.uleb128 0xb
+ 407 0030 3E       		.uleb128 0x3e
+ 408 0031 0B       		.uleb128 0xb
+ 409 0032 03       		.uleb128 0x3
+ 410 0033 08       		.uleb128 0x8
+ 411 0034 00       		.byte	0
+ 412 0035 00       		.byte	0
+ 413 0036 05       		.uleb128 0x5
+ 414 0037 2E       		.uleb128 0x2e
+ 415 0038 01       		.byte	0x1
+ 416 0039 3F       		.uleb128 0x3f
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccPwPl2r.s 			page 9
+
+
+ 417 003a 19       		.uleb128 0x19
+ 418 003b 03       		.uleb128 0x3
+ 419 003c 0E       		.uleb128 0xe
+ 420 003d 3A       		.uleb128 0x3a
+ 421 003e 0B       		.uleb128 0xb
+ 422 003f 3B       		.uleb128 0x3b
+ 423 0040 0B       		.uleb128 0xb
+ 424 0041 27       		.uleb128 0x27
+ 425 0042 19       		.uleb128 0x19
+ 426 0043 11       		.uleb128 0x11
+ 427 0044 01       		.uleb128 0x1
+ 428 0045 12       		.uleb128 0x12
+ 429 0046 06       		.uleb128 0x6
+ 430 0047 40       		.uleb128 0x40
+ 431 0048 18       		.uleb128 0x18
+ 432 0049 9642     		.uleb128 0x2116
+ 433 004b 19       		.uleb128 0x19
+ 434 004c 01       		.uleb128 0x1
+ 435 004d 13       		.uleb128 0x13
+ 436 004e 00       		.byte	0
+ 437 004f 00       		.byte	0
+ 438 0050 06       		.uleb128 0x6
+ 439 0051 0B       		.uleb128 0xb
+ 440 0052 01       		.byte	0x1
+ 441 0053 11       		.uleb128 0x11
+ 442 0054 01       		.uleb128 0x1
+ 443 0055 12       		.uleb128 0x12
+ 444 0056 06       		.uleb128 0x6
+ 445 0057 00       		.byte	0
+ 446 0058 00       		.byte	0
+ 447 0059 07       		.uleb128 0x7
+ 448 005a 34       		.uleb128 0x34
+ 449 005b 00       		.byte	0
+ 450 005c 03       		.uleb128 0x3
+ 451 005d 08       		.uleb128 0x8
+ 452 005e 3A       		.uleb128 0x3a
+ 453 005f 0B       		.uleb128 0xb
+ 454 0060 3B       		.uleb128 0x3b
+ 455 0061 0B       		.uleb128 0xb
+ 456 0062 49       		.uleb128 0x49
+ 457 0063 13       		.uleb128 0x13
+ 458 0064 02       		.uleb128 0x2
+ 459 0065 17       		.uleb128 0x17
+ 460 0066 00       		.byte	0
+ 461 0067 00       		.byte	0
+ 462 0068 08       		.uleb128 0x8
+ 463 0069 898201   		.uleb128 0x4109
+ 464 006c 00       		.byte	0
+ 465 006d 11       		.uleb128 0x11
+ 466 006e 01       		.uleb128 0x1
+ 467 006f 31       		.uleb128 0x31
+ 468 0070 13       		.uleb128 0x13
+ 469 0071 00       		.byte	0
+ 470 0072 00       		.byte	0
+ 471 0073 09       		.uleb128 0x9
+ 472 0074 2E       		.uleb128 0x2e
+ 473 0075 01       		.byte	0x1
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccPwPl2r.s 			page 10
+
+
+ 474 0076 3F       		.uleb128 0x3f
+ 475 0077 19       		.uleb128 0x19
+ 476 0078 03       		.uleb128 0x3
+ 477 0079 0E       		.uleb128 0xe
+ 478 007a 3A       		.uleb128 0x3a
+ 479 007b 0B       		.uleb128 0xb
+ 480 007c 3B       		.uleb128 0x3b
+ 481 007d 0B       		.uleb128 0xb
+ 482 007e 27       		.uleb128 0x27
+ 483 007f 19       		.uleb128 0x19
+ 484 0080 49       		.uleb128 0x49
+ 485 0081 13       		.uleb128 0x13
+ 486 0082 11       		.uleb128 0x11
+ 487 0083 01       		.uleb128 0x1
+ 488 0084 12       		.uleb128 0x12
+ 489 0085 06       		.uleb128 0x6
+ 490 0086 40       		.uleb128 0x40
+ 491 0087 18       		.uleb128 0x18
+ 492 0088 9742     		.uleb128 0x2117
+ 493 008a 19       		.uleb128 0x19
+ 494 008b 01       		.uleb128 0x1
+ 495 008c 13       		.uleb128 0x13
+ 496 008d 00       		.byte	0
+ 497 008e 00       		.byte	0
+ 498 008f 0A       		.uleb128 0xa
+ 499 0090 05       		.uleb128 0x5
+ 500 0091 00       		.byte	0
+ 501 0092 03       		.uleb128 0x3
+ 502 0093 08       		.uleb128 0x8
+ 503 0094 3A       		.uleb128 0x3a
+ 504 0095 0B       		.uleb128 0xb
+ 505 0096 3B       		.uleb128 0x3b
+ 506 0097 0B       		.uleb128 0xb
+ 507 0098 49       		.uleb128 0x49
+ 508 0099 13       		.uleb128 0x13
+ 509 009a 02       		.uleb128 0x2
+ 510 009b 17       		.uleb128 0x17
+ 511 009c 00       		.byte	0
+ 512 009d 00       		.byte	0
+ 513 009e 0B       		.uleb128 0xb
+ 514 009f 34       		.uleb128 0x34
+ 515 00a0 00       		.byte	0
+ 516 00a1 03       		.uleb128 0x3
+ 517 00a2 0E       		.uleb128 0xe
+ 518 00a3 3A       		.uleb128 0x3a
+ 519 00a4 0B       		.uleb128 0xb
+ 520 00a5 3B       		.uleb128 0x3b
+ 521 00a6 0B       		.uleb128 0xb
+ 522 00a7 49       		.uleb128 0x49
+ 523 00a8 13       		.uleb128 0x13
+ 524 00a9 02       		.uleb128 0x2
+ 525 00aa 17       		.uleb128 0x17
+ 526 00ab 00       		.byte	0
+ 527 00ac 00       		.byte	0
+ 528 00ad 0C       		.uleb128 0xc
+ 529 00ae 34       		.uleb128 0x34
+ 530 00af 00       		.byte	0
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccPwPl2r.s 			page 11
+
+
+ 531 00b0 03       		.uleb128 0x3
+ 532 00b1 0E       		.uleb128 0xe
+ 533 00b2 3A       		.uleb128 0x3a
+ 534 00b3 0B       		.uleb128 0xb
+ 535 00b4 3B       		.uleb128 0x3b
+ 536 00b5 05       		.uleb128 0x5
+ 537 00b6 49       		.uleb128 0x49
+ 538 00b7 13       		.uleb128 0x13
+ 539 00b8 3F       		.uleb128 0x3f
+ 540 00b9 19       		.uleb128 0x19
+ 541 00ba 3C       		.uleb128 0x3c
+ 542 00bb 19       		.uleb128 0x19
+ 543 00bc 00       		.byte	0
+ 544 00bd 00       		.byte	0
+ 545 00be 0D       		.uleb128 0xd
+ 546 00bf 35       		.uleb128 0x35
+ 547 00c0 00       		.byte	0
+ 548 00c1 49       		.uleb128 0x49
+ 549 00c2 13       		.uleb128 0x13
+ 550 00c3 00       		.byte	0
+ 551 00c4 00       		.byte	0
+ 552 00c5 0E       		.uleb128 0xe
+ 553 00c6 01       		.uleb128 0x1
+ 554 00c7 01       		.byte	0x1
+ 555 00c8 49       		.uleb128 0x49
+ 556 00c9 13       		.uleb128 0x13
+ 557 00ca 01       		.uleb128 0x1
+ 558 00cb 13       		.uleb128 0x13
+ 559 00cc 00       		.byte	0
+ 560 00cd 00       		.byte	0
+ 561 00ce 0F       		.uleb128 0xf
+ 562 00cf 21       		.uleb128 0x21
+ 563 00d0 00       		.byte	0
+ 564 00d1 49       		.uleb128 0x49
+ 565 00d2 13       		.uleb128 0x13
+ 566 00d3 2F       		.uleb128 0x2f
+ 567 00d4 0B       		.uleb128 0xb
+ 568 00d5 00       		.byte	0
+ 569 00d6 00       		.byte	0
+ 570 00d7 10       		.uleb128 0x10
+ 571 00d8 34       		.uleb128 0x34
+ 572 00d9 00       		.byte	0
+ 573 00da 03       		.uleb128 0x3
+ 574 00db 0E       		.uleb128 0xe
+ 575 00dc 3A       		.uleb128 0x3a
+ 576 00dd 0B       		.uleb128 0xb
+ 577 00de 3B       		.uleb128 0x3b
+ 578 00df 0B       		.uleb128 0xb
+ 579 00e0 49       		.uleb128 0x49
+ 580 00e1 13       		.uleb128 0x13
+ 581 00e2 3F       		.uleb128 0x3f
+ 582 00e3 19       		.uleb128 0x19
+ 583 00e4 02       		.uleb128 0x2
+ 584 00e5 18       		.uleb128 0x18
+ 585 00e6 00       		.byte	0
+ 586 00e7 00       		.byte	0
+ 587 00e8 11       		.uleb128 0x11
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccPwPl2r.s 			page 12
+
+
+ 588 00e9 2E       		.uleb128 0x2e
+ 589 00ea 00       		.byte	0
+ 590 00eb 3F       		.uleb128 0x3f
+ 591 00ec 19       		.uleb128 0x19
+ 592 00ed 3C       		.uleb128 0x3c
+ 593 00ee 19       		.uleb128 0x19
+ 594 00ef 6E       		.uleb128 0x6e
+ 595 00f0 08       		.uleb128 0x8
+ 596 00f1 03       		.uleb128 0x3
+ 597 00f2 08       		.uleb128 0x8
+ 598 00f3 3A       		.uleb128 0x3a
+ 599 00f4 0B       		.uleb128 0xb
+ 600 00f5 3B       		.uleb128 0x3b
+ 601 00f6 0B       		.uleb128 0xb
+ 602 00f7 00       		.byte	0
+ 603 00f8 00       		.byte	0
+ 604 00f9 12       		.uleb128 0x12
+ 605 00fa 2E       		.uleb128 0x2e
+ 606 00fb 00       		.byte	0
+ 607 00fc 3F       		.uleb128 0x3f
+ 608 00fd 19       		.uleb128 0x19
+ 609 00fe 3C       		.uleb128 0x3c
+ 610 00ff 19       		.uleb128 0x19
+ 611 0100 6E       		.uleb128 0x6e
+ 612 0101 0E       		.uleb128 0xe
+ 613 0102 03       		.uleb128 0x3
+ 614 0103 0E       		.uleb128 0xe
+ 615 0104 3A       		.uleb128 0x3a
+ 616 0105 0B       		.uleb128 0xb
+ 617 0106 3B       		.uleb128 0x3b
+ 618 0107 0B       		.uleb128 0xb
+ 619 0108 00       		.byte	0
+ 620 0109 00       		.byte	0
+ 621 010a 00       		.byte	0
+ 622              		.section	.debug_loc,"",%progbits
+ 623              	.Ldebug_loc0:
+ 624              	.LLST0:
+ 625 0000 02000000 		.4byte	.LVL0
+ 626 0004 06000000 		.4byte	.LVL1
+ 627 0008 0200     		.2byte	0x2
+ 628 000a 30       		.byte	0x30
+ 629 000b 9F       		.byte	0x9f
+ 630 000c 06000000 		.4byte	.LVL1
+ 631 0010 36000000 		.4byte	.LVL7
+ 632 0014 0100     		.2byte	0x1
+ 633 0016 54       		.byte	0x54
+ 634 0017 00000000 		.4byte	0
+ 635 001b 00000000 		.4byte	0
+ 636              	.LLST1:
+ 637 001f 00000000 		.4byte	.LVL9
+ 638 0023 08000000 		.4byte	.LVL10
+ 639 0027 0100     		.2byte	0x1
+ 640 0029 50       		.byte	0x50
+ 641 002a 08000000 		.4byte	.LVL10
+ 642 002e 34000000 		.4byte	.LFE65
+ 643 0032 0400     		.2byte	0x4
+ 644 0034 F3       		.byte	0xf3
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccPwPl2r.s 			page 13
+
+
+ 645 0035 01       		.uleb128 0x1
+ 646 0036 50       		.byte	0x50
+ 647 0037 9F       		.byte	0x9f
+ 648 0038 00000000 		.4byte	0
+ 649 003c 00000000 		.4byte	0
+ 650              	.LLST2:
+ 651 0040 1E000000 		.4byte	.LVL13
+ 652 0044 26000000 		.4byte	.LVL15
+ 653 0048 0100     		.2byte	0x1
+ 654 004a 50       		.byte	0x50
+ 655 004b 00000000 		.4byte	0
+ 656 004f 00000000 		.4byte	0
+ 657              		.section	.debug_aranges,"",%progbits
+ 658 0000 2C000000 		.4byte	0x2c
+ 659 0004 0200     		.2byte	0x2
+ 660 0006 00000000 		.4byte	.Ldebug_info0
+ 661 000a 04       		.byte	0x4
+ 662 000b 00       		.byte	0
+ 663 000c 0000     		.2byte	0
+ 664 000e 0000     		.2byte	0
+ 665 0010 00000000 		.4byte	.LFB63
+ 666 0014 4C000000 		.4byte	.LFE63-.LFB63
+ 667 0018 00000000 		.4byte	.LFB64
+ 668 001c 0C000000 		.4byte	.LFE64-.LFB64
+ 669 0020 00000000 		.4byte	.LFB65
+ 670 0024 34000000 		.4byte	.LFE65-.LFB65
+ 671 0028 00000000 		.4byte	0
+ 672 002c 00000000 		.4byte	0
+ 673              		.section	.debug_ranges,"",%progbits
+ 674              	.Ldebug_ranges0:
+ 675 0000 00000000 		.4byte	.LFB63
+ 676 0004 4C000000 		.4byte	.LFE63
+ 677 0008 00000000 		.4byte	.LFB64
+ 678 000c 0C000000 		.4byte	.LFE64
+ 679 0010 00000000 		.4byte	.LFB65
+ 680 0014 34000000 		.4byte	.LFE65
+ 681 0018 00000000 		.4byte	0
+ 682 001c 00000000 		.4byte	0
+ 683              		.section	.debug_line,"",%progbits
+ 684              	.Ldebug_line0:
+ 685 0000 1B020000 		.section	.debug_str,"MS",%progbits,1
+ 685      0200CE01 
+ 685      00000201 
+ 685      FB0E0D00 
+ 685      01010101 
+ 686              	.LASF25:
+ 687 0000 433A5C55 		.ascii	"C:\\Users\\laure\\OneDrive\\Documents\\PSoC Creator"
+ 687      73657273 
+ 687      5C6C6175 
+ 687      72655C4F 
+ 687      6E654472 
+ 688 002e 5C50536F 		.ascii	"\\PSoC 5LP\\FirstLab.cydsn\000"
+ 688      4320354C 
+ 688      505C4669 
+ 688      7273744C 
+ 688      61622E63 
+ 689              	.LASF9:
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccPwPl2r.s 			page 14
+
+
+ 690 0047 5F5F696E 		.ascii	"__int32_t\000"
+ 690      7433325F 
+ 690      7400
+ 691              	.LASF21:
+ 692 0051 54696D65 		.ascii	"Timer_ReadStatusRegister\000"
+ 692      725F5265 
+ 692      61645374 
+ 692      61747573 
+ 692      52656769 
+ 693              	.LASF11:
+ 694 006a 666C6F61 		.ascii	"float\000"
+ 694      7400
+ 695              	.LASF1:
+ 696 0070 756E7369 		.ascii	"unsigned char\000"
+ 696      676E6564 
+ 696      20636861 
+ 696      7200
+ 697              	.LASF23:
+ 698 007e 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 698      43313120 
+ 698      352E342E 
+ 698      31203230 
+ 698      31363036 
+ 699 00b1 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 699      20726576 
+ 699      6973696F 
+ 699      6E203233 
+ 699      37373135 
+ 700 00e4 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 700      66756E63 
+ 700      74696F6E 
+ 700      2D736563 
+ 700      74696F6E 
+ 701              	.LASF5:
+ 702 010c 6C6F6E67 		.ascii	"long unsigned int\000"
+ 702      20756E73 
+ 702      69676E65 
+ 702      6420696E 
+ 702      7400
+ 703              	.LASF16:
+ 704 011e 696E6974 		.ascii	"initVector\000"
+ 704      56656374 
+ 704      6F7200
+ 705              	.LASF3:
+ 706 0129 73686F72 		.ascii	"short unsigned int\000"
+ 706      7420756E 
+ 706      7369676E 
+ 706      65642069 
+ 706      6E7400
+ 707              	.LASF19:
+ 708 013c 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 708      52784275 
+ 708      66666572 
+ 708      00
+ 709              	.LASF12:
+ 710 0149 646F7562 		.ascii	"double\000"
+ 710      6C6500
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccPwPl2r.s 			page 15
+
+
+ 711              	.LASF26:
+ 712 0150 67657454 		.ascii	"getTC\000"
+ 712      4300
+ 713              	.LASF24:
+ 714 0156 736F756E 		.ascii	"soundhandler.c\000"
+ 714      6468616E 
+ 714      646C6572 
+ 714      2E6300
+ 715              	.LASF8:
+ 716 0165 756E7369 		.ascii	"unsigned int\000"
+ 716      676E6564 
+ 716      20696E74 
+ 716      00
+ 717              	.LASF7:
+ 718 0172 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 718      206C6F6E 
+ 718      6720756E 
+ 718      7369676E 
+ 718      65642069 
+ 719              	.LASF18:
+ 720 0189 72657375 		.ascii	"result\000"
+ 720      6C7400
+ 721              	.LASF10:
+ 722 0190 696E7433 		.ascii	"int32_t\000"
+ 722      325F7400 
+ 723              	.LASF15:
+ 724 0198 73697A65 		.ascii	"sizetype\000"
+ 724      74797065 
+ 724      00
+ 725              	.LASF6:
+ 726 01a1 6C6F6E67 		.ascii	"long long int\000"
+ 726      206C6F6E 
+ 726      6720696E 
+ 726      7400
+ 727              	.LASF20:
+ 728 01af 76656374 		.ascii	"vector\000"
+ 728      6F7200
+ 729              	.LASF13:
+ 730 01b6 63686172 		.ascii	"char\000"
+ 730      00
+ 731              	.LASF22:
+ 732 01bb 56444143 		.ascii	"VDAC_SetValue\000"
+ 732      5F536574 
+ 732      56616C75 
+ 732      6500
+ 733              	.LASF17:
+ 734 01c9 73657456 		.ascii	"setVDACvalue\000"
+ 734      44414376 
+ 734      616C7565 
+ 734      00
+ 735              	.LASF2:
+ 736 01d6 73686F72 		.ascii	"short int\000"
+ 736      7420696E 
+ 736      7400
+ 737              	.LASF4:
+ 738 01e0 6C6F6E67 		.ascii	"long int\000"
+ 738      20696E74 
+ARM GAS  C:\Users\laure\AppData\Local\Temp\ccPwPl2r.s 			page 16
+
+
+ 738      00
+ 739              	.LASF14:
+ 740 01e9 6C6F6E67 		.ascii	"long double\000"
+ 740      20646F75 
+ 740      626C6500 
+ 741              	.LASF0:
+ 742 01f5 7369676E 		.ascii	"signed char\000"
+ 742      65642063 
+ 742      68617200 
+ 743              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

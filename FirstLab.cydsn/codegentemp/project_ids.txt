@@ -1,0 +1,7 @@
+C:\Users\laure\OneDrive\Documents\PSoC Creator\PSoC 5LP\FirstLab.cydsn\FirstLab.cyprj|08e42e5b-8bf1-4603-9904-0002a57b1c1b
+C:\Program Files (x86)\Cypress\PSoC Creator\4.3\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|3c9f5a7e-20f5-4cd6-b4f4-7f626f5c7366
+C:\Users\laure\OneDrive\Documents\PSoC Creator\4.3\Downloads ( 4.3).cylib\Downloads ( 4.3).cyprj|19ff578c-d9fc-404a-8065-60554f35a536
+C:\Program Files (x86)\Cypress\PSoC Creator\4.3\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|1bec2efd-07ad-489b-8658-75657571b8a1
+C:\Program Files (x86)\Cypress\PSoC Creator\4.3\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|f1d57af9-abe5-4de3-ad25-15d5f8f17e07
+C:\Program Files (x86)\Cypress\PSoC Creator\4.3\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|37e97a8e-e0bf-4cd1-8b15-3f9d5fb3a9a1
+C:\Users\laure\OneDrive\Documents\PSoC Creator\PSoC 5LP\TestInterrupt.cydsn\TestInterrupt.cyprj|7dd25301-67e1-4b45-9984-a75b5f7dfc3a

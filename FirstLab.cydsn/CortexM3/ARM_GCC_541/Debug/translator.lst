@@ -1,0 +1,2373 @@
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"translator.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.charToMorse,"ax",%progbits
+  20              		.align	2
+  21              		.global	charToMorse
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	charToMorse, %function
+  25              	charToMorse:
+  26              	.LFB64:
+  27              		.file 1 "translator.c"
+   1:translator.c  **** /* ========================================
+   2:translator.c  ****  *
+   3:translator.c  ****  * Copyright YOUR COMPANY, THE YEAR
+   4:translator.c  ****  * All Rights Reserved
+   5:translator.c  ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:translator.c  ****  *
+   7:translator.c  ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:translator.c  ****  * WHICH IS THE PROPERTY OF your company.
+   9:translator.c  ****  *
+  10:translator.c  ****  * ========================================
+  11:translator.c  **** */
+  12:translator.c  **** 
+  13:translator.c  **** #include "project.h"
+  14:translator.c  **** #include "translator.h"
+  15:translator.c  **** 
+  16:translator.c  **** char* msgToMorse(char msg[]) {
+  17:translator.c  ****     
+  18:translator.c  ****     const int LENGTH = strlen(msg);
+  19:translator.c  ****     
+  20:translator.c  ****     char translation[LENGTH*7]; // the maximal numbers of characters
+  21:translator.c  ****                                 // needed to representent any character
+  22:translator.c  ****                                 // in morse code is 7
+  23:translator.c  **** 
+  24:translator.c  ****     strcpy(translation, "");
+  25:translator.c  ****     
+  26:translator.c  ****     for (int i = 0; i < LENGTH; i++)
+  27:translator.c  ****     {
+  28:translator.c  ****         char* code = charToMorse( msg[i] );
+  29:translator.c  ****         
+  30:translator.c  ****         strcat(translation, code);
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 2
+
+
+  31:translator.c  ****         strcat(translation, " ");
+  32:translator.c  ****         
+  33:translator.c  ****     }
+  34:translator.c  ****     
+  35:translator.c  ****     strcat(translation, "\0"); // null character means end of string
+  36:translator.c  ****     char* morse = translation;
+  37:translator.c  ****     
+  38:translator.c  ****     return morse;
+  39:translator.c  **** }
+  40:translator.c  **** 
+  41:translator.c  **** char* charToMorse(char c) {
+  28              		.loc 1 41 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33              	.LVL0:
+  42:translator.c  ****     
+  43:translator.c  ****     char* code = "";
+  44:translator.c  ****     
+  45:translator.c  ****     switch (c)
+  34              		.loc 1 45 0
+  35 0000 2038     		subs	r0, r0, #32
+  36              	.LVL1:
+  37 0002 5A28     		cmp	r0, #90
+  38 0004 5CD8     		bhi	.L2
+  39 0006 DFE810F0 		tbh	[pc, r0, lsl #1]
+  40              	.L4:
+  41 000a C900     		.2byte	(.L59-.L4)/2
+  42 000c AD00     		.2byte	(.L5-.L4)/2
+  43 000e C300     		.2byte	(.L6-.L4)/2
+  44 0010 5B00     		.2byte	(.L2-.L4)/2
+  45 0012 C500     		.2byte	(.L7-.L4)/2
+  46 0014 5B00     		.2byte	(.L2-.L4)/2
+  47 0016 B500     		.2byte	(.L8-.L4)/2
+  48 0018 AB00     		.2byte	(.L9-.L4)/2
+  49 001a B100     		.2byte	(.L10-.L4)/2
+  50 001c B300     		.2byte	(.L11-.L4)/2
+  51 001e 5B00     		.2byte	(.L2-.L4)/2
+  52 0020 BD00     		.2byte	(.L12-.L4)/2
+  53 0022 A700     		.2byte	(.L13-.L4)/2
+  54 0024 BF00     		.2byte	(.L14-.L4)/2
+  55 0026 A500     		.2byte	(.L15-.L4)/2
+  56 0028 AF00     		.2byte	(.L16-.L4)/2
+  57 002a 9100     		.2byte	(.L17-.L4)/2
+  58 002c 9300     		.2byte	(.L18-.L4)/2
+  59 002e 9500     		.2byte	(.L19-.L4)/2
+  60 0030 9700     		.2byte	(.L20-.L4)/2
+  61 0032 9900     		.2byte	(.L21-.L4)/2
+  62 0034 9B00     		.2byte	(.L22-.L4)/2
+  63 0036 9D00     		.2byte	(.L23-.L4)/2
+  64 0038 9F00     		.2byte	(.L24-.L4)/2
+  65 003a A100     		.2byte	(.L25-.L4)/2
+  66 003c A300     		.2byte	(.L26-.L4)/2
+  67 003e B700     		.2byte	(.L27-.L4)/2
+  68 0040 B900     		.2byte	(.L28-.L4)/2
+  69 0042 5B00     		.2byte	(.L2-.L4)/2
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 3
+
+
+  70 0044 BB00     		.2byte	(.L29-.L4)/2
+  71 0046 5B00     		.2byte	(.L2-.L4)/2
+  72 0048 A900     		.2byte	(.L30-.L4)/2
+  73 004a C700     		.2byte	(.L31-.L4)/2
+  74 004c 5D00     		.2byte	(.L32-.L4)/2
+  75 004e 5F00     		.2byte	(.L33-.L4)/2
+  76 0050 6100     		.2byte	(.L34-.L4)/2
+  77 0052 6300     		.2byte	(.L35-.L4)/2
+  78 0054 6500     		.2byte	(.L36-.L4)/2
+  79 0056 6700     		.2byte	(.L37-.L4)/2
+  80 0058 6900     		.2byte	(.L38-.L4)/2
+  81 005a 6B00     		.2byte	(.L39-.L4)/2
+  82 005c 6D00     		.2byte	(.L40-.L4)/2
+  83 005e 6F00     		.2byte	(.L41-.L4)/2
+  84 0060 7100     		.2byte	(.L42-.L4)/2
+  85 0062 7300     		.2byte	(.L43-.L4)/2
+  86 0064 7500     		.2byte	(.L44-.L4)/2
+  87 0066 7700     		.2byte	(.L45-.L4)/2
+  88 0068 7900     		.2byte	(.L46-.L4)/2
+  89 006a 7B00     		.2byte	(.L47-.L4)/2
+  90 006c 7D00     		.2byte	(.L48-.L4)/2
+  91 006e 7F00     		.2byte	(.L49-.L4)/2
+  92 0070 8100     		.2byte	(.L50-.L4)/2
+  93 0072 8300     		.2byte	(.L51-.L4)/2
+  94 0074 8500     		.2byte	(.L52-.L4)/2
+  95 0076 8700     		.2byte	(.L53-.L4)/2
+  96 0078 8900     		.2byte	(.L54-.L4)/2
+  97 007a 8B00     		.2byte	(.L55-.L4)/2
+  98 007c 8D00     		.2byte	(.L56-.L4)/2
+  99 007e 8F00     		.2byte	(.L57-.L4)/2
+ 100 0080 5B00     		.2byte	(.L2-.L4)/2
+ 101 0082 5B00     		.2byte	(.L2-.L4)/2
+ 102 0084 5B00     		.2byte	(.L2-.L4)/2
+ 103 0086 5B00     		.2byte	(.L2-.L4)/2
+ 104 0088 C100     		.2byte	(.L58-.L4)/2
+ 105 008a 5B00     		.2byte	(.L2-.L4)/2
+ 106 008c 5D00     		.2byte	(.L32-.L4)/2
+ 107 008e 5F00     		.2byte	(.L33-.L4)/2
+ 108 0090 6100     		.2byte	(.L34-.L4)/2
+ 109 0092 6300     		.2byte	(.L35-.L4)/2
+ 110 0094 6500     		.2byte	(.L36-.L4)/2
+ 111 0096 6700     		.2byte	(.L37-.L4)/2
+ 112 0098 6900     		.2byte	(.L38-.L4)/2
+ 113 009a 6B00     		.2byte	(.L39-.L4)/2
+ 114 009c 6D00     		.2byte	(.L40-.L4)/2
+ 115 009e 6F00     		.2byte	(.L41-.L4)/2
+ 116 00a0 7100     		.2byte	(.L42-.L4)/2
+ 117 00a2 7300     		.2byte	(.L43-.L4)/2
+ 118 00a4 7500     		.2byte	(.L44-.L4)/2
+ 119 00a6 7700     		.2byte	(.L45-.L4)/2
+ 120 00a8 7900     		.2byte	(.L46-.L4)/2
+ 121 00aa 7B00     		.2byte	(.L47-.L4)/2
+ 122 00ac 7D00     		.2byte	(.L48-.L4)/2
+ 123 00ae 7F00     		.2byte	(.L49-.L4)/2
+ 124 00b0 8100     		.2byte	(.L50-.L4)/2
+ 125 00b2 8300     		.2byte	(.L51-.L4)/2
+ 126 00b4 8500     		.2byte	(.L52-.L4)/2
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 4
+
+
+ 127 00b6 8700     		.2byte	(.L53-.L4)/2
+ 128 00b8 8900     		.2byte	(.L54-.L4)/2
+ 129 00ba 8B00     		.2byte	(.L55-.L4)/2
+ 130 00bc 8D00     		.2byte	(.L56-.L4)/2
+ 131 00be 8F00     		.2byte	(.L57-.L4)/2
+ 132              		.p2align 1
+ 133              	.L2:
+  43:translator.c  ****     
+ 134              		.loc 1 43 0
+ 135 00c0 3748     		ldr	r0, .L60
+ 136 00c2 7047     		bx	lr
+ 137              	.L32:
+ 138              	.LVL2:
+  46:translator.c  ****     {
+  47:translator.c  ****         /* space */
+  48:translator.c  ****         case ' ':
+  49:translator.c  ****             code = " / ";
+  50:translator.c  ****             break;
+  51:translator.c  ****         
+  52:translator.c  ****         /* all letters of the latin alphabet */
+  53:translator.c  ****         case 'a':
+  54:translator.c  ****         case 'A':
+  55:translator.c  ****             code = ".-";
+ 139              		.loc 1 55 0
+ 140 00c4 3748     		ldr	r0, .L60+4
+  56:translator.c  ****             break;
+ 141              		.loc 1 56 0
+ 142 00c6 7047     		bx	lr
+ 143              	.LVL3:
+ 144              	.L33:
+  57:translator.c  ****         case 'b':
+  58:translator.c  ****         case 'B':
+  59:translator.c  ****             code = "-...";
+ 145              		.loc 1 59 0
+ 146 00c8 3748     		ldr	r0, .L60+8
+  60:translator.c  ****             break;
+ 147              		.loc 1 60 0
+ 148 00ca 7047     		bx	lr
+ 149              	.LVL4:
+ 150              	.L34:
+  61:translator.c  ****         case 'c':
+  62:translator.c  ****         case 'C':
+  63:translator.c  ****             code = "-.-.";
+ 151              		.loc 1 63 0
+ 152 00cc 3748     		ldr	r0, .L60+12
+  64:translator.c  ****             break;
+ 153              		.loc 1 64 0
+ 154 00ce 7047     		bx	lr
+ 155              	.LVL5:
+ 156              	.L35:
+  65:translator.c  ****         case 'd':
+  66:translator.c  ****         case 'D':
+  67:translator.c  ****             code = "-..";
+ 157              		.loc 1 67 0
+ 158 00d0 3748     		ldr	r0, .L60+16
+  68:translator.c  ****             break;
+ 159              		.loc 1 68 0
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 5
+
+
+ 160 00d2 7047     		bx	lr
+ 161              	.LVL6:
+ 162              	.L36:
+  69:translator.c  ****         case 'e':
+  70:translator.c  ****         case 'E':
+  71:translator.c  ****             code = ".";
+ 163              		.loc 1 71 0
+ 164 00d4 3748     		ldr	r0, .L60+20
+  72:translator.c  ****             break;
+ 165              		.loc 1 72 0
+ 166 00d6 7047     		bx	lr
+ 167              	.LVL7:
+ 168              	.L37:
+  73:translator.c  ****         case 'f':
+  74:translator.c  ****         case 'F':
+  75:translator.c  ****             code = "..-.";
+ 169              		.loc 1 75 0
+ 170 00d8 3748     		ldr	r0, .L60+24
+  76:translator.c  ****             break;
+ 171              		.loc 1 76 0
+ 172 00da 7047     		bx	lr
+ 173              	.LVL8:
+ 174              	.L38:
+  77:translator.c  ****         case 'g':
+  78:translator.c  ****         case 'G':
+  79:translator.c  ****             code = "--.";
+ 175              		.loc 1 79 0
+ 176 00dc 3748     		ldr	r0, .L60+28
+  80:translator.c  ****             break;
+ 177              		.loc 1 80 0
+ 178 00de 7047     		bx	lr
+ 179              	.LVL9:
+ 180              	.L39:
+  81:translator.c  ****         case 'h':
+  82:translator.c  ****         case 'H':
+  83:translator.c  ****             code = "....";
+ 181              		.loc 1 83 0
+ 182 00e0 3748     		ldr	r0, .L60+32
+  84:translator.c  ****             break;
+ 183              		.loc 1 84 0
+ 184 00e2 7047     		bx	lr
+ 185              	.LVL10:
+ 186              	.L40:
+  85:translator.c  ****         case 'i':
+  86:translator.c  ****         case 'I':
+  87:translator.c  ****             code = "..";
+ 187              		.loc 1 87 0
+ 188 00e4 3748     		ldr	r0, .L60+36
+  88:translator.c  ****             break;
+ 189              		.loc 1 88 0
+ 190 00e6 7047     		bx	lr
+ 191              	.LVL11:
+ 192              	.L41:
+  89:translator.c  ****         case 'j':
+  90:translator.c  ****         case 'J':
+  91:translator.c  ****             code = ".---";
+ 193              		.loc 1 91 0
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 6
+
+
+ 194 00e8 3748     		ldr	r0, .L60+40
+  92:translator.c  ****             break;
+ 195              		.loc 1 92 0
+ 196 00ea 7047     		bx	lr
+ 197              	.LVL12:
+ 198              	.L42:
+  93:translator.c  ****         case 'k':
+  94:translator.c  ****         case 'K':
+  95:translator.c  ****             code = "-.-";
+ 199              		.loc 1 95 0
+ 200 00ec 3748     		ldr	r0, .L60+44
+  96:translator.c  ****             break;
+ 201              		.loc 1 96 0
+ 202 00ee 7047     		bx	lr
+ 203              	.LVL13:
+ 204              	.L43:
+  97:translator.c  ****         case 'l':
+  98:translator.c  ****         case 'L':
+  99:translator.c  ****             code = ".-..";
+ 205              		.loc 1 99 0
+ 206 00f0 3748     		ldr	r0, .L60+48
+ 100:translator.c  ****             break;
+ 207              		.loc 1 100 0
+ 208 00f2 7047     		bx	lr
+ 209              	.LVL14:
+ 210              	.L44:
+ 101:translator.c  ****         case 'm':
+ 102:translator.c  ****         case 'M':
+ 103:translator.c  ****             code = "--";
+ 211              		.loc 1 103 0
+ 212 00f4 3748     		ldr	r0, .L60+52
+ 104:translator.c  ****             break;
+ 213              		.loc 1 104 0
+ 214 00f6 7047     		bx	lr
+ 215              	.LVL15:
+ 216              	.L45:
+ 105:translator.c  ****         case 'n':
+ 106:translator.c  ****         case 'N':
+ 107:translator.c  ****             code = "-.";
+ 217              		.loc 1 107 0
+ 218 00f8 3748     		ldr	r0, .L60+56
+ 108:translator.c  ****             break;
+ 219              		.loc 1 108 0
+ 220 00fa 7047     		bx	lr
+ 221              	.LVL16:
+ 222              	.L46:
+ 109:translator.c  ****         case 'o':
+ 110:translator.c  ****         case 'O':
+ 111:translator.c  ****             code = "---";
+ 223              		.loc 1 111 0
+ 224 00fc 3748     		ldr	r0, .L60+60
+ 112:translator.c  ****             break;
+ 225              		.loc 1 112 0
+ 226 00fe 7047     		bx	lr
+ 227              	.LVL17:
+ 228              	.L47:
+ 113:translator.c  ****         case 'p':
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 7
+
+
+ 114:translator.c  ****         case 'P':
+ 115:translator.c  ****             code = ".--.";
+ 229              		.loc 1 115 0
+ 230 0100 3748     		ldr	r0, .L60+64
+ 116:translator.c  ****             break;
+ 231              		.loc 1 116 0
+ 232 0102 7047     		bx	lr
+ 233              	.LVL18:
+ 234              	.L48:
+ 117:translator.c  ****         case 'q':
+ 118:translator.c  ****         case 'Q':
+ 119:translator.c  ****             code = "--.-";
+ 235              		.loc 1 119 0
+ 236 0104 3748     		ldr	r0, .L60+68
+ 120:translator.c  ****             break;
+ 237              		.loc 1 120 0
+ 238 0106 7047     		bx	lr
+ 239              	.LVL19:
+ 240              	.L49:
+ 121:translator.c  ****         case 'r':
+ 122:translator.c  ****         case 'R':
+ 123:translator.c  ****             code = ".-.";
+ 241              		.loc 1 123 0
+ 242 0108 3748     		ldr	r0, .L60+72
+ 124:translator.c  ****             break;
+ 243              		.loc 1 124 0
+ 244 010a 7047     		bx	lr
+ 245              	.LVL20:
+ 246              	.L50:
+ 125:translator.c  ****         case 's':
+ 126:translator.c  ****         case 'S':
+ 127:translator.c  ****             code = "...";
+ 247              		.loc 1 127 0
+ 248 010c 3748     		ldr	r0, .L60+76
+ 128:translator.c  ****             break;
+ 249              		.loc 1 128 0
+ 250 010e 7047     		bx	lr
+ 251              	.LVL21:
+ 252              	.L51:
+ 129:translator.c  ****         case 't':
+ 130:translator.c  ****         case 'T':
+ 131:translator.c  ****             code = "-";
+ 253              		.loc 1 131 0
+ 254 0110 3748     		ldr	r0, .L60+80
+ 132:translator.c  ****             break;
+ 255              		.loc 1 132 0
+ 256 0112 7047     		bx	lr
+ 257              	.LVL22:
+ 258              	.L52:
+ 133:translator.c  ****         case 'u':
+ 134:translator.c  ****         case 'U':
+ 135:translator.c  ****             code = "..-";
+ 259              		.loc 1 135 0
+ 260 0114 3748     		ldr	r0, .L60+84
+ 136:translator.c  ****             break;
+ 261              		.loc 1 136 0
+ 262 0116 7047     		bx	lr
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 8
+
+
+ 263              	.LVL23:
+ 264              	.L53:
+ 137:translator.c  ****         case 'v':
+ 138:translator.c  ****         case 'V':
+ 139:translator.c  ****             code = "...-";
+ 265              		.loc 1 139 0
+ 266 0118 3748     		ldr	r0, .L60+88
+ 140:translator.c  ****             break;
+ 267              		.loc 1 140 0
+ 268 011a 7047     		bx	lr
+ 269              	.LVL24:
+ 270              	.L54:
+ 141:translator.c  ****         case 'w':
+ 142:translator.c  ****         case 'W':
+ 143:translator.c  ****             code = ".--";
+ 271              		.loc 1 143 0
+ 272 011c 3748     		ldr	r0, .L60+92
+ 144:translator.c  ****             break;
+ 273              		.loc 1 144 0
+ 274 011e 7047     		bx	lr
+ 275              	.LVL25:
+ 276              	.L55:
+ 145:translator.c  ****         case 'x':
+ 146:translator.c  ****         case 'X':
+ 147:translator.c  ****             code = "-..-";
+ 277              		.loc 1 147 0
+ 278 0120 3748     		ldr	r0, .L60+96
+ 148:translator.c  ****             break;
+ 279              		.loc 1 148 0
+ 280 0122 7047     		bx	lr
+ 281              	.LVL26:
+ 282              	.L56:
+ 149:translator.c  ****         case 'y':
+ 150:translator.c  ****         case 'Y':
+ 151:translator.c  ****             code = "-.--";
+ 283              		.loc 1 151 0
+ 284 0124 3748     		ldr	r0, .L60+100
+ 152:translator.c  ****             break;
+ 285              		.loc 1 152 0
+ 286 0126 7047     		bx	lr
+ 287              	.LVL27:
+ 288              	.L57:
+ 153:translator.c  ****         case 'z':
+ 154:translator.c  ****         case 'Z':
+ 155:translator.c  ****             code = "--..";
+ 289              		.loc 1 155 0
+ 290 0128 3748     		ldr	r0, .L60+104
+ 156:translator.c  ****             break;
+ 291              		.loc 1 156 0
+ 292 012a 7047     		bx	lr
+ 293              	.LVL28:
+ 294              	.L17:
+ 157:translator.c  ****         
+ 158:translator.c  ****         /* numbers */
+ 159:translator.c  ****         case '0':
+ 160:translator.c  ****             code = "-----";
+ 295              		.loc 1 160 0
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 9
+
+
+ 296 012c 3748     		ldr	r0, .L60+108
+ 161:translator.c  ****             break;
+ 297              		.loc 1 161 0
+ 298 012e 7047     		bx	lr
+ 299              	.LVL29:
+ 300              	.L18:
+ 162:translator.c  ****         case '1':
+ 163:translator.c  ****             code = ".----";
+ 301              		.loc 1 163 0
+ 302 0130 3748     		ldr	r0, .L60+112
+ 164:translator.c  ****             break;
+ 303              		.loc 1 164 0
+ 304 0132 7047     		bx	lr
+ 305              	.LVL30:
+ 306              	.L19:
+ 165:translator.c  ****         case '2':
+ 166:translator.c  ****             code = "..---";
+ 307              		.loc 1 166 0
+ 308 0134 3748     		ldr	r0, .L60+116
+ 167:translator.c  ****             break;
+ 309              		.loc 1 167 0
+ 310 0136 7047     		bx	lr
+ 311              	.LVL31:
+ 312              	.L20:
+ 168:translator.c  ****         case '3':
+ 169:translator.c  ****             code = "...--";
+ 313              		.loc 1 169 0
+ 314 0138 3748     		ldr	r0, .L60+120
+ 170:translator.c  ****             break;
+ 315              		.loc 1 170 0
+ 316 013a 7047     		bx	lr
+ 317              	.LVL32:
+ 318              	.L21:
+ 171:translator.c  ****         case '4':
+ 172:translator.c  ****             code = "....-";
+ 319              		.loc 1 172 0
+ 320 013c 3748     		ldr	r0, .L60+124
+ 173:translator.c  ****             break;
+ 321              		.loc 1 173 0
+ 322 013e 7047     		bx	lr
+ 323              	.LVL33:
+ 324              	.L22:
+ 174:translator.c  ****         case '5':
+ 175:translator.c  ****             code = ".....";
+ 325              		.loc 1 175 0
+ 326 0140 3748     		ldr	r0, .L60+128
+ 176:translator.c  ****             break;
+ 327              		.loc 1 176 0
+ 328 0142 7047     		bx	lr
+ 329              	.LVL34:
+ 330              	.L23:
+ 177:translator.c  ****         case '6':
+ 178:translator.c  ****             code = "-....";
+ 331              		.loc 1 178 0
+ 332 0144 3748     		ldr	r0, .L60+132
+ 179:translator.c  ****             break;
+ 333              		.loc 1 179 0
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 10
+
+
+ 334 0146 7047     		bx	lr
+ 335              	.LVL35:
+ 336              	.L24:
+ 180:translator.c  ****         case '7':
+ 181:translator.c  ****             code = "--...";
+ 337              		.loc 1 181 0
+ 338 0148 3748     		ldr	r0, .L60+136
+ 182:translator.c  ****             break;
+ 339              		.loc 1 182 0
+ 340 014a 7047     		bx	lr
+ 341              	.LVL36:
+ 342              	.L25:
+ 183:translator.c  ****         case '8':
+ 184:translator.c  ****             code = "---..";
+ 343              		.loc 1 184 0
+ 344 014c 3748     		ldr	r0, .L60+140
+ 185:translator.c  ****             break;
+ 345              		.loc 1 185 0
+ 346 014e 7047     		bx	lr
+ 347              	.LVL37:
+ 348              	.L26:
+ 186:translator.c  ****         case '9':
+ 187:translator.c  ****             code = "----.";
+ 349              		.loc 1 187 0
+ 350 0150 3748     		ldr	r0, .L60+144
+ 188:translator.c  ****             break;
+ 351              		.loc 1 188 0
+ 352 0152 7047     		bx	lr
+ 353              	.LVL38:
+ 354              	.L15:
+ 189:translator.c  ****         
+ 190:translator.c  ****         /* symbols */
+ 191:translator.c  ****         case '.':
+ 192:translator.c  ****             code = ".-.-.-";
+ 355              		.loc 1 192 0
+ 356 0154 3748     		ldr	r0, .L60+148
+ 193:translator.c  ****             break;
+ 357              		.loc 1 193 0
+ 358 0156 7047     		bx	lr
+ 359              	.LVL39:
+ 360              	.L13:
+ 194:translator.c  ****         case ',':
+ 195:translator.c  ****             code = "--..--";
+ 361              		.loc 1 195 0
+ 362 0158 3748     		ldr	r0, .L60+152
+ 196:translator.c  ****             break;
+ 363              		.loc 1 196 0
+ 364 015a 7047     		bx	lr
+ 365              	.LVL40:
+ 366              	.L30:
+ 197:translator.c  ****         case '?':
+ 198:translator.c  ****             code = "..--..";
+ 367              		.loc 1 198 0
+ 368 015c 3748     		ldr	r0, .L60+156
+ 199:translator.c  ****             break;
+ 369              		.loc 1 199 0
+ 370 015e 7047     		bx	lr
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 11
+
+
+ 371              	.LVL41:
+ 372              	.L9:
+ 200:translator.c  ****         case '\'':
+ 201:translator.c  ****             code = ".----.";
+ 373              		.loc 1 201 0
+ 374 0160 3748     		ldr	r0, .L60+160
+ 202:translator.c  ****             break;
+ 375              		.loc 1 202 0
+ 376 0162 7047     		bx	lr
+ 377              	.LVL42:
+ 378              	.L5:
+ 203:translator.c  ****         case '!':
+ 204:translator.c  ****             code = "-.-.-----.";
+ 379              		.loc 1 204 0
+ 380 0164 3748     		ldr	r0, .L60+164
+ 205:translator.c  ****             break;
+ 381              		.loc 1 205 0
+ 382 0166 7047     		bx	lr
+ 383              	.LVL43:
+ 384              	.L16:
+ 206:translator.c  ****         case '/':
+ 207:translator.c  ****             code = "-..-.";
+ 385              		.loc 1 207 0
+ 386 0168 3748     		ldr	r0, .L60+168
+ 208:translator.c  ****             break;
+ 387              		.loc 1 208 0
+ 388 016a 7047     		bx	lr
+ 389              	.LVL44:
+ 390              	.L10:
+ 209:translator.c  ****         case '(':
+ 210:translator.c  ****             code = "-.--.";
+ 391              		.loc 1 210 0
+ 392 016c 3748     		ldr	r0, .L60+172
+ 211:translator.c  ****             break;
+ 393              		.loc 1 211 0
+ 394 016e 7047     		bx	lr
+ 395              	.LVL45:
+ 396              	.L11:
+ 212:translator.c  ****         case ')':
+ 213:translator.c  ****             code = "-.--.-";
+ 397              		.loc 1 213 0
+ 398 0170 3748     		ldr	r0, .L60+176
+ 214:translator.c  ****             break;
+ 399              		.loc 1 214 0
+ 400 0172 7047     		bx	lr
+ 401              	.LVL46:
+ 402              	.L8:
+ 215:translator.c  ****         case '&':
+ 216:translator.c  ****             code = ".-...";
+ 403              		.loc 1 216 0
+ 404 0174 3748     		ldr	r0, .L60+180
+ 217:translator.c  ****             break;
+ 405              		.loc 1 217 0
+ 406 0176 7047     		bx	lr
+ 407              	.LVL47:
+ 408              	.L27:
+ 218:translator.c  ****         case ':':
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 12
+
+
+ 219:translator.c  ****             code = "---...";
+ 409              		.loc 1 219 0
+ 410 0178 3748     		ldr	r0, .L60+184
+ 220:translator.c  ****             break;
+ 411              		.loc 1 220 0
+ 412 017a 7047     		bx	lr
+ 413              	.LVL48:
+ 414              	.L28:
+ 221:translator.c  ****         case ';':
+ 222:translator.c  ****             code = "-.-.-.";
+ 415              		.loc 1 222 0
+ 416 017c 3748     		ldr	r0, .L60+188
+ 223:translator.c  ****             break;
+ 417              		.loc 1 223 0
+ 418 017e 7047     		bx	lr
+ 419              	.LVL49:
+ 420              	.L29:
+ 224:translator.c  ****         case '=':
+ 225:translator.c  ****             code = ".---.";
+ 421              		.loc 1 225 0
+ 422 0180 3748     		ldr	r0, .L60+192
+ 226:translator.c  ****             break;
+ 423              		.loc 1 226 0
+ 424 0182 7047     		bx	lr
+ 425              	.LVL50:
+ 426              	.L12:
+ 227:translator.c  ****         case '+':
+ 228:translator.c  ****             code = ".-.-.";
+ 427              		.loc 1 228 0
+ 428 0184 3748     		ldr	r0, .L60+196
+ 229:translator.c  ****             break;
+ 429              		.loc 1 229 0
+ 430 0186 7047     		bx	lr
+ 431              	.LVL51:
+ 432              	.L14:
+ 230:translator.c  ****         case '-':
+ 231:translator.c  ****             code = "-....-";
+ 433              		.loc 1 231 0
+ 434 0188 3748     		ldr	r0, .L60+200
+ 232:translator.c  ****             break;
+ 435              		.loc 1 232 0
+ 436 018a 7047     		bx	lr
+ 437              	.LVL52:
+ 438              	.L58:
+ 233:translator.c  ****         case '_':
+ 234:translator.c  ****             code = "..--.-";
+ 439              		.loc 1 234 0
+ 440 018c 3748     		ldr	r0, .L60+204
+ 235:translator.c  ****             break;
+ 441              		.loc 1 235 0
+ 442 018e 7047     		bx	lr
+ 443              	.LVL53:
+ 444              	.L6:
+ 236:translator.c  ****         case '"':
+ 237:translator.c  ****             code = ".-..-.";
+ 445              		.loc 1 237 0
+ 446 0190 3748     		ldr	r0, .L60+208
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 13
+
+
+ 238:translator.c  ****             break;
+ 447              		.loc 1 238 0
+ 448 0192 7047     		bx	lr
+ 449              	.LVL54:
+ 450              	.L7:
+ 239:translator.c  ****         case '$':
+ 240:translator.c  ****             code = "...-..-";
+ 451              		.loc 1 240 0
+ 452 0194 3748     		ldr	r0, .L60+212
+ 241:translator.c  ****             break;
+ 453              		.loc 1 241 0
+ 454 0196 7047     		bx	lr
+ 455              	.LVL55:
+ 456              	.L31:
+ 242:translator.c  ****         case '@':
+ 243:translator.c  ****             code = ".--.-.";
+ 457              		.loc 1 243 0
+ 458 0198 3748     		ldr	r0, .L60+216
+ 244:translator.c  ****             break;
+ 459              		.loc 1 244 0
+ 460 019a 7047     		bx	lr
+ 461              	.LVL56:
+ 462              	.L59:
+  49:translator.c  ****             break;
+ 463              		.loc 1 49 0
+ 464 019c 3748     		ldr	r0, .L60+220
+ 465              	.LVL57:
+ 245:translator.c  ****         default:
+ 246:translator.c  ****             break;
+ 247:translator.c  ****     }
+ 248:translator.c  ****     
+ 249:translator.c  ****     return code;
+ 250:translator.c  **** }
+ 466              		.loc 1 250 0
+ 467 019e 7047     		bx	lr
+ 468              	.L61:
+ 469              		.align	2
+ 470              	.L60:
+ 471 01a0 80010000 		.word	.LC55
+ 472 01a4 04000000 		.word	.LC1
+ 473 01a8 08000000 		.word	.LC2
+ 474 01ac 10000000 		.word	.LC3
+ 475 01b0 18000000 		.word	.LC4
+ 476 01b4 1C000000 		.word	.LC5
+ 477 01b8 20000000 		.word	.LC6
+ 478 01bc 28000000 		.word	.LC7
+ 479 01c0 2C000000 		.word	.LC8
+ 480 01c4 34000000 		.word	.LC9
+ 481 01c8 38000000 		.word	.LC10
+ 482 01cc 40000000 		.word	.LC11
+ 483 01d0 44000000 		.word	.LC12
+ 484 01d4 4C000000 		.word	.LC13
+ 485 01d8 50000000 		.word	.LC14
+ 486 01dc 54000000 		.word	.LC15
+ 487 01e0 58000000 		.word	.LC16
+ 488 01e4 60000000 		.word	.LC17
+ 489 01e8 68000000 		.word	.LC18
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 14
+
+
+ 490 01ec 6C000000 		.word	.LC19
+ 491 01f0 70000000 		.word	.LC20
+ 492 01f4 74000000 		.word	.LC21
+ 493 01f8 78000000 		.word	.LC22
+ 494 01fc 80000000 		.word	.LC23
+ 495 0200 84000000 		.word	.LC24
+ 496 0204 8C000000 		.word	.LC25
+ 497 0208 94000000 		.word	.LC26
+ 498 020c 9C000000 		.word	.LC27
+ 499 0210 A4000000 		.word	.LC28
+ 500 0214 AC000000 		.word	.LC29
+ 501 0218 B4000000 		.word	.LC30
+ 502 021c BC000000 		.word	.LC31
+ 503 0220 C4000000 		.word	.LC32
+ 504 0224 CC000000 		.word	.LC33
+ 505 0228 D4000000 		.word	.LC34
+ 506 022c DC000000 		.word	.LC35
+ 507 0230 E4000000 		.word	.LC36
+ 508 0234 EC000000 		.word	.LC37
+ 509 0238 F4000000 		.word	.LC38
+ 510 023c FC000000 		.word	.LC39
+ 511 0240 04010000 		.word	.LC40
+ 512 0244 0C010000 		.word	.LC41
+ 513 0248 18010000 		.word	.LC42
+ 514 024c 20010000 		.word	.LC43
+ 515 0250 28010000 		.word	.LC44
+ 516 0254 30010000 		.word	.LC45
+ 517 0258 38010000 		.word	.LC46
+ 518 025c 40010000 		.word	.LC47
+ 519 0260 48010000 		.word	.LC48
+ 520 0264 50010000 		.word	.LC49
+ 521 0268 58010000 		.word	.LC50
+ 522 026c 60010000 		.word	.LC51
+ 523 0270 68010000 		.word	.LC52
+ 524 0274 70010000 		.word	.LC53
+ 525 0278 78010000 		.word	.LC54
+ 526 027c 00000000 		.word	.LC0
+ 527              		.cfi_endproc
+ 528              	.LFE64:
+ 529              		.size	charToMorse, .-charToMorse
+ 530              		.section	.text.msgToMorse,"ax",%progbits
+ 531              		.align	2
+ 532              		.global	msgToMorse
+ 533              		.thumb
+ 534              		.thumb_func
+ 535              		.type	msgToMorse, %function
+ 536              	msgToMorse:
+ 537              	.LFB63:
+  16:translator.c  ****     
+ 538              		.loc 1 16 0
+ 539              		.cfi_startproc
+ 540              		@ args = 0, pretend = 0, frame = 0
+ 541              		@ frame_needed = 1, uses_anonymous_args = 0
+ 542              	.LVL58:
+ 543 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 544              		.cfi_def_cfa_offset 24
+ 545              		.cfi_offset 4, -24
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 15
+
+
+ 546              		.cfi_offset 5, -20
+ 547              		.cfi_offset 6, -16
+ 548              		.cfi_offset 7, -12
+ 549              		.cfi_offset 8, -8
+ 550              		.cfi_offset 14, -4
+ 551 0004 00AF     		add	r7, sp, #0
+ 552              		.cfi_def_cfa_register 7
+ 553 0006 8046     		mov	r8, r0
+  18:translator.c  ****     
+ 554              		.loc 1 18 0
+ 555 0008 FFF7FEFF 		bl	strlen
+ 556              	.LVL59:
+ 557 000c 0646     		mov	r6, r0
+ 558              	.LVL60:
+  20:translator.c  ****                                 // needed to representent any character
+ 559              		.loc 1 20 0
+ 560 000e C0EBC000 		rsb	r0, r0, r0, lsl #3
+ 561              	.LVL61:
+ 562 0012 0730     		adds	r0, r0, #7
+ 563              	.LVL62:
+ 564 0014 20F00700 		bic	r0, r0, #7
+ 565              	.LVL63:
+ 566 0018 ADEB000D 		sub	sp, sp, r0
+ 567 001c 6D46     		mov	r5, sp
+ 568              	.LVL64:
+  24:translator.c  ****     
+ 569              		.loc 1 24 0
+ 570 001e 0024     		movs	r4, #0
+ 571 0020 8DF80040 		strb	r4, [sp]
+ 572              	.LVL65:
+ 573              	.LBB2:
+  26:translator.c  ****     {
+ 574              		.loc 1 26 0
+ 575 0024 0EE0     		b	.L63
+ 576              	.LVL66:
+ 577              	.L64:
+ 578              	.LBB3:
+  28:translator.c  ****         
+ 579              		.loc 1 28 0 discriminator 3
+ 580 0026 18F80400 		ldrb	r0, [r8, r4]	@ zero_extendqisi2
+ 581 002a FFF7FEFF 		bl	charToMorse
+ 582              	.LVL67:
+  30:translator.c  ****         strcat(translation, " ");
+ 583              		.loc 1 30 0 discriminator 3
+ 584 002e 0146     		mov	r1, r0
+ 585 0030 2846     		mov	r0, r5
+ 586              	.LVL68:
+ 587 0032 FFF7FEFF 		bl	strcat
+ 588              	.LVL69:
+  31:translator.c  ****         
+ 589              		.loc 1 31 0 discriminator 3
+ 590 0036 2846     		mov	r0, r5
+ 591 0038 FFF7FEFF 		bl	strlen
+ 592              	.LVL70:
+ 593 003c 044B     		ldr	r3, .L66
+ 594 003e 1B88     		ldrh	r3, [r3]	@ unaligned
+ 595 0040 2B52     		strh	r3, [r5, r0]	@ unaligned
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 16
+
+
+ 596              	.LBE3:
+  26:translator.c  ****     {
+ 597              		.loc 1 26 0 discriminator 3
+ 598 0042 0134     		adds	r4, r4, #1
+ 599              	.LVL71:
+ 600              	.L63:
+  26:translator.c  ****     {
+ 601              		.loc 1 26 0 is_stmt 0 discriminator 1
+ 602 0044 B442     		cmp	r4, r6
+ 603 0046 EEDB     		blt	.L64
+ 604              	.LVL72:
+ 605              	.LBE2:
+  39:translator.c  **** 
+ 606              		.loc 1 39 0 is_stmt 1
+ 607 0048 2846     		mov	r0, r5
+ 608 004a BD46     		mov	sp, r7
+ 609              		.cfi_def_cfa_register 13
+ 610              		@ sp needed
+ 611 004c BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 612              	.LVL73:
+ 613              	.L67:
+ 614              		.align	2
+ 615              	.L66:
+ 616 0050 84010000 		.word	.LC56
+ 617              		.cfi_endproc
+ 618              	.LFE63:
+ 619              		.size	msgToMorse, .-msgToMorse
+ 620              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 621              		.align	2
+ 622              	.LC0:
+ 623 0000 202F2000 		.ascii	" / \000"
+ 624              	.LC1:
+ 625 0004 2E2D00   		.ascii	".-\000"
+ 626 0007 00       		.space	1
+ 627              	.LC2:
+ 628 0008 2D2E2E2E 		.ascii	"-...\000"
+ 628      00
+ 629 000d 000000   		.space	3
+ 630              	.LC3:
+ 631 0010 2D2E2D2E 		.ascii	"-.-.\000"
+ 631      00
+ 632 0015 000000   		.space	3
+ 633              	.LC4:
+ 634 0018 2D2E2E00 		.ascii	"-..\000"
+ 635              	.LC5:
+ 636 001c 2E00     		.ascii	".\000"
+ 637 001e 0000     		.space	2
+ 638              	.LC6:
+ 639 0020 2E2E2D2E 		.ascii	"..-.\000"
+ 639      00
+ 640 0025 000000   		.space	3
+ 641              	.LC7:
+ 642 0028 2D2D2E00 		.ascii	"--.\000"
+ 643              	.LC8:
+ 644 002c 2E2E2E2E 		.ascii	"....\000"
+ 644      00
+ 645 0031 000000   		.space	3
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 17
+
+
+ 646              	.LC9:
+ 647 0034 2E2E00   		.ascii	"..\000"
+ 648 0037 00       		.space	1
+ 649              	.LC10:
+ 650 0038 2E2D2D2D 		.ascii	".---\000"
+ 650      00
+ 651 003d 000000   		.space	3
+ 652              	.LC11:
+ 653 0040 2D2E2D00 		.ascii	"-.-\000"
+ 654              	.LC12:
+ 655 0044 2E2D2E2E 		.ascii	".-..\000"
+ 655      00
+ 656 0049 000000   		.space	3
+ 657              	.LC13:
+ 658 004c 2D2D00   		.ascii	"--\000"
+ 659 004f 00       		.space	1
+ 660              	.LC14:
+ 661 0050 2D2E00   		.ascii	"-.\000"
+ 662 0053 00       		.space	1
+ 663              	.LC15:
+ 664 0054 2D2D2D00 		.ascii	"---\000"
+ 665              	.LC16:
+ 666 0058 2E2D2D2E 		.ascii	".--.\000"
+ 666      00
+ 667 005d 000000   		.space	3
+ 668              	.LC17:
+ 669 0060 2D2D2E2D 		.ascii	"--.-\000"
+ 669      00
+ 670 0065 000000   		.space	3
+ 671              	.LC18:
+ 672 0068 2E2D2E00 		.ascii	".-.\000"
+ 673              	.LC19:
+ 674 006c 2E2E2E00 		.ascii	"...\000"
+ 675              	.LC20:
+ 676 0070 2D00     		.ascii	"-\000"
+ 677 0072 0000     		.space	2
+ 678              	.LC21:
+ 679 0074 2E2E2D00 		.ascii	"..-\000"
+ 680              	.LC22:
+ 681 0078 2E2E2E2D 		.ascii	"...-\000"
+ 681      00
+ 682 007d 000000   		.space	3
+ 683              	.LC23:
+ 684 0080 2E2D2D00 		.ascii	".--\000"
+ 685              	.LC24:
+ 686 0084 2D2E2E2D 		.ascii	"-..-\000"
+ 686      00
+ 687 0089 000000   		.space	3
+ 688              	.LC25:
+ 689 008c 2D2E2D2D 		.ascii	"-.--\000"
+ 689      00
+ 690 0091 000000   		.space	3
+ 691              	.LC26:
+ 692 0094 2D2D2E2E 		.ascii	"--..\000"
+ 692      00
+ 693 0099 000000   		.space	3
+ 694              	.LC27:
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 18
+
+
+ 695 009c 2D2D2D2D 		.ascii	"-----\000"
+ 695      2D00
+ 696 00a2 0000     		.space	2
+ 697              	.LC28:
+ 698 00a4 2E2D2D2D 		.ascii	".----\000"
+ 698      2D00
+ 699 00aa 0000     		.space	2
+ 700              	.LC29:
+ 701 00ac 2E2E2D2D 		.ascii	"..---\000"
+ 701      2D00
+ 702 00b2 0000     		.space	2
+ 703              	.LC30:
+ 704 00b4 2E2E2E2D 		.ascii	"...--\000"
+ 704      2D00
+ 705 00ba 0000     		.space	2
+ 706              	.LC31:
+ 707 00bc 2E2E2E2E 		.ascii	"....-\000"
+ 707      2D00
+ 708 00c2 0000     		.space	2
+ 709              	.LC32:
+ 710 00c4 2E2E2E2E 		.ascii	".....\000"
+ 710      2E00
+ 711 00ca 0000     		.space	2
+ 712              	.LC33:
+ 713 00cc 2D2E2E2E 		.ascii	"-....\000"
+ 713      2E00
+ 714 00d2 0000     		.space	2
+ 715              	.LC34:
+ 716 00d4 2D2D2E2E 		.ascii	"--...\000"
+ 716      2E00
+ 717 00da 0000     		.space	2
+ 718              	.LC35:
+ 719 00dc 2D2D2D2E 		.ascii	"---..\000"
+ 719      2E00
+ 720 00e2 0000     		.space	2
+ 721              	.LC36:
+ 722 00e4 2D2D2D2D 		.ascii	"----.\000"
+ 722      2E00
+ 723 00ea 0000     		.space	2
+ 724              	.LC37:
+ 725 00ec 2E2D2E2D 		.ascii	".-.-.-\000"
+ 725      2E2D00
+ 726 00f3 00       		.space	1
+ 727              	.LC38:
+ 728 00f4 2D2D2E2E 		.ascii	"--..--\000"
+ 728      2D2D00
+ 729 00fb 00       		.space	1
+ 730              	.LC39:
+ 731 00fc 2E2E2D2D 		.ascii	"..--..\000"
+ 731      2E2E00
+ 732 0103 00       		.space	1
+ 733              	.LC40:
+ 734 0104 2E2D2D2D 		.ascii	".----.\000"
+ 734      2D2E00
+ 735 010b 00       		.space	1
+ 736              	.LC41:
+ 737 010c 2D2E2D2E 		.ascii	"-.-.-----.\000"
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 19
+
+
+ 737      2D2D2D2D 
+ 737      2D2E00
+ 738 0117 00       		.space	1
+ 739              	.LC42:
+ 740 0118 2D2E2E2D 		.ascii	"-..-.\000"
+ 740      2E00
+ 741 011e 0000     		.space	2
+ 742              	.LC43:
+ 743 0120 2D2E2D2D 		.ascii	"-.--.\000"
+ 743      2E00
+ 744 0126 0000     		.space	2
+ 745              	.LC44:
+ 746 0128 2D2E2D2D 		.ascii	"-.--.-\000"
+ 746      2E2D00
+ 747 012f 00       		.space	1
+ 748              	.LC45:
+ 749 0130 2E2D2E2E 		.ascii	".-...\000"
+ 749      2E00
+ 750 0136 0000     		.space	2
+ 751              	.LC46:
+ 752 0138 2D2D2D2E 		.ascii	"---...\000"
+ 752      2E2E00
+ 753 013f 00       		.space	1
+ 754              	.LC47:
+ 755 0140 2D2E2D2E 		.ascii	"-.-.-.\000"
+ 755      2D2E00
+ 756 0147 00       		.space	1
+ 757              	.LC48:
+ 758 0148 2E2D2D2D 		.ascii	".---.\000"
+ 758      2E00
+ 759 014e 0000     		.space	2
+ 760              	.LC49:
+ 761 0150 2E2D2E2D 		.ascii	".-.-.\000"
+ 761      2E00
+ 762 0156 0000     		.space	2
+ 763              	.LC50:
+ 764 0158 2D2E2E2E 		.ascii	"-....-\000"
+ 764      2E2D00
+ 765 015f 00       		.space	1
+ 766              	.LC51:
+ 767 0160 2E2E2D2D 		.ascii	"..--.-\000"
+ 767      2E2D00
+ 768 0167 00       		.space	1
+ 769              	.LC52:
+ 770 0168 2E2D2E2E 		.ascii	".-..-.\000"
+ 770      2D2E00
+ 771 016f 00       		.space	1
+ 772              	.LC53:
+ 773 0170 2E2E2E2D 		.ascii	"...-..-\000"
+ 773      2E2E2D00 
+ 774              	.LC54:
+ 775 0178 2E2D2D2E 		.ascii	".--.-.\000"
+ 775      2D2E00
+ 776 017f 00       		.space	1
+ 777              	.LC55:
+ 778 0180 00       		.ascii	"\000"
+ 779 0181 000000   		.space	3
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 20
+
+
+ 780              	.LC56:
+ 781 0184 2000     		.ascii	" \000"
+ 782              		.text
+ 783              	.Letext0:
+ 784              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 785              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 786              		.file 4 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 787              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 788              		.file 6 "<built-in>"
+ 789              		.section	.debug_info,"",%progbits
+ 790              	.Ldebug_info0:
+ 791 0000 00020000 		.4byte	0x200
+ 792 0004 0400     		.2byte	0x4
+ 793 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 794 000a 04       		.byte	0x4
+ 795 000b 01       		.uleb128 0x1
+ 796 000c 96000000 		.4byte	.LASF24
+ 797 0010 0C       		.byte	0xc
+ 798 0011 7A010000 		.4byte	.LASF25
+ 799 0015 06000000 		.4byte	.LASF26
+ 800 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 801 001d 00000000 		.4byte	0
+ 802 0021 00000000 		.4byte	.Ldebug_line0
+ 803 0025 02       		.uleb128 0x2
+ 804 0026 01       		.byte	0x1
+ 805 0027 06       		.byte	0x6
+ 806 0028 E8010000 		.4byte	.LASF0
+ 807 002c 02       		.uleb128 0x2
+ 808 002d 01       		.byte	0x1
+ 809 002e 08       		.byte	0x8
+ 810 002f 88000000 		.4byte	.LASF1
+ 811 0033 02       		.uleb128 0x2
+ 812 0034 02       		.byte	0x2
+ 813 0035 05       		.byte	0x5
+ 814 0036 C9010000 		.4byte	.LASF2
+ 815 003a 02       		.uleb128 0x2
+ 816 003b 02       		.byte	0x2
+ 817 003c 07       		.byte	0x7
+ 818 003d 36010000 		.4byte	.LASF3
+ 819 0041 03       		.uleb128 0x3
+ 820 0042 54000000 		.4byte	.LASF9
+ 821 0046 02       		.byte	0x2
+ 822 0047 3F       		.byte	0x3f
+ 823 0048 4C000000 		.4byte	0x4c
+ 824 004c 02       		.uleb128 0x2
+ 825 004d 04       		.byte	0x4
+ 826 004e 05       		.byte	0x5
+ 827 004f D3010000 		.4byte	.LASF4
+ 828 0053 02       		.uleb128 0x2
+ 829 0054 04       		.byte	0x4
+ 830 0055 07       		.byte	0x7
+ 831 0056 24010000 		.4byte	.LASF5
+ 832 005a 02       		.uleb128 0x2
+ 833 005b 08       		.byte	0x8
+ 834 005c 05       		.byte	0x5
+ 835 005d B6010000 		.4byte	.LASF6
+ 836 0061 02       		.uleb128 0x2
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 21
+
+
+ 837 0062 08       		.byte	0x8
+ 838 0063 07       		.byte	0x7
+ 839 0064 8E010000 		.4byte	.LASF7
+ 840 0068 04       		.uleb128 0x4
+ 841 0069 04       		.byte	0x4
+ 842 006a 05       		.byte	0x5
+ 843 006b 696E7400 		.ascii	"int\000"
+ 844 006f 02       		.uleb128 0x2
+ 845 0070 04       		.byte	0x4
+ 846 0071 07       		.byte	0x7
+ 847 0072 5E000000 		.4byte	.LASF8
+ 848 0076 03       		.uleb128 0x3
+ 849 0077 A5010000 		.4byte	.LASF10
+ 850 007b 03       		.byte	0x3
+ 851 007c 2C       		.byte	0x2c
+ 852 007d 41000000 		.4byte	0x41
+ 853 0081 02       		.uleb128 0x2
+ 854 0082 04       		.byte	0x4
+ 855 0083 04       		.byte	0x4
+ 856 0084 76000000 		.4byte	.LASF11
+ 857 0088 02       		.uleb128 0x2
+ 858 0089 08       		.byte	0x8
+ 859 008a 04       		.byte	0x4
+ 860 008b 5D010000 		.4byte	.LASF12
+ 861 008f 02       		.uleb128 0x2
+ 862 0090 01       		.byte	0x1
+ 863 0091 08       		.byte	0x8
+ 864 0092 C4010000 		.4byte	.LASF13
+ 865 0096 02       		.uleb128 0x2
+ 866 0097 08       		.byte	0x8
+ 867 0098 04       		.byte	0x4
+ 868 0099 DC010000 		.4byte	.LASF14
+ 869 009d 02       		.uleb128 0x2
+ 870 009e 04       		.byte	0x4
+ 871 009f 07       		.byte	0x7
+ 872 00a0 AD010000 		.4byte	.LASF15
+ 873 00a4 05       		.uleb128 0x5
+ 874 00a5 04       		.byte	0x4
+ 875 00a6 8F000000 		.4byte	0x8f
+ 876 00aa 06       		.uleb128 0x6
+ 877 00ab 7C000000 		.4byte	.LASF16
+ 878 00af 01       		.byte	0x1
+ 879 00b0 29       		.byte	0x29
+ 880 00b1 A4000000 		.4byte	0xa4
+ 881 00b5 00000000 		.4byte	.LFB64
+ 882 00b9 80020000 		.4byte	.LFE64-.LFB64
+ 883 00bd 01       		.uleb128 0x1
+ 884 00be 9C       		.byte	0x9c
+ 885 00bf E0000000 		.4byte	0xe0
+ 886 00c3 07       		.uleb128 0x7
+ 887 00c4 6300     		.ascii	"c\000"
+ 888 00c6 01       		.byte	0x1
+ 889 00c7 29       		.byte	0x29
+ 890 00c8 8F000000 		.4byte	0x8f
+ 891 00cc 00000000 		.4byte	.LLST0
+ 892 00d0 08       		.uleb128 0x8
+ 893 00d1 75010000 		.4byte	.LASF18
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 22
+
+
+ 894 00d5 01       		.byte	0x1
+ 895 00d6 2B       		.byte	0x2b
+ 896 00d7 A4000000 		.4byte	0xa4
+ 897 00db 21000000 		.4byte	.LLST1
+ 898 00df 00       		.byte	0
+ 899 00e0 06       		.uleb128 0x6
+ 900 00e1 6B000000 		.4byte	.LASF17
+ 901 00e5 01       		.byte	0x1
+ 902 00e6 10       		.byte	0x10
+ 903 00e7 A4000000 		.4byte	0xa4
+ 904 00eb 00000000 		.4byte	.LFB63
+ 905 00ef 54000000 		.4byte	.LFE63-.LFB63
+ 906 00f3 01       		.uleb128 0x1
+ 907 00f4 9C       		.byte	0x9c
+ 908 00f5 B0010000 		.4byte	0x1b0
+ 909 00f9 07       		.uleb128 0x7
+ 910 00fa 6D736700 		.ascii	"msg\000"
+ 911 00fe 01       		.byte	0x1
+ 912 00ff 10       		.byte	0x10
+ 913 0100 A4000000 		.4byte	0xa4
+ 914 0104 B4030000 		.4byte	.LLST2
+ 915 0108 08       		.uleb128 0x8
+ 916 0109 4D000000 		.4byte	.LASF19
+ 917 010d 01       		.byte	0x1
+ 918 010e 12       		.byte	0x12
+ 919 010f B0010000 		.4byte	0x1b0
+ 920 0113 E0030000 		.4byte	.LLST3
+ 921 0117 09       		.uleb128 0x9
+ 922 0118 C8010000 		.4byte	0x1c8
+ 923 011c FE030000 		.4byte	.LLST4
+ 924 0120 08       		.uleb128 0x8
+ 925 0121 F4010000 		.4byte	.LASF20
+ 926 0125 01       		.byte	0x1
+ 927 0126 14       		.byte	0x14
+ 928 0127 B5010000 		.4byte	0x1b5
+ 929 012b 33040000 		.4byte	.LLST5
+ 930 012f 08       		.uleb128 0x8
+ 931 0130 00000000 		.4byte	.LASF21
+ 932 0134 01       		.byte	0x1
+ 933 0135 24       		.byte	0x24
+ 934 0136 A4000000 		.4byte	0xa4
+ 935 013a 53040000 		.4byte	.LLST6
+ 936 013e 0A       		.uleb128 0xa
+ 937 013f 24000000 		.4byte	.LBB2
+ 938 0143 24000000 		.4byte	.LBE2-.LBB2
+ 939 0147 9F010000 		.4byte	0x19f
+ 940 014b 0B       		.uleb128 0xb
+ 941 014c 6900     		.ascii	"i\000"
+ 942 014e 01       		.byte	0x1
+ 943 014f 1A       		.byte	0x1a
+ 944 0150 68000000 		.4byte	0x68
+ 945 0154 71040000 		.4byte	.LLST7
+ 946 0158 0C       		.uleb128 0xc
+ 947 0159 26000000 		.4byte	.LBB3
+ 948 015d 1C000000 		.4byte	.LBE3-.LBB3
+ 949 0161 08       		.uleb128 0x8
+ 950 0162 75010000 		.4byte	.LASF18
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 23
+
+
+ 951 0166 01       		.byte	0x1
+ 952 0167 1C       		.byte	0x1c
+ 953 0168 A4000000 		.4byte	0xa4
+ 954 016c 90040000 		.4byte	.LLST8
+ 955 0170 0D       		.uleb128 0xd
+ 956 0171 2E000000 		.4byte	.LVL67
+ 957 0175 AA000000 		.4byte	0xaa
+ 958 0179 0E       		.uleb128 0xe
+ 959 017a 36000000 		.4byte	.LVL69
+ 960 017e DE010000 		.4byte	0x1de
+ 961 0182 8D010000 		.4byte	0x18d
+ 962 0186 0F       		.uleb128 0xf
+ 963 0187 01       		.uleb128 0x1
+ 964 0188 50       		.byte	0x50
+ 965 0189 02       		.uleb128 0x2
+ 966 018a 75       		.byte	0x75
+ 967 018b 00       		.sleb128 0
+ 968 018c 00       		.byte	0
+ 969 018d 10       		.uleb128 0x10
+ 970 018e 3C000000 		.4byte	.LVL70
+ 971 0192 E9010000 		.4byte	0x1e9
+ 972 0196 0F       		.uleb128 0xf
+ 973 0197 01       		.uleb128 0x1
+ 974 0198 50       		.byte	0x50
+ 975 0199 02       		.uleb128 0x2
+ 976 019a 75       		.byte	0x75
+ 977 019b 00       		.sleb128 0
+ 978 019c 00       		.byte	0
+ 979 019d 00       		.byte	0
+ 980 019e 00       		.byte	0
+ 981 019f 10       		.uleb128 0x10
+ 982 01a0 0C000000 		.4byte	.LVL59
+ 983 01a4 F8010000 		.4byte	0x1f8
+ 984 01a8 0F       		.uleb128 0xf
+ 985 01a9 01       		.uleb128 0x1
+ 986 01aa 50       		.byte	0x50
+ 987 01ab 02       		.uleb128 0x2
+ 988 01ac 78       		.byte	0x78
+ 989 01ad 00       		.sleb128 0
+ 990 01ae 00       		.byte	0
+ 991 01af 00       		.byte	0
+ 992 01b0 11       		.uleb128 0x11
+ 993 01b1 68000000 		.4byte	0x68
+ 994 01b5 12       		.uleb128 0x12
+ 995 01b6 8F000000 		.4byte	0x8f
+ 996 01ba C8010000 		.4byte	0x1c8
+ 997 01be 13       		.uleb128 0x13
+ 998 01bf 9D000000 		.4byte	0x9d
+ 999 01c3 17010000 		.4byte	0x117
+ 1000 01c7 00       		.byte	0
+ 1001 01c8 11       		.uleb128 0x11
+ 1002 01c9 9D000000 		.4byte	0x9d
+ 1003 01cd 14       		.uleb128 0x14
+ 1004 01ce 50010000 		.4byte	.LASF27
+ 1005 01d2 05       		.byte	0x5
+ 1006 01d3 1207     		.2byte	0x712
+ 1007 01d5 D9010000 		.4byte	0x1d9
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 24
+
+
+ 1008 01d9 15       		.uleb128 0x15
+ 1009 01da 76000000 		.4byte	0x76
+ 1010 01de 16       		.uleb128 0x16
+ 1011 01df 49010000 		.4byte	.LASF22
+ 1012 01e3 49010000 		.4byte	.LASF22
+ 1013 01e7 04       		.byte	0x4
+ 1014 01e8 1A       		.byte	0x1a
+ 1015 01e9 17       		.uleb128 0x17
+ 1016 01ea 87010000 		.4byte	.LASF23
+ 1017 01ee 64010000 		.4byte	.LASF28
+ 1018 01f2 06       		.byte	0x6
+ 1019 01f3 00       		.byte	0
+ 1020 01f4 87010000 		.4byte	.LASF23
+ 1021 01f8 16       		.uleb128 0x16
+ 1022 01f9 87010000 		.4byte	.LASF23
+ 1023 01fd 87010000 		.4byte	.LASF23
+ 1024 0201 04       		.byte	0x4
+ 1025 0202 21       		.byte	0x21
+ 1026 0203 00       		.byte	0
+ 1027              		.section	.debug_abbrev,"",%progbits
+ 1028              	.Ldebug_abbrev0:
+ 1029 0000 01       		.uleb128 0x1
+ 1030 0001 11       		.uleb128 0x11
+ 1031 0002 01       		.byte	0x1
+ 1032 0003 25       		.uleb128 0x25
+ 1033 0004 0E       		.uleb128 0xe
+ 1034 0005 13       		.uleb128 0x13
+ 1035 0006 0B       		.uleb128 0xb
+ 1036 0007 03       		.uleb128 0x3
+ 1037 0008 0E       		.uleb128 0xe
+ 1038 0009 1B       		.uleb128 0x1b
+ 1039 000a 0E       		.uleb128 0xe
+ 1040 000b 55       		.uleb128 0x55
+ 1041 000c 17       		.uleb128 0x17
+ 1042 000d 11       		.uleb128 0x11
+ 1043 000e 01       		.uleb128 0x1
+ 1044 000f 10       		.uleb128 0x10
+ 1045 0010 17       		.uleb128 0x17
+ 1046 0011 00       		.byte	0
+ 1047 0012 00       		.byte	0
+ 1048 0013 02       		.uleb128 0x2
+ 1049 0014 24       		.uleb128 0x24
+ 1050 0015 00       		.byte	0
+ 1051 0016 0B       		.uleb128 0xb
+ 1052 0017 0B       		.uleb128 0xb
+ 1053 0018 3E       		.uleb128 0x3e
+ 1054 0019 0B       		.uleb128 0xb
+ 1055 001a 03       		.uleb128 0x3
+ 1056 001b 0E       		.uleb128 0xe
+ 1057 001c 00       		.byte	0
+ 1058 001d 00       		.byte	0
+ 1059 001e 03       		.uleb128 0x3
+ 1060 001f 16       		.uleb128 0x16
+ 1061 0020 00       		.byte	0
+ 1062 0021 03       		.uleb128 0x3
+ 1063 0022 0E       		.uleb128 0xe
+ 1064 0023 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 25
+
+
+ 1065 0024 0B       		.uleb128 0xb
+ 1066 0025 3B       		.uleb128 0x3b
+ 1067 0026 0B       		.uleb128 0xb
+ 1068 0027 49       		.uleb128 0x49
+ 1069 0028 13       		.uleb128 0x13
+ 1070 0029 00       		.byte	0
+ 1071 002a 00       		.byte	0
+ 1072 002b 04       		.uleb128 0x4
+ 1073 002c 24       		.uleb128 0x24
+ 1074 002d 00       		.byte	0
+ 1075 002e 0B       		.uleb128 0xb
+ 1076 002f 0B       		.uleb128 0xb
+ 1077 0030 3E       		.uleb128 0x3e
+ 1078 0031 0B       		.uleb128 0xb
+ 1079 0032 03       		.uleb128 0x3
+ 1080 0033 08       		.uleb128 0x8
+ 1081 0034 00       		.byte	0
+ 1082 0035 00       		.byte	0
+ 1083 0036 05       		.uleb128 0x5
+ 1084 0037 0F       		.uleb128 0xf
+ 1085 0038 00       		.byte	0
+ 1086 0039 0B       		.uleb128 0xb
+ 1087 003a 0B       		.uleb128 0xb
+ 1088 003b 49       		.uleb128 0x49
+ 1089 003c 13       		.uleb128 0x13
+ 1090 003d 00       		.byte	0
+ 1091 003e 00       		.byte	0
+ 1092 003f 06       		.uleb128 0x6
+ 1093 0040 2E       		.uleb128 0x2e
+ 1094 0041 01       		.byte	0x1
+ 1095 0042 3F       		.uleb128 0x3f
+ 1096 0043 19       		.uleb128 0x19
+ 1097 0044 03       		.uleb128 0x3
+ 1098 0045 0E       		.uleb128 0xe
+ 1099 0046 3A       		.uleb128 0x3a
+ 1100 0047 0B       		.uleb128 0xb
+ 1101 0048 3B       		.uleb128 0x3b
+ 1102 0049 0B       		.uleb128 0xb
+ 1103 004a 27       		.uleb128 0x27
+ 1104 004b 19       		.uleb128 0x19
+ 1105 004c 49       		.uleb128 0x49
+ 1106 004d 13       		.uleb128 0x13
+ 1107 004e 11       		.uleb128 0x11
+ 1108 004f 01       		.uleb128 0x1
+ 1109 0050 12       		.uleb128 0x12
+ 1110 0051 06       		.uleb128 0x6
+ 1111 0052 40       		.uleb128 0x40
+ 1112 0053 18       		.uleb128 0x18
+ 1113 0054 9742     		.uleb128 0x2117
+ 1114 0056 19       		.uleb128 0x19
+ 1115 0057 01       		.uleb128 0x1
+ 1116 0058 13       		.uleb128 0x13
+ 1117 0059 00       		.byte	0
+ 1118 005a 00       		.byte	0
+ 1119 005b 07       		.uleb128 0x7
+ 1120 005c 05       		.uleb128 0x5
+ 1121 005d 00       		.byte	0
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 26
+
+
+ 1122 005e 03       		.uleb128 0x3
+ 1123 005f 08       		.uleb128 0x8
+ 1124 0060 3A       		.uleb128 0x3a
+ 1125 0061 0B       		.uleb128 0xb
+ 1126 0062 3B       		.uleb128 0x3b
+ 1127 0063 0B       		.uleb128 0xb
+ 1128 0064 49       		.uleb128 0x49
+ 1129 0065 13       		.uleb128 0x13
+ 1130 0066 02       		.uleb128 0x2
+ 1131 0067 17       		.uleb128 0x17
+ 1132 0068 00       		.byte	0
+ 1133 0069 00       		.byte	0
+ 1134 006a 08       		.uleb128 0x8
+ 1135 006b 34       		.uleb128 0x34
+ 1136 006c 00       		.byte	0
+ 1137 006d 03       		.uleb128 0x3
+ 1138 006e 0E       		.uleb128 0xe
+ 1139 006f 3A       		.uleb128 0x3a
+ 1140 0070 0B       		.uleb128 0xb
+ 1141 0071 3B       		.uleb128 0x3b
+ 1142 0072 0B       		.uleb128 0xb
+ 1143 0073 49       		.uleb128 0x49
+ 1144 0074 13       		.uleb128 0x13
+ 1145 0075 02       		.uleb128 0x2
+ 1146 0076 17       		.uleb128 0x17
+ 1147 0077 00       		.byte	0
+ 1148 0078 00       		.byte	0
+ 1149 0079 09       		.uleb128 0x9
+ 1150 007a 34       		.uleb128 0x34
+ 1151 007b 00       		.byte	0
+ 1152 007c 34       		.uleb128 0x34
+ 1153 007d 19       		.uleb128 0x19
+ 1154 007e 49       		.uleb128 0x49
+ 1155 007f 13       		.uleb128 0x13
+ 1156 0080 02       		.uleb128 0x2
+ 1157 0081 17       		.uleb128 0x17
+ 1158 0082 00       		.byte	0
+ 1159 0083 00       		.byte	0
+ 1160 0084 0A       		.uleb128 0xa
+ 1161 0085 0B       		.uleb128 0xb
+ 1162 0086 01       		.byte	0x1
+ 1163 0087 11       		.uleb128 0x11
+ 1164 0088 01       		.uleb128 0x1
+ 1165 0089 12       		.uleb128 0x12
+ 1166 008a 06       		.uleb128 0x6
+ 1167 008b 01       		.uleb128 0x1
+ 1168 008c 13       		.uleb128 0x13
+ 1169 008d 00       		.byte	0
+ 1170 008e 00       		.byte	0
+ 1171 008f 0B       		.uleb128 0xb
+ 1172 0090 34       		.uleb128 0x34
+ 1173 0091 00       		.byte	0
+ 1174 0092 03       		.uleb128 0x3
+ 1175 0093 08       		.uleb128 0x8
+ 1176 0094 3A       		.uleb128 0x3a
+ 1177 0095 0B       		.uleb128 0xb
+ 1178 0096 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 27
+
+
+ 1179 0097 0B       		.uleb128 0xb
+ 1180 0098 49       		.uleb128 0x49
+ 1181 0099 13       		.uleb128 0x13
+ 1182 009a 02       		.uleb128 0x2
+ 1183 009b 17       		.uleb128 0x17
+ 1184 009c 00       		.byte	0
+ 1185 009d 00       		.byte	0
+ 1186 009e 0C       		.uleb128 0xc
+ 1187 009f 0B       		.uleb128 0xb
+ 1188 00a0 01       		.byte	0x1
+ 1189 00a1 11       		.uleb128 0x11
+ 1190 00a2 01       		.uleb128 0x1
+ 1191 00a3 12       		.uleb128 0x12
+ 1192 00a4 06       		.uleb128 0x6
+ 1193 00a5 00       		.byte	0
+ 1194 00a6 00       		.byte	0
+ 1195 00a7 0D       		.uleb128 0xd
+ 1196 00a8 898201   		.uleb128 0x4109
+ 1197 00ab 00       		.byte	0
+ 1198 00ac 11       		.uleb128 0x11
+ 1199 00ad 01       		.uleb128 0x1
+ 1200 00ae 31       		.uleb128 0x31
+ 1201 00af 13       		.uleb128 0x13
+ 1202 00b0 00       		.byte	0
+ 1203 00b1 00       		.byte	0
+ 1204 00b2 0E       		.uleb128 0xe
+ 1205 00b3 898201   		.uleb128 0x4109
+ 1206 00b6 01       		.byte	0x1
+ 1207 00b7 11       		.uleb128 0x11
+ 1208 00b8 01       		.uleb128 0x1
+ 1209 00b9 31       		.uleb128 0x31
+ 1210 00ba 13       		.uleb128 0x13
+ 1211 00bb 01       		.uleb128 0x1
+ 1212 00bc 13       		.uleb128 0x13
+ 1213 00bd 00       		.byte	0
+ 1214 00be 00       		.byte	0
+ 1215 00bf 0F       		.uleb128 0xf
+ 1216 00c0 8A8201   		.uleb128 0x410a
+ 1217 00c3 00       		.byte	0
+ 1218 00c4 02       		.uleb128 0x2
+ 1219 00c5 18       		.uleb128 0x18
+ 1220 00c6 9142     		.uleb128 0x2111
+ 1221 00c8 18       		.uleb128 0x18
+ 1222 00c9 00       		.byte	0
+ 1223 00ca 00       		.byte	0
+ 1224 00cb 10       		.uleb128 0x10
+ 1225 00cc 898201   		.uleb128 0x4109
+ 1226 00cf 01       		.byte	0x1
+ 1227 00d0 11       		.uleb128 0x11
+ 1228 00d1 01       		.uleb128 0x1
+ 1229 00d2 31       		.uleb128 0x31
+ 1230 00d3 13       		.uleb128 0x13
+ 1231 00d4 00       		.byte	0
+ 1232 00d5 00       		.byte	0
+ 1233 00d6 11       		.uleb128 0x11
+ 1234 00d7 26       		.uleb128 0x26
+ 1235 00d8 00       		.byte	0
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 28
+
+
+ 1236 00d9 49       		.uleb128 0x49
+ 1237 00da 13       		.uleb128 0x13
+ 1238 00db 00       		.byte	0
+ 1239 00dc 00       		.byte	0
+ 1240 00dd 12       		.uleb128 0x12
+ 1241 00de 01       		.uleb128 0x1
+ 1242 00df 01       		.byte	0x1
+ 1243 00e0 49       		.uleb128 0x49
+ 1244 00e1 13       		.uleb128 0x13
+ 1245 00e2 01       		.uleb128 0x1
+ 1246 00e3 13       		.uleb128 0x13
+ 1247 00e4 00       		.byte	0
+ 1248 00e5 00       		.byte	0
+ 1249 00e6 13       		.uleb128 0x13
+ 1250 00e7 21       		.uleb128 0x21
+ 1251 00e8 00       		.byte	0
+ 1252 00e9 49       		.uleb128 0x49
+ 1253 00ea 13       		.uleb128 0x13
+ 1254 00eb 2F       		.uleb128 0x2f
+ 1255 00ec 13       		.uleb128 0x13
+ 1256 00ed 00       		.byte	0
+ 1257 00ee 00       		.byte	0
+ 1258 00ef 14       		.uleb128 0x14
+ 1259 00f0 34       		.uleb128 0x34
+ 1260 00f1 00       		.byte	0
+ 1261 00f2 03       		.uleb128 0x3
+ 1262 00f3 0E       		.uleb128 0xe
+ 1263 00f4 3A       		.uleb128 0x3a
+ 1264 00f5 0B       		.uleb128 0xb
+ 1265 00f6 3B       		.uleb128 0x3b
+ 1266 00f7 05       		.uleb128 0x5
+ 1267 00f8 49       		.uleb128 0x49
+ 1268 00f9 13       		.uleb128 0x13
+ 1269 00fa 3F       		.uleb128 0x3f
+ 1270 00fb 19       		.uleb128 0x19
+ 1271 00fc 3C       		.uleb128 0x3c
+ 1272 00fd 19       		.uleb128 0x19
+ 1273 00fe 00       		.byte	0
+ 1274 00ff 00       		.byte	0
+ 1275 0100 15       		.uleb128 0x15
+ 1276 0101 35       		.uleb128 0x35
+ 1277 0102 00       		.byte	0
+ 1278 0103 49       		.uleb128 0x49
+ 1279 0104 13       		.uleb128 0x13
+ 1280 0105 00       		.byte	0
+ 1281 0106 00       		.byte	0
+ 1282 0107 16       		.uleb128 0x16
+ 1283 0108 2E       		.uleb128 0x2e
+ 1284 0109 00       		.byte	0
+ 1285 010a 3F       		.uleb128 0x3f
+ 1286 010b 19       		.uleb128 0x19
+ 1287 010c 3C       		.uleb128 0x3c
+ 1288 010d 19       		.uleb128 0x19
+ 1289 010e 6E       		.uleb128 0x6e
+ 1290 010f 0E       		.uleb128 0xe
+ 1291 0110 03       		.uleb128 0x3
+ 1292 0111 0E       		.uleb128 0xe
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 29
+
+
+ 1293 0112 3A       		.uleb128 0x3a
+ 1294 0113 0B       		.uleb128 0xb
+ 1295 0114 3B       		.uleb128 0x3b
+ 1296 0115 0B       		.uleb128 0xb
+ 1297 0116 00       		.byte	0
+ 1298 0117 00       		.byte	0
+ 1299 0118 17       		.uleb128 0x17
+ 1300 0119 2E       		.uleb128 0x2e
+ 1301 011a 00       		.byte	0
+ 1302 011b 3F       		.uleb128 0x3f
+ 1303 011c 19       		.uleb128 0x19
+ 1304 011d 3C       		.uleb128 0x3c
+ 1305 011e 19       		.uleb128 0x19
+ 1306 011f 6E       		.uleb128 0x6e
+ 1307 0120 0E       		.uleb128 0xe
+ 1308 0121 03       		.uleb128 0x3
+ 1309 0122 0E       		.uleb128 0xe
+ 1310 0123 3A       		.uleb128 0x3a
+ 1311 0124 0B       		.uleb128 0xb
+ 1312 0125 3B       		.uleb128 0x3b
+ 1313 0126 0B       		.uleb128 0xb
+ 1314 0127 6E       		.uleb128 0x6e
+ 1315 0128 0E       		.uleb128 0xe
+ 1316 0129 00       		.byte	0
+ 1317 012a 00       		.byte	0
+ 1318 012b 00       		.byte	0
+ 1319              		.section	.debug_loc,"",%progbits
+ 1320              	.Ldebug_loc0:
+ 1321              	.LLST0:
+ 1322 0000 00000000 		.4byte	.LVL0
+ 1323 0004 02000000 		.4byte	.LVL1
+ 1324 0008 0100     		.2byte	0x1
+ 1325 000a 50       		.byte	0x50
+ 1326 000b 02000000 		.4byte	.LVL1
+ 1327 000f 80020000 		.4byte	.LFE64
+ 1328 0013 0400     		.2byte	0x4
+ 1329 0015 F3       		.byte	0xf3
+ 1330 0016 01       		.uleb128 0x1
+ 1331 0017 50       		.byte	0x50
+ 1332 0018 9F       		.byte	0x9f
+ 1333 0019 00000000 		.4byte	0
+ 1334 001d 00000000 		.4byte	0
+ 1335              	.LLST1:
+ 1336 0021 00000000 		.4byte	.LVL0
+ 1337 0025 C4000000 		.4byte	.LVL2
+ 1338 0029 0600     		.2byte	0x6
+ 1339 002b 03       		.byte	0x3
+ 1340 002c 80010000 		.4byte	.LC55
+ 1341 0030 9F       		.byte	0x9f
+ 1342 0031 C4000000 		.4byte	.LVL2
+ 1343 0035 C8000000 		.4byte	.LVL3
+ 1344 0039 0600     		.2byte	0x6
+ 1345 003b 03       		.byte	0x3
+ 1346 003c 04000000 		.4byte	.LC1
+ 1347 0040 9F       		.byte	0x9f
+ 1348 0041 C8000000 		.4byte	.LVL3
+ 1349 0045 CC000000 		.4byte	.LVL4
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 30
+
+
+ 1350 0049 0600     		.2byte	0x6
+ 1351 004b 03       		.byte	0x3
+ 1352 004c 08000000 		.4byte	.LC2
+ 1353 0050 9F       		.byte	0x9f
+ 1354 0051 CC000000 		.4byte	.LVL4
+ 1355 0055 D0000000 		.4byte	.LVL5
+ 1356 0059 0600     		.2byte	0x6
+ 1357 005b 03       		.byte	0x3
+ 1358 005c 10000000 		.4byte	.LC3
+ 1359 0060 9F       		.byte	0x9f
+ 1360 0061 D0000000 		.4byte	.LVL5
+ 1361 0065 D4000000 		.4byte	.LVL6
+ 1362 0069 0600     		.2byte	0x6
+ 1363 006b 03       		.byte	0x3
+ 1364 006c 18000000 		.4byte	.LC4
+ 1365 0070 9F       		.byte	0x9f
+ 1366 0071 D4000000 		.4byte	.LVL6
+ 1367 0075 D8000000 		.4byte	.LVL7
+ 1368 0079 0600     		.2byte	0x6
+ 1369 007b 03       		.byte	0x3
+ 1370 007c 1C000000 		.4byte	.LC5
+ 1371 0080 9F       		.byte	0x9f
+ 1372 0081 D8000000 		.4byte	.LVL7
+ 1373 0085 DC000000 		.4byte	.LVL8
+ 1374 0089 0600     		.2byte	0x6
+ 1375 008b 03       		.byte	0x3
+ 1376 008c 20000000 		.4byte	.LC6
+ 1377 0090 9F       		.byte	0x9f
+ 1378 0091 DC000000 		.4byte	.LVL8
+ 1379 0095 E0000000 		.4byte	.LVL9
+ 1380 0099 0600     		.2byte	0x6
+ 1381 009b 03       		.byte	0x3
+ 1382 009c 28000000 		.4byte	.LC7
+ 1383 00a0 9F       		.byte	0x9f
+ 1384 00a1 E0000000 		.4byte	.LVL9
+ 1385 00a5 E4000000 		.4byte	.LVL10
+ 1386 00a9 0600     		.2byte	0x6
+ 1387 00ab 03       		.byte	0x3
+ 1388 00ac 2C000000 		.4byte	.LC8
+ 1389 00b0 9F       		.byte	0x9f
+ 1390 00b1 E4000000 		.4byte	.LVL10
+ 1391 00b5 E8000000 		.4byte	.LVL11
+ 1392 00b9 0600     		.2byte	0x6
+ 1393 00bb 03       		.byte	0x3
+ 1394 00bc 34000000 		.4byte	.LC9
+ 1395 00c0 9F       		.byte	0x9f
+ 1396 00c1 E8000000 		.4byte	.LVL11
+ 1397 00c5 EC000000 		.4byte	.LVL12
+ 1398 00c9 0600     		.2byte	0x6
+ 1399 00cb 03       		.byte	0x3
+ 1400 00cc 38000000 		.4byte	.LC10
+ 1401 00d0 9F       		.byte	0x9f
+ 1402 00d1 EC000000 		.4byte	.LVL12
+ 1403 00d5 F0000000 		.4byte	.LVL13
+ 1404 00d9 0600     		.2byte	0x6
+ 1405 00db 03       		.byte	0x3
+ 1406 00dc 40000000 		.4byte	.LC11
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 31
+
+
+ 1407 00e0 9F       		.byte	0x9f
+ 1408 00e1 F0000000 		.4byte	.LVL13
+ 1409 00e5 F4000000 		.4byte	.LVL14
+ 1410 00e9 0600     		.2byte	0x6
+ 1411 00eb 03       		.byte	0x3
+ 1412 00ec 44000000 		.4byte	.LC12
+ 1413 00f0 9F       		.byte	0x9f
+ 1414 00f1 F4000000 		.4byte	.LVL14
+ 1415 00f5 F8000000 		.4byte	.LVL15
+ 1416 00f9 0600     		.2byte	0x6
+ 1417 00fb 03       		.byte	0x3
+ 1418 00fc 4C000000 		.4byte	.LC13
+ 1419 0100 9F       		.byte	0x9f
+ 1420 0101 F8000000 		.4byte	.LVL15
+ 1421 0105 FC000000 		.4byte	.LVL16
+ 1422 0109 0600     		.2byte	0x6
+ 1423 010b 03       		.byte	0x3
+ 1424 010c 50000000 		.4byte	.LC14
+ 1425 0110 9F       		.byte	0x9f
+ 1426 0111 FC000000 		.4byte	.LVL16
+ 1427 0115 00010000 		.4byte	.LVL17
+ 1428 0119 0600     		.2byte	0x6
+ 1429 011b 03       		.byte	0x3
+ 1430 011c 54000000 		.4byte	.LC15
+ 1431 0120 9F       		.byte	0x9f
+ 1432 0121 00010000 		.4byte	.LVL17
+ 1433 0125 04010000 		.4byte	.LVL18
+ 1434 0129 0600     		.2byte	0x6
+ 1435 012b 03       		.byte	0x3
+ 1436 012c 58000000 		.4byte	.LC16
+ 1437 0130 9F       		.byte	0x9f
+ 1438 0131 04010000 		.4byte	.LVL18
+ 1439 0135 08010000 		.4byte	.LVL19
+ 1440 0139 0600     		.2byte	0x6
+ 1441 013b 03       		.byte	0x3
+ 1442 013c 60000000 		.4byte	.LC17
+ 1443 0140 9F       		.byte	0x9f
+ 1444 0141 08010000 		.4byte	.LVL19
+ 1445 0145 0C010000 		.4byte	.LVL20
+ 1446 0149 0600     		.2byte	0x6
+ 1447 014b 03       		.byte	0x3
+ 1448 014c 68000000 		.4byte	.LC18
+ 1449 0150 9F       		.byte	0x9f
+ 1450 0151 0C010000 		.4byte	.LVL20
+ 1451 0155 10010000 		.4byte	.LVL21
+ 1452 0159 0600     		.2byte	0x6
+ 1453 015b 03       		.byte	0x3
+ 1454 015c 6C000000 		.4byte	.LC19
+ 1455 0160 9F       		.byte	0x9f
+ 1456 0161 10010000 		.4byte	.LVL21
+ 1457 0165 14010000 		.4byte	.LVL22
+ 1458 0169 0600     		.2byte	0x6
+ 1459 016b 03       		.byte	0x3
+ 1460 016c 70000000 		.4byte	.LC20
+ 1461 0170 9F       		.byte	0x9f
+ 1462 0171 14010000 		.4byte	.LVL22
+ 1463 0175 18010000 		.4byte	.LVL23
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 32
+
+
+ 1464 0179 0600     		.2byte	0x6
+ 1465 017b 03       		.byte	0x3
+ 1466 017c 74000000 		.4byte	.LC21
+ 1467 0180 9F       		.byte	0x9f
+ 1468 0181 18010000 		.4byte	.LVL23
+ 1469 0185 1C010000 		.4byte	.LVL24
+ 1470 0189 0600     		.2byte	0x6
+ 1471 018b 03       		.byte	0x3
+ 1472 018c 78000000 		.4byte	.LC22
+ 1473 0190 9F       		.byte	0x9f
+ 1474 0191 1C010000 		.4byte	.LVL24
+ 1475 0195 20010000 		.4byte	.LVL25
+ 1476 0199 0600     		.2byte	0x6
+ 1477 019b 03       		.byte	0x3
+ 1478 019c 80000000 		.4byte	.LC23
+ 1479 01a0 9F       		.byte	0x9f
+ 1480 01a1 20010000 		.4byte	.LVL25
+ 1481 01a5 24010000 		.4byte	.LVL26
+ 1482 01a9 0600     		.2byte	0x6
+ 1483 01ab 03       		.byte	0x3
+ 1484 01ac 84000000 		.4byte	.LC24
+ 1485 01b0 9F       		.byte	0x9f
+ 1486 01b1 24010000 		.4byte	.LVL26
+ 1487 01b5 28010000 		.4byte	.LVL27
+ 1488 01b9 0600     		.2byte	0x6
+ 1489 01bb 03       		.byte	0x3
+ 1490 01bc 8C000000 		.4byte	.LC25
+ 1491 01c0 9F       		.byte	0x9f
+ 1492 01c1 28010000 		.4byte	.LVL27
+ 1493 01c5 2C010000 		.4byte	.LVL28
+ 1494 01c9 0600     		.2byte	0x6
+ 1495 01cb 03       		.byte	0x3
+ 1496 01cc 94000000 		.4byte	.LC26
+ 1497 01d0 9F       		.byte	0x9f
+ 1498 01d1 2C010000 		.4byte	.LVL28
+ 1499 01d5 30010000 		.4byte	.LVL29
+ 1500 01d9 0600     		.2byte	0x6
+ 1501 01db 03       		.byte	0x3
+ 1502 01dc 9C000000 		.4byte	.LC27
+ 1503 01e0 9F       		.byte	0x9f
+ 1504 01e1 30010000 		.4byte	.LVL29
+ 1505 01e5 34010000 		.4byte	.LVL30
+ 1506 01e9 0600     		.2byte	0x6
+ 1507 01eb 03       		.byte	0x3
+ 1508 01ec A4000000 		.4byte	.LC28
+ 1509 01f0 9F       		.byte	0x9f
+ 1510 01f1 34010000 		.4byte	.LVL30
+ 1511 01f5 38010000 		.4byte	.LVL31
+ 1512 01f9 0600     		.2byte	0x6
+ 1513 01fb 03       		.byte	0x3
+ 1514 01fc AC000000 		.4byte	.LC29
+ 1515 0200 9F       		.byte	0x9f
+ 1516 0201 38010000 		.4byte	.LVL31
+ 1517 0205 3C010000 		.4byte	.LVL32
+ 1518 0209 0600     		.2byte	0x6
+ 1519 020b 03       		.byte	0x3
+ 1520 020c B4000000 		.4byte	.LC30
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 33
+
+
+ 1521 0210 9F       		.byte	0x9f
+ 1522 0211 3C010000 		.4byte	.LVL32
+ 1523 0215 40010000 		.4byte	.LVL33
+ 1524 0219 0600     		.2byte	0x6
+ 1525 021b 03       		.byte	0x3
+ 1526 021c BC000000 		.4byte	.LC31
+ 1527 0220 9F       		.byte	0x9f
+ 1528 0221 40010000 		.4byte	.LVL33
+ 1529 0225 44010000 		.4byte	.LVL34
+ 1530 0229 0600     		.2byte	0x6
+ 1531 022b 03       		.byte	0x3
+ 1532 022c C4000000 		.4byte	.LC32
+ 1533 0230 9F       		.byte	0x9f
+ 1534 0231 44010000 		.4byte	.LVL34
+ 1535 0235 48010000 		.4byte	.LVL35
+ 1536 0239 0600     		.2byte	0x6
+ 1537 023b 03       		.byte	0x3
+ 1538 023c CC000000 		.4byte	.LC33
+ 1539 0240 9F       		.byte	0x9f
+ 1540 0241 48010000 		.4byte	.LVL35
+ 1541 0245 4C010000 		.4byte	.LVL36
+ 1542 0249 0600     		.2byte	0x6
+ 1543 024b 03       		.byte	0x3
+ 1544 024c D4000000 		.4byte	.LC34
+ 1545 0250 9F       		.byte	0x9f
+ 1546 0251 4C010000 		.4byte	.LVL36
+ 1547 0255 50010000 		.4byte	.LVL37
+ 1548 0259 0600     		.2byte	0x6
+ 1549 025b 03       		.byte	0x3
+ 1550 025c DC000000 		.4byte	.LC35
+ 1551 0260 9F       		.byte	0x9f
+ 1552 0261 50010000 		.4byte	.LVL37
+ 1553 0265 54010000 		.4byte	.LVL38
+ 1554 0269 0600     		.2byte	0x6
+ 1555 026b 03       		.byte	0x3
+ 1556 026c E4000000 		.4byte	.LC36
+ 1557 0270 9F       		.byte	0x9f
+ 1558 0271 54010000 		.4byte	.LVL38
+ 1559 0275 58010000 		.4byte	.LVL39
+ 1560 0279 0600     		.2byte	0x6
+ 1561 027b 03       		.byte	0x3
+ 1562 027c EC000000 		.4byte	.LC37
+ 1563 0280 9F       		.byte	0x9f
+ 1564 0281 58010000 		.4byte	.LVL39
+ 1565 0285 5C010000 		.4byte	.LVL40
+ 1566 0289 0600     		.2byte	0x6
+ 1567 028b 03       		.byte	0x3
+ 1568 028c F4000000 		.4byte	.LC38
+ 1569 0290 9F       		.byte	0x9f
+ 1570 0291 5C010000 		.4byte	.LVL40
+ 1571 0295 60010000 		.4byte	.LVL41
+ 1572 0299 0600     		.2byte	0x6
+ 1573 029b 03       		.byte	0x3
+ 1574 029c FC000000 		.4byte	.LC39
+ 1575 02a0 9F       		.byte	0x9f
+ 1576 02a1 60010000 		.4byte	.LVL41
+ 1577 02a5 64010000 		.4byte	.LVL42
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 34
+
+
+ 1578 02a9 0600     		.2byte	0x6
+ 1579 02ab 03       		.byte	0x3
+ 1580 02ac 04010000 		.4byte	.LC40
+ 1581 02b0 9F       		.byte	0x9f
+ 1582 02b1 64010000 		.4byte	.LVL42
+ 1583 02b5 68010000 		.4byte	.LVL43
+ 1584 02b9 0600     		.2byte	0x6
+ 1585 02bb 03       		.byte	0x3
+ 1586 02bc 0C010000 		.4byte	.LC41
+ 1587 02c0 9F       		.byte	0x9f
+ 1588 02c1 68010000 		.4byte	.LVL43
+ 1589 02c5 6C010000 		.4byte	.LVL44
+ 1590 02c9 0600     		.2byte	0x6
+ 1591 02cb 03       		.byte	0x3
+ 1592 02cc 18010000 		.4byte	.LC42
+ 1593 02d0 9F       		.byte	0x9f
+ 1594 02d1 6C010000 		.4byte	.LVL44
+ 1595 02d5 70010000 		.4byte	.LVL45
+ 1596 02d9 0600     		.2byte	0x6
+ 1597 02db 03       		.byte	0x3
+ 1598 02dc 20010000 		.4byte	.LC43
+ 1599 02e0 9F       		.byte	0x9f
+ 1600 02e1 70010000 		.4byte	.LVL45
+ 1601 02e5 74010000 		.4byte	.LVL46
+ 1602 02e9 0600     		.2byte	0x6
+ 1603 02eb 03       		.byte	0x3
+ 1604 02ec 28010000 		.4byte	.LC44
+ 1605 02f0 9F       		.byte	0x9f
+ 1606 02f1 74010000 		.4byte	.LVL46
+ 1607 02f5 78010000 		.4byte	.LVL47
+ 1608 02f9 0600     		.2byte	0x6
+ 1609 02fb 03       		.byte	0x3
+ 1610 02fc 30010000 		.4byte	.LC45
+ 1611 0300 9F       		.byte	0x9f
+ 1612 0301 78010000 		.4byte	.LVL47
+ 1613 0305 7C010000 		.4byte	.LVL48
+ 1614 0309 0600     		.2byte	0x6
+ 1615 030b 03       		.byte	0x3
+ 1616 030c 38010000 		.4byte	.LC46
+ 1617 0310 9F       		.byte	0x9f
+ 1618 0311 7C010000 		.4byte	.LVL48
+ 1619 0315 80010000 		.4byte	.LVL49
+ 1620 0319 0600     		.2byte	0x6
+ 1621 031b 03       		.byte	0x3
+ 1622 031c 40010000 		.4byte	.LC47
+ 1623 0320 9F       		.byte	0x9f
+ 1624 0321 80010000 		.4byte	.LVL49
+ 1625 0325 84010000 		.4byte	.LVL50
+ 1626 0329 0600     		.2byte	0x6
+ 1627 032b 03       		.byte	0x3
+ 1628 032c 48010000 		.4byte	.LC48
+ 1629 0330 9F       		.byte	0x9f
+ 1630 0331 84010000 		.4byte	.LVL50
+ 1631 0335 88010000 		.4byte	.LVL51
+ 1632 0339 0600     		.2byte	0x6
+ 1633 033b 03       		.byte	0x3
+ 1634 033c 50010000 		.4byte	.LC49
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 35
+
+
+ 1635 0340 9F       		.byte	0x9f
+ 1636 0341 88010000 		.4byte	.LVL51
+ 1637 0345 8C010000 		.4byte	.LVL52
+ 1638 0349 0600     		.2byte	0x6
+ 1639 034b 03       		.byte	0x3
+ 1640 034c 58010000 		.4byte	.LC50
+ 1641 0350 9F       		.byte	0x9f
+ 1642 0351 8C010000 		.4byte	.LVL52
+ 1643 0355 90010000 		.4byte	.LVL53
+ 1644 0359 0600     		.2byte	0x6
+ 1645 035b 03       		.byte	0x3
+ 1646 035c 60010000 		.4byte	.LC51
+ 1647 0360 9F       		.byte	0x9f
+ 1648 0361 90010000 		.4byte	.LVL53
+ 1649 0365 94010000 		.4byte	.LVL54
+ 1650 0369 0600     		.2byte	0x6
+ 1651 036b 03       		.byte	0x3
+ 1652 036c 68010000 		.4byte	.LC52
+ 1653 0370 9F       		.byte	0x9f
+ 1654 0371 94010000 		.4byte	.LVL54
+ 1655 0375 98010000 		.4byte	.LVL55
+ 1656 0379 0600     		.2byte	0x6
+ 1657 037b 03       		.byte	0x3
+ 1658 037c 70010000 		.4byte	.LC53
+ 1659 0380 9F       		.byte	0x9f
+ 1660 0381 98010000 		.4byte	.LVL55
+ 1661 0385 9C010000 		.4byte	.LVL56
+ 1662 0389 0600     		.2byte	0x6
+ 1663 038b 03       		.byte	0x3
+ 1664 038c 78010000 		.4byte	.LC54
+ 1665 0390 9F       		.byte	0x9f
+ 1666 0391 9C010000 		.4byte	.LVL56
+ 1667 0395 9E010000 		.4byte	.LVL57
+ 1668 0399 0600     		.2byte	0x6
+ 1669 039b 03       		.byte	0x3
+ 1670 039c 80010000 		.4byte	.LC55
+ 1671 03a0 9F       		.byte	0x9f
+ 1672 03a1 9E010000 		.4byte	.LVL57
+ 1673 03a5 80020000 		.4byte	.LFE64
+ 1674 03a9 0100     		.2byte	0x1
+ 1675 03ab 50       		.byte	0x50
+ 1676 03ac 00000000 		.4byte	0
+ 1677 03b0 00000000 		.4byte	0
+ 1678              	.LLST2:
+ 1679 03b4 00000000 		.4byte	.LVL58
+ 1680 03b8 0B000000 		.4byte	.LVL59-1
+ 1681 03bc 0100     		.2byte	0x1
+ 1682 03be 50       		.byte	0x50
+ 1683 03bf 0B000000 		.4byte	.LVL59-1
+ 1684 03c3 50000000 		.4byte	.LVL73
+ 1685 03c7 0100     		.2byte	0x1
+ 1686 03c9 58       		.byte	0x58
+ 1687 03ca 50000000 		.4byte	.LVL73
+ 1688 03ce 54000000 		.4byte	.LFE63
+ 1689 03d2 0400     		.2byte	0x4
+ 1690 03d4 F3       		.byte	0xf3
+ 1691 03d5 01       		.uleb128 0x1
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 36
+
+
+ 1692 03d6 50       		.byte	0x50
+ 1693 03d7 9F       		.byte	0x9f
+ 1694 03d8 00000000 		.4byte	0
+ 1695 03dc 00000000 		.4byte	0
+ 1696              	.LLST3:
+ 1697 03e0 0E000000 		.4byte	.LVL60
+ 1698 03e4 12000000 		.4byte	.LVL61
+ 1699 03e8 0100     		.2byte	0x1
+ 1700 03ea 50       		.byte	0x50
+ 1701 03eb 12000000 		.4byte	.LVL61
+ 1702 03ef 50000000 		.4byte	.LVL73
+ 1703 03f3 0100     		.2byte	0x1
+ 1704 03f5 56       		.byte	0x56
+ 1705 03f6 00000000 		.4byte	0
+ 1706 03fa 00000000 		.4byte	0
+ 1707              	.LLST4:
+ 1708 03fe 12000000 		.4byte	.LVL61
+ 1709 0402 14000000 		.4byte	.LVL62
+ 1710 0406 0300     		.2byte	0x3
+ 1711 0408 70       		.byte	0x70
+ 1712 0409 7F       		.sleb128 -1
+ 1713 040a 9F       		.byte	0x9f
+ 1714 040b 14000000 		.4byte	.LVL62
+ 1715 040f 18000000 		.4byte	.LVL63
+ 1716 0413 0300     		.2byte	0x3
+ 1717 0415 70       		.byte	0x70
+ 1718 0416 78       		.sleb128 -8
+ 1719 0417 9F       		.byte	0x9f
+ 1720 0418 18000000 		.4byte	.LVL63
+ 1721 041c 50000000 		.4byte	.LVL73
+ 1722 0420 0900     		.2byte	0x9
+ 1723 0422 76       		.byte	0x76
+ 1724 0423 00       		.sleb128 0
+ 1725 0424 33       		.byte	0x33
+ 1726 0425 24       		.byte	0x24
+ 1727 0426 76       		.byte	0x76
+ 1728 0427 00       		.sleb128 0
+ 1729 0428 20       		.byte	0x20
+ 1730 0429 22       		.byte	0x22
+ 1731 042a 9F       		.byte	0x9f
+ 1732 042b 00000000 		.4byte	0
+ 1733 042f 00000000 		.4byte	0
+ 1734              	.LLST5:
+ 1735 0433 1E000000 		.4byte	.LVL64
+ 1736 0437 50000000 		.4byte	.LVL73
+ 1737 043b 0200     		.2byte	0x2
+ 1738 043d 75       		.byte	0x75
+ 1739 043e 00       		.sleb128 0
+ 1740 043f 50000000 		.4byte	.LVL73
+ 1741 0443 54000000 		.4byte	.LFE63
+ 1742 0447 0200     		.2byte	0x2
+ 1743 0449 70       		.byte	0x70
+ 1744 044a 00       		.sleb128 0
+ 1745 044b 00000000 		.4byte	0
+ 1746 044f 00000000 		.4byte	0
+ 1747              	.LLST6:
+ 1748 0453 48000000 		.4byte	.LVL72
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 37
+
+
+ 1749 0457 50000000 		.4byte	.LVL73
+ 1750 045b 0100     		.2byte	0x1
+ 1751 045d 55       		.byte	0x55
+ 1752 045e 50000000 		.4byte	.LVL73
+ 1753 0462 54000000 		.4byte	.LFE63
+ 1754 0466 0100     		.2byte	0x1
+ 1755 0468 50       		.byte	0x50
+ 1756 0469 00000000 		.4byte	0
+ 1757 046d 00000000 		.4byte	0
+ 1758              	.LLST7:
+ 1759 0471 24000000 		.4byte	.LVL65
+ 1760 0475 26000000 		.4byte	.LVL66
+ 1761 0479 0200     		.2byte	0x2
+ 1762 047b 30       		.byte	0x30
+ 1763 047c 9F       		.byte	0x9f
+ 1764 047d 26000000 		.4byte	.LVL66
+ 1765 0481 50000000 		.4byte	.LVL73
+ 1766 0485 0100     		.2byte	0x1
+ 1767 0487 54       		.byte	0x54
+ 1768 0488 00000000 		.4byte	0
+ 1769 048c 00000000 		.4byte	0
+ 1770              	.LLST8:
+ 1771 0490 2E000000 		.4byte	.LVL67
+ 1772 0494 32000000 		.4byte	.LVL68
+ 1773 0498 0100     		.2byte	0x1
+ 1774 049a 50       		.byte	0x50
+ 1775 049b 32000000 		.4byte	.LVL68
+ 1776 049f 35000000 		.4byte	.LVL69-1
+ 1777 04a3 0100     		.2byte	0x1
+ 1778 04a5 51       		.byte	0x51
+ 1779 04a6 00000000 		.4byte	0
+ 1780 04aa 00000000 		.4byte	0
+ 1781              		.section	.debug_aranges,"",%progbits
+ 1782 0000 24000000 		.4byte	0x24
+ 1783 0004 0200     		.2byte	0x2
+ 1784 0006 00000000 		.4byte	.Ldebug_info0
+ 1785 000a 04       		.byte	0x4
+ 1786 000b 00       		.byte	0
+ 1787 000c 0000     		.2byte	0
+ 1788 000e 0000     		.2byte	0
+ 1789 0010 00000000 		.4byte	.LFB64
+ 1790 0014 80020000 		.4byte	.LFE64-.LFB64
+ 1791 0018 00000000 		.4byte	.LFB63
+ 1792 001c 54000000 		.4byte	.LFE63-.LFB63
+ 1793 0020 00000000 		.4byte	0
+ 1794 0024 00000000 		.4byte	0
+ 1795              		.section	.debug_ranges,"",%progbits
+ 1796              	.Ldebug_ranges0:
+ 1797 0000 00000000 		.4byte	.LFB64
+ 1798 0004 80020000 		.4byte	.LFE64
+ 1799 0008 00000000 		.4byte	.LFB63
+ 1800 000c 54000000 		.4byte	.LFE63
+ 1801 0010 00000000 		.4byte	0
+ 1802 0014 00000000 		.4byte	0
+ 1803              		.section	.debug_line,"",%progbits
+ 1804              	.Ldebug_line0:
+ 1805 0000 87020000 		.section	.debug_str,"MS",%progbits,1
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 38
+
+
+ 1805      0200C701 
+ 1805      00000201 
+ 1805      FB0E0D00 
+ 1805      01010101 
+ 1806              	.LASF21:
+ 1807 0000 6D6F7273 		.ascii	"morse\000"
+ 1807      6500
+ 1808              	.LASF26:
+ 1809 0006 433A5C55 		.ascii	"C:\\Users\\laure\\OneDrive\\Documents\\PSoC Creator"
+ 1809      73657273 
+ 1809      5C6C6175 
+ 1809      72655C4F 
+ 1809      6E654472 
+ 1810 0034 5C50536F 		.ascii	"\\PSoC 5LP\\FirstLab.cydsn\000"
+ 1810      4320354C 
+ 1810      505C4669 
+ 1810      7273744C 
+ 1810      61622E63 
+ 1811              	.LASF19:
+ 1812 004d 4C454E47 		.ascii	"LENGTH\000"
+ 1812      544800
+ 1813              	.LASF9:
+ 1814 0054 5F5F696E 		.ascii	"__int32_t\000"
+ 1814      7433325F 
+ 1814      7400
+ 1815              	.LASF8:
+ 1816 005e 756E7369 		.ascii	"unsigned int\000"
+ 1816      676E6564 
+ 1816      20696E74 
+ 1816      00
+ 1817              	.LASF17:
+ 1818 006b 6D736754 		.ascii	"msgToMorse\000"
+ 1818      6F4D6F72 
+ 1818      736500
+ 1819              	.LASF11:
+ 1820 0076 666C6F61 		.ascii	"float\000"
+ 1820      7400
+ 1821              	.LASF16:
+ 1822 007c 63686172 		.ascii	"charToMorse\000"
+ 1822      546F4D6F 
+ 1822      72736500 
+ 1823              	.LASF1:
+ 1824 0088 756E7369 		.ascii	"unsigned char\000"
+ 1824      676E6564 
+ 1824      20636861 
+ 1824      7200
+ 1825              	.LASF24:
+ 1826 0096 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1826      43313120 
+ 1826      352E342E 
+ 1826      31203230 
+ 1826      31363036 
+ 1827 00c9 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1827      20726576 
+ 1827      6973696F 
+ 1827      6E203233 
+ 1827      37373135 
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 39
+
+
+ 1828 00fc 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1828      66756E63 
+ 1828      74696F6E 
+ 1828      2D736563 
+ 1828      74696F6E 
+ 1829              	.LASF5:
+ 1830 0124 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1830      20756E73 
+ 1830      69676E65 
+ 1830      6420696E 
+ 1830      7400
+ 1831              	.LASF3:
+ 1832 0136 73686F72 		.ascii	"short unsigned int\000"
+ 1832      7420756E 
+ 1832      7369676E 
+ 1832      65642069 
+ 1832      6E7400
+ 1833              	.LASF22:
+ 1834 0149 73747263 		.ascii	"strcat\000"
+ 1834      617400
+ 1835              	.LASF27:
+ 1836 0150 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1836      52784275 
+ 1836      66666572 
+ 1836      00
+ 1837              	.LASF12:
+ 1838 015d 646F7562 		.ascii	"double\000"
+ 1838      6C6500
+ 1839              	.LASF28:
+ 1840 0164 5F5F6275 		.ascii	"__builtin_strlen\000"
+ 1840      696C7469 
+ 1840      6E5F7374 
+ 1840      726C656E 
+ 1840      00
+ 1841              	.LASF18:
+ 1842 0175 636F6465 		.ascii	"code\000"
+ 1842      00
+ 1843              	.LASF25:
+ 1844 017a 7472616E 		.ascii	"translator.c\000"
+ 1844      736C6174 
+ 1844      6F722E63 
+ 1844      00
+ 1845              	.LASF23:
+ 1846 0187 7374726C 		.ascii	"strlen\000"
+ 1846      656E00
+ 1847              	.LASF7:
+ 1848 018e 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1848      206C6F6E 
+ 1848      6720756E 
+ 1848      7369676E 
+ 1848      65642069 
+ 1849              	.LASF10:
+ 1850 01a5 696E7433 		.ascii	"int32_t\000"
+ 1850      325F7400 
+ 1851              	.LASF15:
+ 1852 01ad 73697A65 		.ascii	"sizetype\000"
+ 1852      74797065 
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cckZz5k9.s 			page 40
+
+
+ 1852      00
+ 1853              	.LASF6:
+ 1854 01b6 6C6F6E67 		.ascii	"long long int\000"
+ 1854      206C6F6E 
+ 1854      6720696E 
+ 1854      7400
+ 1855              	.LASF13:
+ 1856 01c4 63686172 		.ascii	"char\000"
+ 1856      00
+ 1857              	.LASF2:
+ 1858 01c9 73686F72 		.ascii	"short int\000"
+ 1858      7420696E 
+ 1858      7400
+ 1859              	.LASF4:
+ 1860 01d3 6C6F6E67 		.ascii	"long int\000"
+ 1860      20696E74 
+ 1860      00
+ 1861              	.LASF14:
+ 1862 01dc 6C6F6E67 		.ascii	"long double\000"
+ 1862      20646F75 
+ 1862      626C6500 
+ 1863              	.LASF0:
+ 1864 01e8 7369676E 		.ascii	"signed char\000"
+ 1864      65642063 
+ 1864      68617200 
+ 1865              	.LASF20:
+ 1866 01f4 7472616E 		.ascii	"translation\000"
+ 1866      736C6174 
+ 1866      696F6E00 
+ 1867              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

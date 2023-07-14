@@ -1,0 +1,990 @@
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cca487K9.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"lighter.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.doLine,"ax",%progbits
+  20              		.align	1
+  21              		.global	doLine
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	doLine, %function
+  25              	doLine:
+  26              	.LFB63:
+  27              		.file 1 "lighter.c"
+   1:lighter.c     **** /* ========================================
+   2:lighter.c     ****  *
+   3:lighter.c     ****  * Copyright YOUR COMPANY, THE YEAR
+   4:lighter.c     ****  * All Rights Reserved
+   5:lighter.c     ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:lighter.c     ****  *
+   7:lighter.c     ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:lighter.c     ****  * WHICH IS THE PROPERTY OF your company.
+   9:lighter.c     ****  *
+  10:lighter.c     ****  * ========================================
+  11:lighter.c     **** */
+  12:lighter.c     **** 
+  13:lighter.c     **** #include "project.h"
+  14:lighter.c     **** 
+  15:lighter.c     **** #define LED_DELAY 500
+  16:lighter.c     **** 
+  17:lighter.c     **** /*
+  18:lighter.c     ****    lights on the LEDs one after another then lights off
+  19:lighter.c     ****    the LEDs one after another
+  20:lighter.c     **** */
+  21:lighter.c     **** void doLine (void) {
+  28              		.loc 1 21 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 08B5     		push	{r3, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+  22:lighter.c     ****  
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cca487K9.s 			page 2
+
+
+  23:lighter.c     ****     Pin_D4_Write ( ~Pin_D4_Read() );
+  36              		.loc 1 23 0
+  37 0002 FFF7FEFF 		bl	Pin_D4_Read
+  38              	.LVL0:
+  39 0006 C043     		mvns	r0, r0
+  40 0008 C0B2     		uxtb	r0, r0
+  41 000a FFF7FEFF 		bl	Pin_D4_Write
+  42              	.LVL1:
+  24:lighter.c     ****     CyDelay( LED_DELAY );
+  43              		.loc 1 24 0
+  44 000e 4FF4FA70 		mov	r0, #500
+  45 0012 FFF7FEFF 		bl	CyDelay
+  46              	.LVL2:
+  25:lighter.c     ****     Pin_D3_Write ( ~Pin_D3_Read() );
+  47              		.loc 1 25 0
+  48 0016 FFF7FEFF 		bl	Pin_D3_Read
+  49              	.LVL3:
+  50 001a C043     		mvns	r0, r0
+  51 001c C0B2     		uxtb	r0, r0
+  52 001e FFF7FEFF 		bl	Pin_D3_Write
+  53              	.LVL4:
+  26:lighter.c     ****     CyDelay( LED_DELAY );
+  54              		.loc 1 26 0
+  55 0022 4FF4FA70 		mov	r0, #500
+  56 0026 FFF7FEFF 		bl	CyDelay
+  57              	.LVL5:
+  27:lighter.c     ****     Pin_D2_Write ( ~Pin_D2_Read() );
+  58              		.loc 1 27 0
+  59 002a FFF7FEFF 		bl	Pin_D2_Read
+  60              	.LVL6:
+  61 002e C043     		mvns	r0, r0
+  62 0030 C0B2     		uxtb	r0, r0
+  63 0032 FFF7FEFF 		bl	Pin_D2_Write
+  64              	.LVL7:
+  28:lighter.c     ****     CyDelay( LED_DELAY );
+  65              		.loc 1 28 0
+  66 0036 4FF4FA70 		mov	r0, #500
+  67 003a FFF7FEFF 		bl	CyDelay
+  68              	.LVL8:
+  29:lighter.c     ****     Pin_D1_Write ( ~Pin_D1_Read() );
+  69              		.loc 1 29 0
+  70 003e FFF7FEFF 		bl	Pin_D1_Read
+  71              	.LVL9:
+  72 0042 C043     		mvns	r0, r0
+  73 0044 C0B2     		uxtb	r0, r0
+  74 0046 FFF7FEFF 		bl	Pin_D1_Write
+  75              	.LVL10:
+  30:lighter.c     ****     CyDelay( LED_DELAY );
+  31:lighter.c     **** }
+  76              		.loc 1 31 0
+  77 004a BDE80840 		pop	{r3, lr}
+  78              		.cfi_restore 14
+  79              		.cfi_restore 3
+  80              		.cfi_def_cfa_offset 0
+  30:lighter.c     ****     CyDelay( LED_DELAY );
+  81              		.loc 1 30 0
+  82 004e 4FF4FA70 		mov	r0, #500
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cca487K9.s 			page 3
+
+
+  83 0052 FFF7FEBF 		b	CyDelay
+  84              	.LVL11:
+  85              		.cfi_endproc
+  86              	.LFE63:
+  87              		.size	doLine, .-doLine
+  88              		.section	.text.blink,"ax",%progbits
+  89              		.align	1
+  90              		.global	blink
+  91              		.thumb
+  92              		.thumb_func
+  93              		.type	blink, %function
+  94              	blink:
+  95              	.LFB64:
+  32:lighter.c     **** 
+  33:lighter.c     **** /*
+  34:lighter.c     ****    lights on and light off the LEDs while the number of
+  35:lighter.c     ****    seconds passed in parameter has not elapsed
+  36:lighter.c     **** */
+  37:lighter.c     **** void blink (int seconds) {
+  96              		.loc 1 37 0
+  97              		.cfi_startproc
+  98              		@ args = 0, pretend = 0, frame = 0
+  99              		@ frame_needed = 0, uses_anonymous_args = 0
+ 100              	.LVL12:
+ 101 0000 38B5     		push	{r3, r4, r5, lr}
+ 102              		.cfi_def_cfa_offset 16
+ 103              		.cfi_offset 3, -16
+ 104              		.cfi_offset 4, -12
+ 105              		.cfi_offset 5, -8
+ 106              		.cfi_offset 14, -4
+  38:lighter.c     ****     
+  39:lighter.c     ****     int timeSpent = 0;
+  40:lighter.c     ****     
+  41:lighter.c     ****     int duration = seconds * 1000;
+ 107              		.loc 1 41 0
+ 108 0002 4FF47A74 		mov	r4, #1000
+ 109 0006 4443     		muls	r4, r0, r4
+ 110              	.LVL13:
+  39:lighter.c     ****     
+ 111              		.loc 1 39 0
+ 112 0008 0025     		movs	r5, #0
+ 113              	.LVL14:
+ 114              	.L3:
+  42:lighter.c     ****     
+  43:lighter.c     ****     while (timeSpent < duration)
+ 115              		.loc 1 43 0
+ 116 000a A542     		cmp	r5, r4
+ 117 000c 1EDA     		bge	.L6
+  44:lighter.c     ****     {
+  45:lighter.c     ****         Pin_D1_Write ( ~Pin_D1_Read() );
+ 118              		.loc 1 45 0
+ 119 000e FFF7FEFF 		bl	Pin_D1_Read
+ 120              	.LVL15:
+ 121 0012 C043     		mvns	r0, r0
+ 122 0014 C0B2     		uxtb	r0, r0
+ 123 0016 FFF7FEFF 		bl	Pin_D1_Write
+ 124              	.LVL16:
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cca487K9.s 			page 4
+
+
+  46:lighter.c     ****         Pin_D2_Write ( ~Pin_D2_Read() );
+ 125              		.loc 1 46 0
+ 126 001a FFF7FEFF 		bl	Pin_D2_Read
+ 127              	.LVL17:
+ 128 001e C043     		mvns	r0, r0
+ 129 0020 C0B2     		uxtb	r0, r0
+ 130 0022 FFF7FEFF 		bl	Pin_D2_Write
+ 131              	.LVL18:
+  47:lighter.c     ****         Pin_D3_Write ( ~Pin_D3_Read() );
+ 132              		.loc 1 47 0
+ 133 0026 FFF7FEFF 		bl	Pin_D3_Read
+ 134              	.LVL19:
+ 135 002a C043     		mvns	r0, r0
+ 136 002c C0B2     		uxtb	r0, r0
+ 137 002e FFF7FEFF 		bl	Pin_D3_Write
+ 138              	.LVL20:
+  48:lighter.c     ****         Pin_D4_Write ( ~Pin_D4_Read() );
+ 139              		.loc 1 48 0
+ 140 0032 FFF7FEFF 		bl	Pin_D4_Read
+ 141              	.LVL21:
+ 142 0036 C043     		mvns	r0, r0
+ 143 0038 C0B2     		uxtb	r0, r0
+ 144 003a FFF7FEFF 		bl	Pin_D4_Write
+ 145              	.LVL22:
+  49:lighter.c     ****         CyDelay( LED_DELAY);
+ 146              		.loc 1 49 0
+ 147 003e 4FF4FA70 		mov	r0, #500
+ 148 0042 FFF7FEFF 		bl	CyDelay
+ 149              	.LVL23:
+  50:lighter.c     ****         
+  51:lighter.c     ****         timeSpent += LED_DELAY;
+ 150              		.loc 1 51 0
+ 151 0046 05F5FA75 		add	r5, r5, #500
+ 152              	.LVL24:
+ 153 004a DEE7     		b	.L3
+ 154              	.L6:
+  52:lighter.c     ****     }
+  53:lighter.c     ****     
+  54:lighter.c     ****     
+  55:lighter.c     **** }
+ 155              		.loc 1 55 0
+ 156 004c 38BD     		pop	{r3, r4, r5, pc}
+ 157              		.cfi_endproc
+ 158              	.LFE64:
+ 159              		.size	blink, .-blink
+ 160              		.text
+ 161              	.Letext0:
+ 162              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 163              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 164              		.file 4 "Generated_Source\\PSoC5/Pin_D4.h"
+ 165              		.file 5 "Generated_Source\\PSoC5/CyLib.h"
+ 166              		.file 6 "Generated_Source\\PSoC5/Pin_D3.h"
+ 167              		.file 7 "Generated_Source\\PSoC5/Pin_D2.h"
+ 168              		.file 8 "Generated_Source\\PSoC5/Pin_D1.h"
+ 169              		.file 9 "Generated_Source\\PSoC5/core_cm3.h"
+ 170              		.section	.debug_info,"",%progbits
+ 171              	.Ldebug_info0:
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cca487K9.s 			page 5
+
+
+ 172 0000 5D020000 		.4byte	0x25d
+ 173 0004 0400     		.2byte	0x4
+ 174 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 175 000a 04       		.byte	0x4
+ 176 000b 01       		.uleb128 0x1
+ 177 000c 86010000 		.4byte	.LASF29
+ 178 0010 0C       		.byte	0xc
+ 179 0011 06000000 		.4byte	.LASF30
+ 180 0015 10000000 		.4byte	.LASF31
+ 181 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 182 001d 00000000 		.4byte	0
+ 183 0021 00000000 		.4byte	.Ldebug_line0
+ 184 0025 02       		.uleb128 0x2
+ 185 0026 01       		.byte	0x1
+ 186 0027 06       		.byte	0x6
+ 187 0028 29020000 		.4byte	.LASF0
+ 188 002c 02       		.uleb128 0x2
+ 189 002d 01       		.byte	0x1
+ 190 002e 08       		.byte	0x8
+ 191 002f E6000000 		.4byte	.LASF1
+ 192 0033 02       		.uleb128 0x2
+ 193 0034 02       		.byte	0x2
+ 194 0035 05       		.byte	0x5
+ 195 0036 7C010000 		.4byte	.LASF2
+ 196 003a 02       		.uleb128 0x2
+ 197 003b 02       		.byte	0x2
+ 198 003c 07       		.byte	0x7
+ 199 003d AF000000 		.4byte	.LASF3
+ 200 0041 03       		.uleb128 0x3
+ 201 0042 57000000 		.4byte	.LASF9
+ 202 0046 02       		.byte	0x2
+ 203 0047 3F       		.byte	0x3f
+ 204 0048 4C000000 		.4byte	0x4c
+ 205 004c 02       		.uleb128 0x2
+ 206 004d 04       		.byte	0x4
+ 207 004e 05       		.byte	0x5
+ 208 004f 14020000 		.4byte	.LASF4
+ 209 0053 02       		.uleb128 0x2
+ 210 0054 04       		.byte	0x4
+ 211 0055 07       		.byte	0x7
+ 212 0056 9D000000 		.4byte	.LASF5
+ 213 005a 02       		.uleb128 0x2
+ 214 005b 08       		.byte	0x8
+ 215 005c 05       		.byte	0x5
+ 216 005d 49010000 		.4byte	.LASF6
+ 217 0061 02       		.uleb128 0x2
+ 218 0062 08       		.byte	0x8
+ 219 0063 07       		.byte	0x7
+ 220 0064 21010000 		.4byte	.LASF7
+ 221 0068 04       		.uleb128 0x4
+ 222 0069 04       		.byte	0x4
+ 223 006a 05       		.byte	0x5
+ 224 006b 696E7400 		.ascii	"int\000"
+ 225 006f 02       		.uleb128 0x2
+ 226 0070 04       		.byte	0x4
+ 227 0071 07       		.byte	0x7
+ 228 0072 14010000 		.4byte	.LASF8
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cca487K9.s 			page 6
+
+
+ 229 0076 03       		.uleb128 0x3
+ 230 0077 38010000 		.4byte	.LASF10
+ 231 007b 03       		.byte	0x3
+ 232 007c 2C       		.byte	0x2c
+ 233 007d 41000000 		.4byte	0x41
+ 234 0081 02       		.uleb128 0x2
+ 235 0082 04       		.byte	0x4
+ 236 0083 04       		.byte	0x4
+ 237 0084 8A000000 		.4byte	.LASF11
+ 238 0088 02       		.uleb128 0x2
+ 239 0089 08       		.byte	0x8
+ 240 008a 04       		.byte	0x4
+ 241 008b F4000000 		.4byte	.LASF12
+ 242 008f 02       		.uleb128 0x2
+ 243 0090 01       		.byte	0x1
+ 244 0091 08       		.byte	0x8
+ 245 0092 6B010000 		.4byte	.LASF13
+ 246 0096 02       		.uleb128 0x2
+ 247 0097 04       		.byte	0x4
+ 248 0098 07       		.byte	0x7
+ 249 0099 40010000 		.4byte	.LASF14
+ 250 009d 02       		.uleb128 0x2
+ 251 009e 08       		.byte	0x8
+ 252 009f 04       		.byte	0x4
+ 253 00a0 1D020000 		.4byte	.LASF15
+ 254 00a4 05       		.uleb128 0x5
+ 255 00a5 83000000 		.4byte	.LASF16
+ 256 00a9 01       		.byte	0x1
+ 257 00aa 15       		.byte	0x15
+ 258 00ab 00000000 		.4byte	.LFB63
+ 259 00af 56000000 		.4byte	.LFE63-.LFB63
+ 260 00b3 01       		.uleb128 0x1
+ 261 00b4 9C       		.byte	0x9c
+ 262 00b5 52010000 		.4byte	0x152
+ 263 00b9 06       		.uleb128 0x6
+ 264 00ba 06000000 		.4byte	.LVL0
+ 265 00be FD010000 		.4byte	0x1fd
+ 266 00c2 06       		.uleb128 0x6
+ 267 00c3 0E000000 		.4byte	.LVL1
+ 268 00c7 08020000 		.4byte	0x208
+ 269 00cb 07       		.uleb128 0x7
+ 270 00cc 16000000 		.4byte	.LVL2
+ 271 00d0 13020000 		.4byte	0x213
+ 272 00d4 E0000000 		.4byte	0xe0
+ 273 00d8 08       		.uleb128 0x8
+ 274 00d9 01       		.uleb128 0x1
+ 275 00da 50       		.byte	0x50
+ 276 00db 03       		.uleb128 0x3
+ 277 00dc 0A       		.byte	0xa
+ 278 00dd F401     		.2byte	0x1f4
+ 279 00df 00       		.byte	0
+ 280 00e0 06       		.uleb128 0x6
+ 281 00e1 1A000000 		.4byte	.LVL3
+ 282 00e5 1E020000 		.4byte	0x21e
+ 283 00e9 06       		.uleb128 0x6
+ 284 00ea 22000000 		.4byte	.LVL4
+ 285 00ee 29020000 		.4byte	0x229
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cca487K9.s 			page 7
+
+
+ 286 00f2 07       		.uleb128 0x7
+ 287 00f3 2A000000 		.4byte	.LVL5
+ 288 00f7 13020000 		.4byte	0x213
+ 289 00fb 07010000 		.4byte	0x107
+ 290 00ff 08       		.uleb128 0x8
+ 291 0100 01       		.uleb128 0x1
+ 292 0101 50       		.byte	0x50
+ 293 0102 03       		.uleb128 0x3
+ 294 0103 0A       		.byte	0xa
+ 295 0104 F401     		.2byte	0x1f4
+ 296 0106 00       		.byte	0
+ 297 0107 06       		.uleb128 0x6
+ 298 0108 2E000000 		.4byte	.LVL6
+ 299 010c 34020000 		.4byte	0x234
+ 300 0110 06       		.uleb128 0x6
+ 301 0111 36000000 		.4byte	.LVL7
+ 302 0115 3F020000 		.4byte	0x23f
+ 303 0119 07       		.uleb128 0x7
+ 304 011a 3E000000 		.4byte	.LVL8
+ 305 011e 13020000 		.4byte	0x213
+ 306 0122 2E010000 		.4byte	0x12e
+ 307 0126 08       		.uleb128 0x8
+ 308 0127 01       		.uleb128 0x1
+ 309 0128 50       		.byte	0x50
+ 310 0129 03       		.uleb128 0x3
+ 311 012a 0A       		.byte	0xa
+ 312 012b F401     		.2byte	0x1f4
+ 313 012d 00       		.byte	0
+ 314 012e 06       		.uleb128 0x6
+ 315 012f 42000000 		.4byte	.LVL9
+ 316 0133 4A020000 		.4byte	0x24a
+ 317 0137 06       		.uleb128 0x6
+ 318 0138 4A000000 		.4byte	.LVL10
+ 319 013c 55020000 		.4byte	0x255
+ 320 0140 09       		.uleb128 0x9
+ 321 0141 56000000 		.4byte	.LVL11
+ 322 0145 13020000 		.4byte	0x213
+ 323 0149 08       		.uleb128 0x8
+ 324 014a 01       		.uleb128 0x1
+ 325 014b 50       		.byte	0x50
+ 326 014c 03       		.uleb128 0x3
+ 327 014d 0A       		.byte	0xa
+ 328 014e F401     		.2byte	0x1f4
+ 329 0150 00       		.byte	0
+ 330 0151 00       		.byte	0
+ 331 0152 05       		.uleb128 0x5
+ 332 0153 00000000 		.4byte	.LASF17
+ 333 0157 01       		.byte	0x1
+ 334 0158 25       		.byte	0x25
+ 335 0159 00000000 		.4byte	.LFB64
+ 336 015d 4E000000 		.4byte	.LFE64-.LFB64
+ 337 0161 01       		.uleb128 0x1
+ 338 0162 9C       		.byte	0x9c
+ 339 0163 EC010000 		.4byte	0x1ec
+ 340 0167 0A       		.uleb128 0xa
+ 341 0168 63010000 		.4byte	.LASF32
+ 342 016c 01       		.byte	0x1
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cca487K9.s 			page 8
+
+
+ 343 016d 25       		.byte	0x25
+ 344 016e 68000000 		.4byte	0x68
+ 345 0172 00000000 		.4byte	.LLST0
+ 346 0176 0B       		.uleb128 0xb
+ 347 0177 DC000000 		.4byte	.LASF18
+ 348 017b 01       		.byte	0x1
+ 349 017c 27       		.byte	0x27
+ 350 017d 68000000 		.4byte	0x68
+ 351 0181 21000000 		.4byte	.LLST1
+ 352 0185 0C       		.uleb128 0xc
+ 353 0186 61000000 		.4byte	.LASF19
+ 354 018a 01       		.byte	0x1
+ 355 018b 29       		.byte	0x29
+ 356 018c 68000000 		.4byte	0x68
+ 357 0190 01       		.uleb128 0x1
+ 358 0191 54       		.byte	0x54
+ 359 0192 06       		.uleb128 0x6
+ 360 0193 12000000 		.4byte	.LVL15
+ 361 0197 4A020000 		.4byte	0x24a
+ 362 019b 06       		.uleb128 0x6
+ 363 019c 1A000000 		.4byte	.LVL16
+ 364 01a0 55020000 		.4byte	0x255
+ 365 01a4 06       		.uleb128 0x6
+ 366 01a5 1E000000 		.4byte	.LVL17
+ 367 01a9 34020000 		.4byte	0x234
+ 368 01ad 06       		.uleb128 0x6
+ 369 01ae 26000000 		.4byte	.LVL18
+ 370 01b2 3F020000 		.4byte	0x23f
+ 371 01b6 06       		.uleb128 0x6
+ 372 01b7 2A000000 		.4byte	.LVL19
+ 373 01bb 1E020000 		.4byte	0x21e
+ 374 01bf 06       		.uleb128 0x6
+ 375 01c0 32000000 		.4byte	.LVL20
+ 376 01c4 29020000 		.4byte	0x229
+ 377 01c8 06       		.uleb128 0x6
+ 378 01c9 36000000 		.4byte	.LVL21
+ 379 01cd FD010000 		.4byte	0x1fd
+ 380 01d1 06       		.uleb128 0x6
+ 381 01d2 3E000000 		.4byte	.LVL22
+ 382 01d6 08020000 		.4byte	0x208
+ 383 01da 0D       		.uleb128 0xd
+ 384 01db 46000000 		.4byte	.LVL23
+ 385 01df 13020000 		.4byte	0x213
+ 386 01e3 08       		.uleb128 0x8
+ 387 01e4 01       		.uleb128 0x1
+ 388 01e5 50       		.byte	0x50
+ 389 01e6 03       		.uleb128 0x3
+ 390 01e7 0A       		.byte	0xa
+ 391 01e8 F401     		.2byte	0x1f4
+ 392 01ea 00       		.byte	0
+ 393 01eb 00       		.byte	0
+ 394 01ec 0E       		.uleb128 0xe
+ 395 01ed CF000000 		.4byte	.LASF33
+ 396 01f1 09       		.byte	0x9
+ 397 01f2 1207     		.2byte	0x712
+ 398 01f4 F8010000 		.4byte	0x1f8
+ 399 01f8 0F       		.uleb128 0xf
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cca487K9.s 			page 9
+
+
+ 400 01f9 76000000 		.4byte	0x76
+ 401 01fd 10       		.uleb128 0x10
+ 402 01fe 57010000 		.4byte	.LASF20
+ 403 0202 57010000 		.4byte	.LASF20
+ 404 0206 04       		.byte	0x4
+ 405 0207 29       		.byte	0x29
+ 406 0208 10       		.uleb128 0x10
+ 407 0209 07010000 		.4byte	.LASF21
+ 408 020d 07010000 		.4byte	.LASF21
+ 409 0211 04       		.byte	0x4
+ 410 0212 26       		.byte	0x26
+ 411 0213 10       		.uleb128 0x10
+ 412 0214 35020000 		.4byte	.LASF22
+ 413 0218 35020000 		.4byte	.LASF22
+ 414 021c 05       		.byte	0x5
+ 415 021d 76       		.byte	0x76
+ 416 021e 10       		.uleb128 0x10
+ 417 021f FB000000 		.4byte	.LASF23
+ 418 0223 FB000000 		.4byte	.LASF23
+ 419 0227 06       		.byte	0x6
+ 420 0228 29       		.byte	0x29
+ 421 0229 10       		.uleb128 0x10
+ 422 022a C2000000 		.4byte	.LASF24
+ 423 022e C2000000 		.4byte	.LASF24
+ 424 0232 06       		.byte	0x6
+ 425 0233 26       		.byte	0x26
+ 426 0234 10       		.uleb128 0x10
+ 427 0235 6A000000 		.4byte	.LASF25
+ 428 0239 6A000000 		.4byte	.LASF25
+ 429 023d 07       		.byte	0x7
+ 430 023e 29       		.byte	0x29
+ 431 023f 10       		.uleb128 0x10
+ 432 0240 90000000 		.4byte	.LASF26
+ 433 0244 90000000 		.4byte	.LASF26
+ 434 0248 07       		.byte	0x7
+ 435 0249 26       		.byte	0x26
+ 436 024a 10       		.uleb128 0x10
+ 437 024b 70010000 		.4byte	.LASF27
+ 438 024f 70010000 		.4byte	.LASF27
+ 439 0253 08       		.byte	0x8
+ 440 0254 29       		.byte	0x29
+ 441 0255 10       		.uleb128 0x10
+ 442 0256 76000000 		.4byte	.LASF28
+ 443 025a 76000000 		.4byte	.LASF28
+ 444 025e 08       		.byte	0x8
+ 445 025f 26       		.byte	0x26
+ 446 0260 00       		.byte	0
+ 447              		.section	.debug_abbrev,"",%progbits
+ 448              	.Ldebug_abbrev0:
+ 449 0000 01       		.uleb128 0x1
+ 450 0001 11       		.uleb128 0x11
+ 451 0002 01       		.byte	0x1
+ 452 0003 25       		.uleb128 0x25
+ 453 0004 0E       		.uleb128 0xe
+ 454 0005 13       		.uleb128 0x13
+ 455 0006 0B       		.uleb128 0xb
+ 456 0007 03       		.uleb128 0x3
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cca487K9.s 			page 10
+
+
+ 457 0008 0E       		.uleb128 0xe
+ 458 0009 1B       		.uleb128 0x1b
+ 459 000a 0E       		.uleb128 0xe
+ 460 000b 55       		.uleb128 0x55
+ 461 000c 17       		.uleb128 0x17
+ 462 000d 11       		.uleb128 0x11
+ 463 000e 01       		.uleb128 0x1
+ 464 000f 10       		.uleb128 0x10
+ 465 0010 17       		.uleb128 0x17
+ 466 0011 00       		.byte	0
+ 467 0012 00       		.byte	0
+ 468 0013 02       		.uleb128 0x2
+ 469 0014 24       		.uleb128 0x24
+ 470 0015 00       		.byte	0
+ 471 0016 0B       		.uleb128 0xb
+ 472 0017 0B       		.uleb128 0xb
+ 473 0018 3E       		.uleb128 0x3e
+ 474 0019 0B       		.uleb128 0xb
+ 475 001a 03       		.uleb128 0x3
+ 476 001b 0E       		.uleb128 0xe
+ 477 001c 00       		.byte	0
+ 478 001d 00       		.byte	0
+ 479 001e 03       		.uleb128 0x3
+ 480 001f 16       		.uleb128 0x16
+ 481 0020 00       		.byte	0
+ 482 0021 03       		.uleb128 0x3
+ 483 0022 0E       		.uleb128 0xe
+ 484 0023 3A       		.uleb128 0x3a
+ 485 0024 0B       		.uleb128 0xb
+ 486 0025 3B       		.uleb128 0x3b
+ 487 0026 0B       		.uleb128 0xb
+ 488 0027 49       		.uleb128 0x49
+ 489 0028 13       		.uleb128 0x13
+ 490 0029 00       		.byte	0
+ 491 002a 00       		.byte	0
+ 492 002b 04       		.uleb128 0x4
+ 493 002c 24       		.uleb128 0x24
+ 494 002d 00       		.byte	0
+ 495 002e 0B       		.uleb128 0xb
+ 496 002f 0B       		.uleb128 0xb
+ 497 0030 3E       		.uleb128 0x3e
+ 498 0031 0B       		.uleb128 0xb
+ 499 0032 03       		.uleb128 0x3
+ 500 0033 08       		.uleb128 0x8
+ 501 0034 00       		.byte	0
+ 502 0035 00       		.byte	0
+ 503 0036 05       		.uleb128 0x5
+ 504 0037 2E       		.uleb128 0x2e
+ 505 0038 01       		.byte	0x1
+ 506 0039 3F       		.uleb128 0x3f
+ 507 003a 19       		.uleb128 0x19
+ 508 003b 03       		.uleb128 0x3
+ 509 003c 0E       		.uleb128 0xe
+ 510 003d 3A       		.uleb128 0x3a
+ 511 003e 0B       		.uleb128 0xb
+ 512 003f 3B       		.uleb128 0x3b
+ 513 0040 0B       		.uleb128 0xb
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cca487K9.s 			page 11
+
+
+ 514 0041 27       		.uleb128 0x27
+ 515 0042 19       		.uleb128 0x19
+ 516 0043 11       		.uleb128 0x11
+ 517 0044 01       		.uleb128 0x1
+ 518 0045 12       		.uleb128 0x12
+ 519 0046 06       		.uleb128 0x6
+ 520 0047 40       		.uleb128 0x40
+ 521 0048 18       		.uleb128 0x18
+ 522 0049 9742     		.uleb128 0x2117
+ 523 004b 19       		.uleb128 0x19
+ 524 004c 01       		.uleb128 0x1
+ 525 004d 13       		.uleb128 0x13
+ 526 004e 00       		.byte	0
+ 527 004f 00       		.byte	0
+ 528 0050 06       		.uleb128 0x6
+ 529 0051 898201   		.uleb128 0x4109
+ 530 0054 00       		.byte	0
+ 531 0055 11       		.uleb128 0x11
+ 532 0056 01       		.uleb128 0x1
+ 533 0057 31       		.uleb128 0x31
+ 534 0058 13       		.uleb128 0x13
+ 535 0059 00       		.byte	0
+ 536 005a 00       		.byte	0
+ 537 005b 07       		.uleb128 0x7
+ 538 005c 898201   		.uleb128 0x4109
+ 539 005f 01       		.byte	0x1
+ 540 0060 11       		.uleb128 0x11
+ 541 0061 01       		.uleb128 0x1
+ 542 0062 31       		.uleb128 0x31
+ 543 0063 13       		.uleb128 0x13
+ 544 0064 01       		.uleb128 0x1
+ 545 0065 13       		.uleb128 0x13
+ 546 0066 00       		.byte	0
+ 547 0067 00       		.byte	0
+ 548 0068 08       		.uleb128 0x8
+ 549 0069 8A8201   		.uleb128 0x410a
+ 550 006c 00       		.byte	0
+ 551 006d 02       		.uleb128 0x2
+ 552 006e 18       		.uleb128 0x18
+ 553 006f 9142     		.uleb128 0x2111
+ 554 0071 18       		.uleb128 0x18
+ 555 0072 00       		.byte	0
+ 556 0073 00       		.byte	0
+ 557 0074 09       		.uleb128 0x9
+ 558 0075 898201   		.uleb128 0x4109
+ 559 0078 01       		.byte	0x1
+ 560 0079 11       		.uleb128 0x11
+ 561 007a 01       		.uleb128 0x1
+ 562 007b 9542     		.uleb128 0x2115
+ 563 007d 19       		.uleb128 0x19
+ 564 007e 31       		.uleb128 0x31
+ 565 007f 13       		.uleb128 0x13
+ 566 0080 00       		.byte	0
+ 567 0081 00       		.byte	0
+ 568 0082 0A       		.uleb128 0xa
+ 569 0083 05       		.uleb128 0x5
+ 570 0084 00       		.byte	0
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cca487K9.s 			page 12
+
+
+ 571 0085 03       		.uleb128 0x3
+ 572 0086 0E       		.uleb128 0xe
+ 573 0087 3A       		.uleb128 0x3a
+ 574 0088 0B       		.uleb128 0xb
+ 575 0089 3B       		.uleb128 0x3b
+ 576 008a 0B       		.uleb128 0xb
+ 577 008b 49       		.uleb128 0x49
+ 578 008c 13       		.uleb128 0x13
+ 579 008d 02       		.uleb128 0x2
+ 580 008e 17       		.uleb128 0x17
+ 581 008f 00       		.byte	0
+ 582 0090 00       		.byte	0
+ 583 0091 0B       		.uleb128 0xb
+ 584 0092 34       		.uleb128 0x34
+ 585 0093 00       		.byte	0
+ 586 0094 03       		.uleb128 0x3
+ 587 0095 0E       		.uleb128 0xe
+ 588 0096 3A       		.uleb128 0x3a
+ 589 0097 0B       		.uleb128 0xb
+ 590 0098 3B       		.uleb128 0x3b
+ 591 0099 0B       		.uleb128 0xb
+ 592 009a 49       		.uleb128 0x49
+ 593 009b 13       		.uleb128 0x13
+ 594 009c 02       		.uleb128 0x2
+ 595 009d 17       		.uleb128 0x17
+ 596 009e 00       		.byte	0
+ 597 009f 00       		.byte	0
+ 598 00a0 0C       		.uleb128 0xc
+ 599 00a1 34       		.uleb128 0x34
+ 600 00a2 00       		.byte	0
+ 601 00a3 03       		.uleb128 0x3
+ 602 00a4 0E       		.uleb128 0xe
+ 603 00a5 3A       		.uleb128 0x3a
+ 604 00a6 0B       		.uleb128 0xb
+ 605 00a7 3B       		.uleb128 0x3b
+ 606 00a8 0B       		.uleb128 0xb
+ 607 00a9 49       		.uleb128 0x49
+ 608 00aa 13       		.uleb128 0x13
+ 609 00ab 02       		.uleb128 0x2
+ 610 00ac 18       		.uleb128 0x18
+ 611 00ad 00       		.byte	0
+ 612 00ae 00       		.byte	0
+ 613 00af 0D       		.uleb128 0xd
+ 614 00b0 898201   		.uleb128 0x4109
+ 615 00b3 01       		.byte	0x1
+ 616 00b4 11       		.uleb128 0x11
+ 617 00b5 01       		.uleb128 0x1
+ 618 00b6 31       		.uleb128 0x31
+ 619 00b7 13       		.uleb128 0x13
+ 620 00b8 00       		.byte	0
+ 621 00b9 00       		.byte	0
+ 622 00ba 0E       		.uleb128 0xe
+ 623 00bb 34       		.uleb128 0x34
+ 624 00bc 00       		.byte	0
+ 625 00bd 03       		.uleb128 0x3
+ 626 00be 0E       		.uleb128 0xe
+ 627 00bf 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cca487K9.s 			page 13
+
+
+ 628 00c0 0B       		.uleb128 0xb
+ 629 00c1 3B       		.uleb128 0x3b
+ 630 00c2 05       		.uleb128 0x5
+ 631 00c3 49       		.uleb128 0x49
+ 632 00c4 13       		.uleb128 0x13
+ 633 00c5 3F       		.uleb128 0x3f
+ 634 00c6 19       		.uleb128 0x19
+ 635 00c7 3C       		.uleb128 0x3c
+ 636 00c8 19       		.uleb128 0x19
+ 637 00c9 00       		.byte	0
+ 638 00ca 00       		.byte	0
+ 639 00cb 0F       		.uleb128 0xf
+ 640 00cc 35       		.uleb128 0x35
+ 641 00cd 00       		.byte	0
+ 642 00ce 49       		.uleb128 0x49
+ 643 00cf 13       		.uleb128 0x13
+ 644 00d0 00       		.byte	0
+ 645 00d1 00       		.byte	0
+ 646 00d2 10       		.uleb128 0x10
+ 647 00d3 2E       		.uleb128 0x2e
+ 648 00d4 00       		.byte	0
+ 649 00d5 3F       		.uleb128 0x3f
+ 650 00d6 19       		.uleb128 0x19
+ 651 00d7 3C       		.uleb128 0x3c
+ 652 00d8 19       		.uleb128 0x19
+ 653 00d9 6E       		.uleb128 0x6e
+ 654 00da 0E       		.uleb128 0xe
+ 655 00db 03       		.uleb128 0x3
+ 656 00dc 0E       		.uleb128 0xe
+ 657 00dd 3A       		.uleb128 0x3a
+ 658 00de 0B       		.uleb128 0xb
+ 659 00df 3B       		.uleb128 0x3b
+ 660 00e0 0B       		.uleb128 0xb
+ 661 00e1 00       		.byte	0
+ 662 00e2 00       		.byte	0
+ 663 00e3 00       		.byte	0
+ 664              		.section	.debug_loc,"",%progbits
+ 665              	.Ldebug_loc0:
+ 666              	.LLST0:
+ 667 0000 00000000 		.4byte	.LVL12
+ 668 0004 0A000000 		.4byte	.LVL14
+ 669 0008 0100     		.2byte	0x1
+ 670 000a 50       		.byte	0x50
+ 671 000b 0A000000 		.4byte	.LVL14
+ 672 000f 4E000000 		.4byte	.LFE64
+ 673 0013 0400     		.2byte	0x4
+ 674 0015 F3       		.byte	0xf3
+ 675 0016 01       		.uleb128 0x1
+ 676 0017 50       		.byte	0x50
+ 677 0018 9F       		.byte	0x9f
+ 678 0019 00000000 		.4byte	0
+ 679 001d 00000000 		.4byte	0
+ 680              	.LLST1:
+ 681 0021 00000000 		.4byte	.LVL12
+ 682 0025 0A000000 		.4byte	.LVL14
+ 683 0029 0200     		.2byte	0x2
+ 684 002b 30       		.byte	0x30
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cca487K9.s 			page 14
+
+
+ 685 002c 9F       		.byte	0x9f
+ 686 002d 0A000000 		.4byte	.LVL14
+ 687 0031 4E000000 		.4byte	.LFE64
+ 688 0035 0100     		.2byte	0x1
+ 689 0037 55       		.byte	0x55
+ 690 0038 00000000 		.4byte	0
+ 691 003c 00000000 		.4byte	0
+ 692              		.section	.debug_aranges,"",%progbits
+ 693 0000 24000000 		.4byte	0x24
+ 694 0004 0200     		.2byte	0x2
+ 695 0006 00000000 		.4byte	.Ldebug_info0
+ 696 000a 04       		.byte	0x4
+ 697 000b 00       		.byte	0
+ 698 000c 0000     		.2byte	0
+ 699 000e 0000     		.2byte	0
+ 700 0010 00000000 		.4byte	.LFB63
+ 701 0014 56000000 		.4byte	.LFE63-.LFB63
+ 702 0018 00000000 		.4byte	.LFB64
+ 703 001c 4E000000 		.4byte	.LFE64-.LFB64
+ 704 0020 00000000 		.4byte	0
+ 705 0024 00000000 		.4byte	0
+ 706              		.section	.debug_ranges,"",%progbits
+ 707              	.Ldebug_ranges0:
+ 708 0000 00000000 		.4byte	.LFB63
+ 709 0004 56000000 		.4byte	.LFE63
+ 710 0008 00000000 		.4byte	.LFB64
+ 711 000c 4E000000 		.4byte	.LFE64
+ 712 0010 00000000 		.4byte	0
+ 713 0014 00000000 		.4byte	0
+ 714              		.section	.debug_line,"",%progbits
+ 715              	.Ldebug_line0:
+ 716 0000 B4010000 		.section	.debug_str,"MS",%progbits,1
+ 716      02007D01 
+ 716      00000201 
+ 716      FB0E0D00 
+ 716      01010101 
+ 717              	.LASF17:
+ 718 0000 626C696E 		.ascii	"blink\000"
+ 718      6B00
+ 719              	.LASF30:
+ 720 0006 6C696768 		.ascii	"lighter.c\000"
+ 720      7465722E 
+ 720      6300
+ 721              	.LASF31:
+ 722 0010 433A5C55 		.ascii	"C:\\Users\\laure\\OneDrive\\Documents\\PSoC Creator"
+ 722      73657273 
+ 722      5C6C6175 
+ 722      72655C4F 
+ 722      6E654472 
+ 723 003e 5C50536F 		.ascii	"\\PSoC 5LP\\FirstLab.cydsn\000"
+ 723      4320354C 
+ 723      505C4669 
+ 723      7273744C 
+ 723      61622E63 
+ 724              	.LASF9:
+ 725 0057 5F5F696E 		.ascii	"__int32_t\000"
+ 725      7433325F 
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cca487K9.s 			page 15
+
+
+ 725      7400
+ 726              	.LASF19:
+ 727 0061 64757261 		.ascii	"duration\000"
+ 727      74696F6E 
+ 727      00
+ 728              	.LASF25:
+ 729 006a 50696E5F 		.ascii	"Pin_D2_Read\000"
+ 729      44325F52 
+ 729      65616400 
+ 730              	.LASF28:
+ 731 0076 50696E5F 		.ascii	"Pin_D1_Write\000"
+ 731      44315F57 
+ 731      72697465 
+ 731      00
+ 732              	.LASF16:
+ 733 0083 646F4C69 		.ascii	"doLine\000"
+ 733      6E6500
+ 734              	.LASF11:
+ 735 008a 666C6F61 		.ascii	"float\000"
+ 735      7400
+ 736              	.LASF26:
+ 737 0090 50696E5F 		.ascii	"Pin_D2_Write\000"
+ 737      44325F57 
+ 737      72697465 
+ 737      00
+ 738              	.LASF5:
+ 739 009d 6C6F6E67 		.ascii	"long unsigned int\000"
+ 739      20756E73 
+ 739      69676E65 
+ 739      6420696E 
+ 739      7400
+ 740              	.LASF3:
+ 741 00af 73686F72 		.ascii	"short unsigned int\000"
+ 741      7420756E 
+ 741      7369676E 
+ 741      65642069 
+ 741      6E7400
+ 742              	.LASF24:
+ 743 00c2 50696E5F 		.ascii	"Pin_D3_Write\000"
+ 743      44335F57 
+ 743      72697465 
+ 743      00
+ 744              	.LASF33:
+ 745 00cf 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 745      52784275 
+ 745      66666572 
+ 745      00
+ 746              	.LASF18:
+ 747 00dc 74696D65 		.ascii	"timeSpent\000"
+ 747      5370656E 
+ 747      7400
+ 748              	.LASF1:
+ 749 00e6 756E7369 		.ascii	"unsigned char\000"
+ 749      676E6564 
+ 749      20636861 
+ 749      7200
+ 750              	.LASF12:
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cca487K9.s 			page 16
+
+
+ 751 00f4 646F7562 		.ascii	"double\000"
+ 751      6C6500
+ 752              	.LASF23:
+ 753 00fb 50696E5F 		.ascii	"Pin_D3_Read\000"
+ 753      44335F52 
+ 753      65616400 
+ 754              	.LASF21:
+ 755 0107 50696E5F 		.ascii	"Pin_D4_Write\000"
+ 755      44345F57 
+ 755      72697465 
+ 755      00
+ 756              	.LASF8:
+ 757 0114 756E7369 		.ascii	"unsigned int\000"
+ 757      676E6564 
+ 757      20696E74 
+ 757      00
+ 758              	.LASF7:
+ 759 0121 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 759      206C6F6E 
+ 759      6720756E 
+ 759      7369676E 
+ 759      65642069 
+ 760              	.LASF10:
+ 761 0138 696E7433 		.ascii	"int32_t\000"
+ 761      325F7400 
+ 762              	.LASF14:
+ 763 0140 73697A65 		.ascii	"sizetype\000"
+ 763      74797065 
+ 763      00
+ 764              	.LASF6:
+ 765 0149 6C6F6E67 		.ascii	"long long int\000"
+ 765      206C6F6E 
+ 765      6720696E 
+ 765      7400
+ 766              	.LASF20:
+ 767 0157 50696E5F 		.ascii	"Pin_D4_Read\000"
+ 767      44345F52 
+ 767      65616400 
+ 768              	.LASF32:
+ 769 0163 7365636F 		.ascii	"seconds\000"
+ 769      6E647300 
+ 770              	.LASF13:
+ 771 016b 63686172 		.ascii	"char\000"
+ 771      00
+ 772              	.LASF27:
+ 773 0170 50696E5F 		.ascii	"Pin_D1_Read\000"
+ 773      44315F52 
+ 773      65616400 
+ 774              	.LASF2:
+ 775 017c 73686F72 		.ascii	"short int\000"
+ 775      7420696E 
+ 775      7400
+ 776              	.LASF29:
+ 777 0186 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 777      43313120 
+ 777      352E342E 
+ 777      31203230 
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cca487K9.s 			page 17
+
+
+ 777      31363036 
+ 778 01b9 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 778      20726576 
+ 778      6973696F 
+ 778      6E203233 
+ 778      37373135 
+ 779 01ec 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 779      66756E63 
+ 779      74696F6E 
+ 779      2D736563 
+ 779      74696F6E 
+ 780              	.LASF4:
+ 781 0214 6C6F6E67 		.ascii	"long int\000"
+ 781      20696E74 
+ 781      00
+ 782              	.LASF15:
+ 783 021d 6C6F6E67 		.ascii	"long double\000"
+ 783      20646F75 
+ 783      626C6500 
+ 784              	.LASF0:
+ 785 0229 7369676E 		.ascii	"signed char\000"
+ 785      65642063 
+ 785      68617200 
+ 786              	.LASF22:
+ 787 0235 43794465 		.ascii	"CyDelay\000"
+ 787      6C617900 
+ 788              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

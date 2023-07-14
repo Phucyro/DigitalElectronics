@@ -1,0 +1,735 @@
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cctNgNrU.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.startup.main,"ax",%progbits
+  20              		.align	1
+  21              		.global	main
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	main, %function
+  25              	main:
+  26              	.LFB63:
+  27              		.file 1 "main.c"
+   1:main.c        **** /* ========================================
+   2:main.c        ****  *
+   3:main.c        ****  * Copyright YOUR COMPANY, THE YEAR
+   4:main.c        ****  * All Rights Reserved
+   5:main.c        ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:main.c        ****  *
+   7:main.c        ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:main.c        ****  * WHICH IS THE PROPERTY OF your company.
+   9:main.c        ****  *
+  10:main.c        ****  * ========================================
+  11:main.c        **** */
+  12:main.c        **** #include "project.h"
+  13:main.c        **** #include "keypad.h"
+  14:main.c        **** 
+  15:main.c        **** #include "printer.h"
+  16:main.c        **** #include "lighter.h"
+  17:main.c        **** 
+  18:main.c        **** int main(void)
+  19:main.c        **** {
+  28              		.loc 1 19 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 08B5     		push	{r3, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+  20:main.c        ****     LCD_Screen_Start();
+  36              		.loc 1 20 0
+  37 0002 FFF7FEFF 		bl	LCD_Screen_Start
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cctNgNrU.s 			page 2
+
+
+  38              	.LVL0:
+  21:main.c        ****     
+  22:main.c        ****     keypadInit();
+  39              		.loc 1 22 0
+  40 0006 FFF7FEFF 		bl	keypadInit
+  41              	.LVL1:
+  42              	.L5:
+  23:main.c        **** 
+  24:main.c        ****     char keyPressed;
+  25:main.c        **** 
+  26:main.c        ****     
+  27:main.c        ****     for(;;)
+  28:main.c        ****     {
+  29:main.c        ****         
+  30:main.c        ****         keyPressed = keypadScan();
+  43              		.loc 1 30 0
+  44 000a FFF7FEFF 		bl	keypadScan
+  45              	.LVL2:
+  31:main.c        ****         
+  32:main.c        ****         if (keyPressed != 'z')
+  46              		.loc 1 32 0
+  47 000e 7A28     		cmp	r0, #122
+  48 0010 0CD0     		beq	.L2
+  33:main.c        ****         {
+  34:main.c        ****             if ( !(keyPressed == '#' || keyPressed == '*') )
+  49              		.loc 1 34 0
+  50 0012 2328     		cmp	r0, #35
+  51 0014 04D0     		beq	.L3
+  52              		.loc 1 34 0 is_stmt 0 discriminator 1
+  53 0016 2A28     		cmp	r0, #42
+  54 0018 06D0     		beq	.L4
+  35:main.c        ****             {
+  36:main.c        ****                 printChar(keyPressed);
+  55              		.loc 1 36 0 is_stmt 1
+  56 001a FFF7FEFF 		bl	printChar
+  57              	.LVL3:
+  58 001e 05E0     		b	.L2
+  59              	.LVL4:
+  60              	.L3:
+  37:main.c        ****             }
+  38:main.c        ****             
+  39:main.c        ****             else if (keyPressed == '#')
+  40:main.c        ****             {
+  41:main.c        ****                 staticPrint("Hello world !!");
+  61              		.loc 1 41 0
+  62 0020 0448     		ldr	r0, .L10
+  63              	.LVL5:
+  64 0022 FFF7FEFF 		bl	staticPrint
+  65              	.LVL6:
+  66 0026 01E0     		b	.L2
+  67              	.LVL7:
+  68              	.L4:
+  42:main.c        ****             }
+  43:main.c        ****             
+  44:main.c        ****             else if (keyPressed == '*')
+  45:main.c        ****             {
+  46:main.c        ****                 doLine();
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cctNgNrU.s 			page 3
+
+
+  69              		.loc 1 46 0
+  70 0028 FFF7FEFF 		bl	doLine
+  71              	.LVL8:
+  72              	.L2:
+  47:main.c        ****             }
+  48:main.c        ****             
+  49:main.c        ****         }
+  50:main.c        ****         
+  51:main.c        ****         CyDelay(50);
+  73              		.loc 1 51 0
+  74 002c 3220     		movs	r0, #50
+  75 002e FFF7FEFF 		bl	CyDelay
+  76              	.LVL9:
+  52:main.c        ****         
+  53:main.c        ****     }
+  77              		.loc 1 53 0
+  78 0032 EAE7     		b	.L5
+  79              	.L11:
+  80              		.align	2
+  81              	.L10:
+  82 0034 00000000 		.word	.LC0
+  83              		.cfi_endproc
+  84              	.LFE63:
+  85              		.size	main, .-main
+  86              		.section	.rodata.str1.1,"aMS",%progbits,1
+  87              	.LC0:
+  88 0000 48656C6C 		.ascii	"Hello world !!\000"
+  88      6F20776F 
+  88      726C6420 
+  88      212100
+  89              		.text
+  90              	.Letext0:
+  91              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+  92              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+  93              		.file 4 "Generated_Source\\PSoC5/LCD_Screen.h"
+  94              		.file 5 "keypad.h"
+  95              		.file 6 "printer.h"
+  96              		.file 7 "lighter.h"
+  97              		.file 8 "Generated_Source\\PSoC5/CyLib.h"
+  98              		.file 9 "Generated_Source\\PSoC5/core_cm3.h"
+  99              		.section	.debug_info,"",%progbits
+ 100              	.Ldebug_info0:
+ 101 0000 7C010000 		.4byte	0x17c
+ 102 0004 0400     		.2byte	0x4
+ 103 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 104 000a 04       		.byte	0x4
+ 105 000b 01       		.uleb128 0x1
+ 106 000c 1E010000 		.4byte	.LASF23
+ 107 0010 0C       		.byte	0xc
+ 108 0011 3C000000 		.4byte	.LASF24
+ 109 0015 96000000 		.4byte	.LASF25
+ 110 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 111 001d 00000000 		.4byte	0
+ 112 0021 00000000 		.4byte	.Ldebug_line0
+ 113 0025 02       		.uleb128 0x2
+ 114 0026 01       		.byte	0x1
+ 115 0027 06       		.byte	0x6
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cctNgNrU.s 			page 4
+
+
+ 116 0028 48000000 		.4byte	.LASF0
+ 117 002c 02       		.uleb128 0x2
+ 118 002d 01       		.byte	0x1
+ 119 002e 08       		.byte	0x8
+ 120 002f 2E000000 		.4byte	.LASF1
+ 121 0033 02       		.uleb128 0x2
+ 122 0034 02       		.byte	0x2
+ 123 0035 05       		.byte	0x5
+ 124 0036 0D010000 		.4byte	.LASF2
+ 125 003a 02       		.uleb128 0x2
+ 126 003b 02       		.byte	0x2
+ 127 003c 07       		.byte	0x7
+ 128 003d 0E000000 		.4byte	.LASF3
+ 129 0041 03       		.uleb128 0x3
+ 130 0042 D6010000 		.4byte	.LASF9
+ 131 0046 02       		.byte	0x2
+ 132 0047 3F       		.byte	0x3f
+ 133 0048 4C000000 		.4byte	0x4c
+ 134 004c 02       		.uleb128 0x2
+ 135 004d 04       		.byte	0x4
+ 136 004e 05       		.byte	0x5
+ 137 004f F9000000 		.4byte	.LASF4
+ 138 0053 02       		.uleb128 0x2
+ 139 0054 04       		.byte	0x4
+ 140 0055 07       		.byte	0x7
+ 141 0056 5C000000 		.4byte	.LASF5
+ 142 005a 02       		.uleb128 0x2
+ 143 005b 08       		.byte	0x8
+ 144 005c 05       		.byte	0x5
+ 145 005d 00000000 		.4byte	.LASF6
+ 146 0061 02       		.uleb128 0x2
+ 147 0062 08       		.byte	0x8
+ 148 0063 07       		.byte	0x7
+ 149 0064 6E000000 		.4byte	.LASF7
+ 150 0068 04       		.uleb128 0x4
+ 151 0069 04       		.byte	0x4
+ 152 006a 05       		.byte	0x5
+ 153 006b 696E7400 		.ascii	"int\000"
+ 154 006f 02       		.uleb128 0x2
+ 155 0070 04       		.byte	0x4
+ 156 0071 07       		.byte	0x7
+ 157 0072 21000000 		.4byte	.LASF8
+ 158 0076 03       		.uleb128 0x3
+ 159 0077 F1010000 		.4byte	.LASF10
+ 160 007b 03       		.byte	0x3
+ 161 007c 2C       		.byte	0x2c
+ 162 007d 41000000 		.4byte	0x41
+ 163 0081 02       		.uleb128 0x2
+ 164 0082 04       		.byte	0x4
+ 165 0083 04       		.byte	0x4
+ 166 0084 85000000 		.4byte	.LASF11
+ 167 0088 02       		.uleb128 0x2
+ 168 0089 08       		.byte	0x8
+ 169 008a 04       		.byte	0x4
+ 170 008b 17010000 		.4byte	.LASF12
+ 171 008f 02       		.uleb128 0x2
+ 172 0090 01       		.byte	0x1
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cctNgNrU.s 			page 5
+
+
+ 173 0091 08       		.byte	0x8
+ 174 0092 F4000000 		.4byte	.LASF13
+ 175 0096 02       		.uleb128 0x2
+ 176 0097 04       		.byte	0x4
+ 177 0098 07       		.byte	0x7
+ 178 0099 F9010000 		.4byte	.LASF14
+ 179 009d 02       		.uleb128 0x2
+ 180 009e 08       		.byte	0x8
+ 181 009f 04       		.byte	0x4
+ 182 00a0 CA010000 		.4byte	.LASF15
+ 183 00a4 05       		.uleb128 0x5
+ 184 00a5 43000000 		.4byte	.LASF26
+ 185 00a9 01       		.byte	0x1
+ 186 00aa 12       		.byte	0x12
+ 187 00ab 68000000 		.4byte	0x68
+ 188 00af 00000000 		.4byte	.LFB63
+ 189 00b3 38000000 		.4byte	.LFE63-.LFB63
+ 190 00b7 01       		.uleb128 0x1
+ 191 00b8 9C       		.byte	0x9c
+ 192 00b9 21010000 		.4byte	0x121
+ 193 00bd 06       		.uleb128 0x6
+ 194 00be 02010000 		.4byte	.LASF27
+ 195 00c2 01       		.byte	0x1
+ 196 00c3 18       		.byte	0x18
+ 197 00c4 8F000000 		.4byte	0x8f
+ 198 00c8 00000000 		.4byte	.LLST0
+ 199 00cc 07       		.uleb128 0x7
+ 200 00cd 06000000 		.4byte	.LVL0
+ 201 00d1 32010000 		.4byte	0x132
+ 202 00d5 07       		.uleb128 0x7
+ 203 00d6 0A000000 		.4byte	.LVL1
+ 204 00da 3D010000 		.4byte	0x13d
+ 205 00de 07       		.uleb128 0x7
+ 206 00df 0E000000 		.4byte	.LVL2
+ 207 00e3 48010000 		.4byte	0x148
+ 208 00e7 07       		.uleb128 0x7
+ 209 00e8 1E000000 		.4byte	.LVL3
+ 210 00ec 53010000 		.4byte	0x153
+ 211 00f0 08       		.uleb128 0x8
+ 212 00f1 26000000 		.4byte	.LVL6
+ 213 00f5 5E010000 		.4byte	0x15e
+ 214 00f9 07010000 		.4byte	0x107
+ 215 00fd 09       		.uleb128 0x9
+ 216 00fe 01       		.uleb128 0x1
+ 217 00ff 50       		.byte	0x50
+ 218 0100 05       		.uleb128 0x5
+ 219 0101 03       		.byte	0x3
+ 220 0102 00000000 		.4byte	.LC0
+ 221 0106 00       		.byte	0
+ 222 0107 07       		.uleb128 0x7
+ 223 0108 2C000000 		.4byte	.LVL8
+ 224 010c 69010000 		.4byte	0x169
+ 225 0110 0A       		.uleb128 0xa
+ 226 0111 32000000 		.4byte	.LVL9
+ 227 0115 74010000 		.4byte	0x174
+ 228 0119 09       		.uleb128 0x9
+ 229 011a 01       		.uleb128 0x1
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cctNgNrU.s 			page 6
+
+
+ 230 011b 50       		.byte	0x50
+ 231 011c 02       		.uleb128 0x2
+ 232 011d 08       		.byte	0x8
+ 233 011e 32       		.byte	0x32
+ 234 011f 00       		.byte	0
+ 235 0120 00       		.byte	0
+ 236 0121 0B       		.uleb128 0xb
+ 237 0122 AC010000 		.4byte	.LASF28
+ 238 0126 09       		.byte	0x9
+ 239 0127 1207     		.2byte	0x712
+ 240 0129 2D010000 		.4byte	0x12d
+ 241 012d 0C       		.uleb128 0xc
+ 242 012e 76000000 		.4byte	0x76
+ 243 0132 0D       		.uleb128 0xd
+ 244 0133 B9010000 		.4byte	.LASF16
+ 245 0137 B9010000 		.4byte	.LASF16
+ 246 013b 04       		.byte	0x4
+ 247 013c 38       		.byte	0x38
+ 248 013d 0D       		.uleb128 0xd
+ 249 013e 8B000000 		.4byte	.LASF17
+ 250 0142 8B000000 		.4byte	.LASF17
+ 251 0146 05       		.byte	0x5
+ 252 0147 0E       		.byte	0xe
+ 253 0148 0D       		.uleb128 0xd
+ 254 0149 DD000000 		.4byte	.LASF18
+ 255 014d DD000000 		.4byte	.LASF18
+ 256 0151 05       		.byte	0x5
+ 257 0152 0F       		.byte	0xf
+ 258 0153 0D       		.uleb128 0xd
+ 259 0154 E7010000 		.4byte	.LASF19
+ 260 0158 E7010000 		.4byte	.LASF19
+ 261 015c 06       		.byte	0x6
+ 262 015d 0F       		.byte	0xf
+ 263 015e 0D       		.uleb128 0xd
+ 264 015f E8000000 		.4byte	.LASF20
+ 265 0163 E8000000 		.4byte	.LASF20
+ 266 0167 06       		.byte	0x6
+ 267 0168 11       		.byte	0x11
+ 268 0169 0D       		.uleb128 0xd
+ 269 016a E0010000 		.4byte	.LASF21
+ 270 016e E0010000 		.4byte	.LASF21
+ 271 0172 07       		.byte	0x7
+ 272 0173 0F       		.byte	0xf
+ 273 0174 0D       		.uleb128 0xd
+ 274 0175 54000000 		.4byte	.LASF22
+ 275 0179 54000000 		.4byte	.LASF22
+ 276 017d 08       		.byte	0x8
+ 277 017e 76       		.byte	0x76
+ 278 017f 00       		.byte	0
+ 279              		.section	.debug_abbrev,"",%progbits
+ 280              	.Ldebug_abbrev0:
+ 281 0000 01       		.uleb128 0x1
+ 282 0001 11       		.uleb128 0x11
+ 283 0002 01       		.byte	0x1
+ 284 0003 25       		.uleb128 0x25
+ 285 0004 0E       		.uleb128 0xe
+ 286 0005 13       		.uleb128 0x13
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cctNgNrU.s 			page 7
+
+
+ 287 0006 0B       		.uleb128 0xb
+ 288 0007 03       		.uleb128 0x3
+ 289 0008 0E       		.uleb128 0xe
+ 290 0009 1B       		.uleb128 0x1b
+ 291 000a 0E       		.uleb128 0xe
+ 292 000b 55       		.uleb128 0x55
+ 293 000c 17       		.uleb128 0x17
+ 294 000d 11       		.uleb128 0x11
+ 295 000e 01       		.uleb128 0x1
+ 296 000f 10       		.uleb128 0x10
+ 297 0010 17       		.uleb128 0x17
+ 298 0011 00       		.byte	0
+ 299 0012 00       		.byte	0
+ 300 0013 02       		.uleb128 0x2
+ 301 0014 24       		.uleb128 0x24
+ 302 0015 00       		.byte	0
+ 303 0016 0B       		.uleb128 0xb
+ 304 0017 0B       		.uleb128 0xb
+ 305 0018 3E       		.uleb128 0x3e
+ 306 0019 0B       		.uleb128 0xb
+ 307 001a 03       		.uleb128 0x3
+ 308 001b 0E       		.uleb128 0xe
+ 309 001c 00       		.byte	0
+ 310 001d 00       		.byte	0
+ 311 001e 03       		.uleb128 0x3
+ 312 001f 16       		.uleb128 0x16
+ 313 0020 00       		.byte	0
+ 314 0021 03       		.uleb128 0x3
+ 315 0022 0E       		.uleb128 0xe
+ 316 0023 3A       		.uleb128 0x3a
+ 317 0024 0B       		.uleb128 0xb
+ 318 0025 3B       		.uleb128 0x3b
+ 319 0026 0B       		.uleb128 0xb
+ 320 0027 49       		.uleb128 0x49
+ 321 0028 13       		.uleb128 0x13
+ 322 0029 00       		.byte	0
+ 323 002a 00       		.byte	0
+ 324 002b 04       		.uleb128 0x4
+ 325 002c 24       		.uleb128 0x24
+ 326 002d 00       		.byte	0
+ 327 002e 0B       		.uleb128 0xb
+ 328 002f 0B       		.uleb128 0xb
+ 329 0030 3E       		.uleb128 0x3e
+ 330 0031 0B       		.uleb128 0xb
+ 331 0032 03       		.uleb128 0x3
+ 332 0033 08       		.uleb128 0x8
+ 333 0034 00       		.byte	0
+ 334 0035 00       		.byte	0
+ 335 0036 05       		.uleb128 0x5
+ 336 0037 2E       		.uleb128 0x2e
+ 337 0038 01       		.byte	0x1
+ 338 0039 3F       		.uleb128 0x3f
+ 339 003a 19       		.uleb128 0x19
+ 340 003b 03       		.uleb128 0x3
+ 341 003c 0E       		.uleb128 0xe
+ 342 003d 3A       		.uleb128 0x3a
+ 343 003e 0B       		.uleb128 0xb
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cctNgNrU.s 			page 8
+
+
+ 344 003f 3B       		.uleb128 0x3b
+ 345 0040 0B       		.uleb128 0xb
+ 346 0041 27       		.uleb128 0x27
+ 347 0042 19       		.uleb128 0x19
+ 348 0043 49       		.uleb128 0x49
+ 349 0044 13       		.uleb128 0x13
+ 350 0045 8701     		.uleb128 0x87
+ 351 0047 19       		.uleb128 0x19
+ 352 0048 11       		.uleb128 0x11
+ 353 0049 01       		.uleb128 0x1
+ 354 004a 12       		.uleb128 0x12
+ 355 004b 06       		.uleb128 0x6
+ 356 004c 40       		.uleb128 0x40
+ 357 004d 18       		.uleb128 0x18
+ 358 004e 9742     		.uleb128 0x2117
+ 359 0050 19       		.uleb128 0x19
+ 360 0051 01       		.uleb128 0x1
+ 361 0052 13       		.uleb128 0x13
+ 362 0053 00       		.byte	0
+ 363 0054 00       		.byte	0
+ 364 0055 06       		.uleb128 0x6
+ 365 0056 34       		.uleb128 0x34
+ 366 0057 00       		.byte	0
+ 367 0058 03       		.uleb128 0x3
+ 368 0059 0E       		.uleb128 0xe
+ 369 005a 3A       		.uleb128 0x3a
+ 370 005b 0B       		.uleb128 0xb
+ 371 005c 3B       		.uleb128 0x3b
+ 372 005d 0B       		.uleb128 0xb
+ 373 005e 49       		.uleb128 0x49
+ 374 005f 13       		.uleb128 0x13
+ 375 0060 02       		.uleb128 0x2
+ 376 0061 17       		.uleb128 0x17
+ 377 0062 00       		.byte	0
+ 378 0063 00       		.byte	0
+ 379 0064 07       		.uleb128 0x7
+ 380 0065 898201   		.uleb128 0x4109
+ 381 0068 00       		.byte	0
+ 382 0069 11       		.uleb128 0x11
+ 383 006a 01       		.uleb128 0x1
+ 384 006b 31       		.uleb128 0x31
+ 385 006c 13       		.uleb128 0x13
+ 386 006d 00       		.byte	0
+ 387 006e 00       		.byte	0
+ 388 006f 08       		.uleb128 0x8
+ 389 0070 898201   		.uleb128 0x4109
+ 390 0073 01       		.byte	0x1
+ 391 0074 11       		.uleb128 0x11
+ 392 0075 01       		.uleb128 0x1
+ 393 0076 31       		.uleb128 0x31
+ 394 0077 13       		.uleb128 0x13
+ 395 0078 01       		.uleb128 0x1
+ 396 0079 13       		.uleb128 0x13
+ 397 007a 00       		.byte	0
+ 398 007b 00       		.byte	0
+ 399 007c 09       		.uleb128 0x9
+ 400 007d 8A8201   		.uleb128 0x410a
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cctNgNrU.s 			page 9
+
+
+ 401 0080 00       		.byte	0
+ 402 0081 02       		.uleb128 0x2
+ 403 0082 18       		.uleb128 0x18
+ 404 0083 9142     		.uleb128 0x2111
+ 405 0085 18       		.uleb128 0x18
+ 406 0086 00       		.byte	0
+ 407 0087 00       		.byte	0
+ 408 0088 0A       		.uleb128 0xa
+ 409 0089 898201   		.uleb128 0x4109
+ 410 008c 01       		.byte	0x1
+ 411 008d 11       		.uleb128 0x11
+ 412 008e 01       		.uleb128 0x1
+ 413 008f 31       		.uleb128 0x31
+ 414 0090 13       		.uleb128 0x13
+ 415 0091 00       		.byte	0
+ 416 0092 00       		.byte	0
+ 417 0093 0B       		.uleb128 0xb
+ 418 0094 34       		.uleb128 0x34
+ 419 0095 00       		.byte	0
+ 420 0096 03       		.uleb128 0x3
+ 421 0097 0E       		.uleb128 0xe
+ 422 0098 3A       		.uleb128 0x3a
+ 423 0099 0B       		.uleb128 0xb
+ 424 009a 3B       		.uleb128 0x3b
+ 425 009b 05       		.uleb128 0x5
+ 426 009c 49       		.uleb128 0x49
+ 427 009d 13       		.uleb128 0x13
+ 428 009e 3F       		.uleb128 0x3f
+ 429 009f 19       		.uleb128 0x19
+ 430 00a0 3C       		.uleb128 0x3c
+ 431 00a1 19       		.uleb128 0x19
+ 432 00a2 00       		.byte	0
+ 433 00a3 00       		.byte	0
+ 434 00a4 0C       		.uleb128 0xc
+ 435 00a5 35       		.uleb128 0x35
+ 436 00a6 00       		.byte	0
+ 437 00a7 49       		.uleb128 0x49
+ 438 00a8 13       		.uleb128 0x13
+ 439 00a9 00       		.byte	0
+ 440 00aa 00       		.byte	0
+ 441 00ab 0D       		.uleb128 0xd
+ 442 00ac 2E       		.uleb128 0x2e
+ 443 00ad 00       		.byte	0
+ 444 00ae 3F       		.uleb128 0x3f
+ 445 00af 19       		.uleb128 0x19
+ 446 00b0 3C       		.uleb128 0x3c
+ 447 00b1 19       		.uleb128 0x19
+ 448 00b2 6E       		.uleb128 0x6e
+ 449 00b3 0E       		.uleb128 0xe
+ 450 00b4 03       		.uleb128 0x3
+ 451 00b5 0E       		.uleb128 0xe
+ 452 00b6 3A       		.uleb128 0x3a
+ 453 00b7 0B       		.uleb128 0xb
+ 454 00b8 3B       		.uleb128 0x3b
+ 455 00b9 0B       		.uleb128 0xb
+ 456 00ba 00       		.byte	0
+ 457 00bb 00       		.byte	0
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cctNgNrU.s 			page 10
+
+
+ 458 00bc 00       		.byte	0
+ 459              		.section	.debug_loc,"",%progbits
+ 460              	.Ldebug_loc0:
+ 461              	.LLST0:
+ 462 0000 0E000000 		.4byte	.LVL2
+ 463 0004 1D000000 		.4byte	.LVL3-1
+ 464 0008 0100     		.2byte	0x1
+ 465 000a 50       		.byte	0x50
+ 466 000b 20000000 		.4byte	.LVL4
+ 467 000f 22000000 		.4byte	.LVL5
+ 468 0013 0100     		.2byte	0x1
+ 469 0015 50       		.byte	0x50
+ 470 0016 28000000 		.4byte	.LVL7
+ 471 001a 2B000000 		.4byte	.LVL8-1
+ 472 001e 0100     		.2byte	0x1
+ 473 0020 50       		.byte	0x50
+ 474 0021 00000000 		.4byte	0
+ 475 0025 00000000 		.4byte	0
+ 476              		.section	.debug_aranges,"",%progbits
+ 477 0000 1C000000 		.4byte	0x1c
+ 478 0004 0200     		.2byte	0x2
+ 479 0006 00000000 		.4byte	.Ldebug_info0
+ 480 000a 04       		.byte	0x4
+ 481 000b 00       		.byte	0
+ 482 000c 0000     		.2byte	0
+ 483 000e 0000     		.2byte	0
+ 484 0010 00000000 		.4byte	.LFB63
+ 485 0014 38000000 		.4byte	.LFE63-.LFB63
+ 486 0018 00000000 		.4byte	0
+ 487 001c 00000000 		.4byte	0
+ 488              		.section	.debug_ranges,"",%progbits
+ 489              	.Ldebug_ranges0:
+ 490 0000 00000000 		.4byte	.LFB63
+ 491 0004 38000000 		.4byte	.LFE63
+ 492 0008 00000000 		.4byte	0
+ 493 000c 00000000 		.4byte	0
+ 494              		.section	.debug_line,"",%progbits
+ 495              	.Ldebug_line0:
+ 496 0000 A6010000 		.section	.debug_str,"MS",%progbits,1
+ 496      02008001 
+ 496      00000201 
+ 496      FB0E0D00 
+ 496      01010101 
+ 497              	.LASF6:
+ 498 0000 6C6F6E67 		.ascii	"long long int\000"
+ 498      206C6F6E 
+ 498      6720696E 
+ 498      7400
+ 499              	.LASF3:
+ 500 000e 73686F72 		.ascii	"short unsigned int\000"
+ 500      7420756E 
+ 500      7369676E 
+ 500      65642069 
+ 500      6E7400
+ 501              	.LASF8:
+ 502 0021 756E7369 		.ascii	"unsigned int\000"
+ 502      676E6564 
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cctNgNrU.s 			page 11
+
+
+ 502      20696E74 
+ 502      00
+ 503              	.LASF1:
+ 504 002e 756E7369 		.ascii	"unsigned char\000"
+ 504      676E6564 
+ 504      20636861 
+ 504      7200
+ 505              	.LASF24:
+ 506 003c 6D61696E 		.ascii	"main.c\000"
+ 506      2E6300
+ 507              	.LASF26:
+ 508 0043 6D61696E 		.ascii	"main\000"
+ 508      00
+ 509              	.LASF0:
+ 510 0048 7369676E 		.ascii	"signed char\000"
+ 510      65642063 
+ 510      68617200 
+ 511              	.LASF22:
+ 512 0054 43794465 		.ascii	"CyDelay\000"
+ 512      6C617900 
+ 513              	.LASF5:
+ 514 005c 6C6F6E67 		.ascii	"long unsigned int\000"
+ 514      20756E73 
+ 514      69676E65 
+ 514      6420696E 
+ 514      7400
+ 515              	.LASF7:
+ 516 006e 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 516      206C6F6E 
+ 516      6720756E 
+ 516      7369676E 
+ 516      65642069 
+ 517              	.LASF11:
+ 518 0085 666C6F61 		.ascii	"float\000"
+ 518      7400
+ 519              	.LASF17:
+ 520 008b 6B657970 		.ascii	"keypadInit\000"
+ 520      6164496E 
+ 520      697400
+ 521              	.LASF25:
+ 522 0096 433A5C55 		.ascii	"C:\\Users\\laure\\OneDrive\\Documents\\PSoC Creator"
+ 522      73657273 
+ 522      5C6C6175 
+ 522      72655C4F 
+ 522      6E654472 
+ 523 00c4 5C50536F 		.ascii	"\\PSoC 5LP\\FirstLab.cydsn\000"
+ 523      4320354C 
+ 523      505C4669 
+ 523      7273744C 
+ 523      61622E63 
+ 524              	.LASF18:
+ 525 00dd 6B657970 		.ascii	"keypadScan\000"
+ 525      61645363 
+ 525      616E00
+ 526              	.LASF20:
+ 527 00e8 73746174 		.ascii	"staticPrint\000"
+ 527      69635072 
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cctNgNrU.s 			page 12
+
+
+ 527      696E7400 
+ 528              	.LASF13:
+ 529 00f4 63686172 		.ascii	"char\000"
+ 529      00
+ 530              	.LASF4:
+ 531 00f9 6C6F6E67 		.ascii	"long int\000"
+ 531      20696E74 
+ 531      00
+ 532              	.LASF27:
+ 533 0102 6B657950 		.ascii	"keyPressed\000"
+ 533      72657373 
+ 533      656400
+ 534              	.LASF2:
+ 535 010d 73686F72 		.ascii	"short int\000"
+ 535      7420696E 
+ 535      7400
+ 536              	.LASF12:
+ 537 0117 646F7562 		.ascii	"double\000"
+ 537      6C6500
+ 538              	.LASF23:
+ 539 011e 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 539      43313120 
+ 539      352E342E 
+ 539      31203230 
+ 539      31363036 
+ 540 0151 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 540      20726576 
+ 540      6973696F 
+ 540      6E203233 
+ 540      37373135 
+ 541 0184 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 541      66756E63 
+ 541      74696F6E 
+ 541      2D736563 
+ 541      74696F6E 
+ 542              	.LASF28:
+ 543 01ac 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 543      52784275 
+ 543      66666572 
+ 543      00
+ 544              	.LASF16:
+ 545 01b9 4C43445F 		.ascii	"LCD_Screen_Start\000"
+ 545      53637265 
+ 545      656E5F53 
+ 545      74617274 
+ 545      00
+ 546              	.LASF15:
+ 547 01ca 6C6F6E67 		.ascii	"long double\000"
+ 547      20646F75 
+ 547      626C6500 
+ 548              	.LASF9:
+ 549 01d6 5F5F696E 		.ascii	"__int32_t\000"
+ 549      7433325F 
+ 549      7400
+ 550              	.LASF21:
+ 551 01e0 646F4C69 		.ascii	"doLine\000"
+ 551      6E6500
+ARM GAS  C:\Users\laure\AppData\Local\Temp\cctNgNrU.s 			page 13
+
+
+ 552              	.LASF19:
+ 553 01e7 7072696E 		.ascii	"printChar\000"
+ 553      74436861 
+ 553      7200
+ 554              	.LASF10:
+ 555 01f1 696E7433 		.ascii	"int32_t\000"
+ 555      325F7400 
+ 556              	.LASF14:
+ 557 01f9 73697A65 		.ascii	"sizetype\000"
+ 557      74797065 
+ 557      00
+ 558              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
